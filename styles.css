@@ -50,7 +50,7 @@ body {
 h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 500; }
 p { margin: 0; }
 a { color: inherit; text-decoration: none; }
-ul { list-style: none; margin: 0; padding: 0; }
+ul, ol { list-style: none; margin: 0; padding: 0; }
 svg { display: block; }
 img { max-width: 100%; display: block; }
 
@@ -298,7 +298,7 @@ button:focus-visible {
 /* ============================================
    SHARED SECTION SPACING
    ============================================ */
-.about, .work, .services, .contact {
+.about, .process, .work, .services, .contact {
   padding: clamp(3rem, 7vw, 5rem) 0;
   border-top: 1px solid var(--line);
 }
@@ -326,6 +326,38 @@ button:focus-visible {
   background: var(--signal);
   box-shadow: 0 0 0 3px var(--moss-soft);
   flex-shrink: 0;
+}
+
+/* ============================================
+   PROCESS (How I Work)
+   ============================================ */
+.process-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 0.5rem;
+}
+.process-item {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.process-index {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--signal);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+.process-title {
+  font-size: 1.1rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.process-desc {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
 }
 
 /* ============================================
@@ -441,6 +473,7 @@ button:focus-visible {
   .hero-graphic { order: -1; opacity: 0.5; max-width: 320px; margin: 0 auto; }
   .work-item { grid-template-columns: 1fr; gap: 0.75rem; }
   .services-list { grid-template-columns: 1fr; }
+  .process-list { grid-template-columns: 1fr; gap: 1.75rem; }
 }
 
 @media (max-width: 720px) {
