@@ -1,4 +1,4 @@
-# James Baroni Harrison — Portfolio / Business Site (Level 1)
+﻿# James Baroni Harrison — Portfolio / Business Site (Level 3)
 
 Plain HTML, CSS, and vanilla JS. No build step, no framework, no dependencies
 besides two Google Fonts loaded via `<link>` tags. This is deliberate — Level 1
@@ -48,9 +48,27 @@ Level 1 — those show up at later levels once there's an actual reason for them
 - Respects `prefers-reduced-motion` throughout, and all interactive elements
   have a visible focus state for keyboard navigation.
 
-## Next: Level 2
+## Adding new content (Level 3 pattern)
 
-Once you've swapped in your real contact details and sat with this for a bit,
-Level 2 is about tightening the actual business case — CTA placement, what a
-first-time visitor needs to see first, and whether the portfolio/business
-combo is reading clearly. No new tools needed for that either.
+Work items, process steps, and services are each a self-contained, repeatable
+block in `index.html`, marked with a comment explaining exactly what to copy.
+Search the file for "copy" to find all three spots. No build step, no data
+file — just copy a whole block and edit the text. This is deliberately simple:
+a custom templating system isn't worth the complexity until there's dozens of
+these, not a handful.
+
+## Next: Level 4
+
+Content management — right now everything lives in index.html by hand, which
+is fine at this size. Level 4 is about deciding whether/when that changes
+(e.g. if a blog gets added) without overbuilding for content that doesn't
+exist yet.
+
+## Framework note
+
+We deliberately stayed vanilla HTML/CSS/JS through Level 3 rather than moving
+to React — this site doesn't have the kind of interdependent, changing UI
+state that a framework earns its keep on. That's expected to change around
+Level 6, when there's a real app (dashboard, auth, live data) behind the
+marketing site. At that point React gets introduced specifically for that
+piece, likely as a separate app from this static site, not a rewrite of it.

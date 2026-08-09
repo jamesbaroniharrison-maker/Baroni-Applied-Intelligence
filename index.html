@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -90,6 +90,9 @@
         <p class="eyebrow">How I Work</p>
         <h2 class="section-heading">Three steps, every project.</h2>
         <ol class="process-list">
+          <!-- Same pattern as Work: copy a whole <li class="process-item">
+               block to add a step. Numbers are typed by hand (01, 02, 03)
+               since this is a real fixed sequence, not a generated list. -->
           <li class="process-item">
             <span class="process-index">01</span>
             <h3 class="process-title">Scope</h3>
@@ -115,6 +118,12 @@
         <h2 class="section-heading">Selected builds</h2>
 
         <div class="work-list">
+          <!-- Each project is one <article class="work-item"> block below.
+               To add a new project: copy an entire block (including the
+               <article> and </article> tags), paste it above or below this
+               one, and edit the text inside. No CSS changes needed — the
+               .work-item / .work-title / .work-tags / .work-desc classes
+               already handle the layout. -->
           <article class="work-item">
             <div class="work-item-head">
               <h3 class="work-title">Automated Social Content Pipeline</h3>
@@ -140,6 +149,8 @@
         <h2 class="section-heading">What I take on</h2>
 
         <ul class="services-list">
+          <!-- Same pattern again: copy a whole <li class="service-item">
+               block (including the small SVG bullet) to add a service. -->
           <li class="service-item">
             <svg class="service-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><path d="M5 8 H13" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="2" fill="currentColor"/></svg>
             <div>
