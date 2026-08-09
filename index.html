@@ -14,6 +14,19 @@
 </head>
 <body>
 
+  <svg class="grain-overlay" aria-hidden="true">
+    <filter id="grainFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="1.35" numOctaves="1" stitchTiles="stitch" seed="7"></feTurbulence>
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+      <feComponentTransfer>
+        <feFuncR type="linear" slope="3.2" intercept="-1.1"></feFuncR>
+        <feFuncG type="linear" slope="3.2" intercept="-1.1"></feFuncG>
+        <feFuncB type="linear" slope="3.2" intercept="-1.1"></feFuncB>
+      </feComponentTransfer>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grainFilter)"></rect>
+  </svg>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
@@ -52,6 +65,9 @@
   <main id="main">
 
     <section class="hero" id="top">
+      <div class="hero-frame" aria-hidden="true">
+        <span class="tl"></span><span class="tr"></span><span class="bl"></span><span class="br"></span>
+      </div>
       <div class="wrap hero-inner">
         <div class="hero-content">
           <p class="eyebrow">Freelance — AI Automation &amp; Integration</p>
@@ -62,7 +78,7 @@
             <a href="#contact" class="btn btn-ghost">Get in touch</a>
           </div>
         </div>
-        <div class="hero-graphic" aria-hidden="true">
+        <div class="hero-graphic" id="hero-graphic" aria-hidden="true">
           <svg class="branch-svg" viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle class="branch-trunk-node" cx="24" cy="180" r="4"/>
             <path class="branch-line branch-line--1" d="M28 180 H70 C130 180 120 60 200 60 H360" />
@@ -89,21 +105,21 @@
       <div class="wrap">
         <p class="eyebrow">How I Work</p>
         <h2 class="section-heading">Three steps, every project.</h2>
-        <ol class="process-list reveal">
+        <ol class="process-list">
           <!-- Same pattern as Work: copy a whole <li class="process-item">
                block to add a step. Numbers are typed by hand (01, 02, 03)
                since this is a real fixed sequence, not a generated list. -->
-          <li class="process-item">
+          <li class="process-item reveal">
             <span class="process-index">01</span>
             <h3 class="process-title">Scope</h3>
             <p class="process-desc">Start with the outcome, not the tool — what has to happen, and the smallest system that gets there.</p>
           </li>
-          <li class="process-item">
+          <li class="process-item reveal">
             <span class="process-index">02</span>
             <h3 class="process-title">Build</h3>
             <p class="process-desc">Design and build the pipeline solo — the trigger, the generation, the review step, the delivery.</p>
           </li>
-          <li class="process-item">
+          <li class="process-item reveal">
             <span class="process-index">03</span>
             <h3 class="process-title">Report</h3>
             <p class="process-desc">Ship with visibility — a dashboard or stats page that shows whether it's actually working.</p>
@@ -117,27 +133,44 @@
         <p class="eyebrow">Work</p>
         <h2 class="section-heading">Selected builds</h2>
 
-        <div class="work-list reveal">
+        <div class="work-list">
           <!-- Each project is one <article class="work-item"> block below.
                To add a new project: copy an entire block (including the
                <article> and </article> tags), paste it above or below this
-               one, and edit the text inside. No CSS changes needed — the
-               .work-item / .work-title / .work-tags / .work-desc classes
-               already handle the layout. -->
-          <article class="work-item">
+               one, and edit the text inside. The .work-flow list is optional
+               but should reflect that project's real stages if included —
+               it's a diagram of what actually happens, not decoration. -->
+          <article class="work-item reveal">
             <div class="work-item-head">
               <h3 class="work-title">Automated Social Content Pipeline</h3>
               <p class="work-tags">Automation · Content generation · Analytics</p>
             </div>
             <p class="work-desc">An event triggers the whole chain: an automatic email update and feedback request go out, then the system drafts posts for LinkedIn, WhatsApp, and Facebook based on what happened. Real-time feedback feeds back into the drafts, a manual pass adds likes and comments, and a stats page tracks everything that went out and how it performed.</p>
+            <div class="work-flow">
+              <ol>
+                <li><span class="flow-num">01</span>Event</li>
+                <li><span class="flow-num">02</span>AI Drafts</li>
+                <li><span class="flow-num">03</span>Human Review</li>
+                <li><span class="flow-num">04</span>Published</li>
+                <li><span class="flow-num">05</span>Tracked</li>
+              </ol>
+            </div>
           </article>
 
-          <article class="work-item">
+          <article class="work-item reveal">
             <div class="work-item-head">
               <h3 class="work-title">Personal Voice Writer</h3>
               <p class="work-tags">NLP · Personalization · Content generation</p>
             </div>
             <p class="work-desc">Learns how a specific person writes, then generates LinkedIn posts in that voice — personal updates, industry commentary, and company announcements — so the output sounds like them, not a template.</p>
+            <div class="work-flow">
+              <ol>
+                <li><span class="flow-num">01</span>Voice Sample</li>
+                <li><span class="flow-num">02</span>Learn Style</li>
+                <li><span class="flow-num">03</span>Generate</li>
+                <li><span class="flow-num">04</span>Sounds Like Them</li>
+              </ol>
+            </div>
           </article>
         </div>
       </div>
@@ -148,31 +181,31 @@
         <p class="eyebrow">Services</p>
         <h2 class="section-heading">What I take on</h2>
 
-        <ul class="services-list reveal">
+        <ul class="services-list">
           <!-- Same pattern again: copy a whole <li class="service-item">
                block (including the small SVG bullet) to add a service. -->
-          <li class="service-item">
+          <li class="service-item reveal">
             <svg class="service-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><path d="M5 8 H13" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="2" fill="currentColor"/></svg>
             <div>
               <h3 class="service-title">AI Automation Systems</h3>
               <p class="service-desc">End-to-end pipelines: an event happens, the system drafts, checks, and delivers — with a human checkpoint wherever it matters.</p>
             </div>
           </li>
-          <li class="service-item">
+          <li class="service-item reveal">
             <svg class="service-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><path d="M5 8 H13" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="2" fill="currentColor"/></svg>
             <div>
               <h3 class="service-title">AI Integration</h3>
               <p class="service-desc">Adding AI capability into a workflow or tool you already use, without rebuilding everything around it.</p>
             </div>
           </li>
-          <li class="service-item">
+          <li class="service-item reveal">
             <svg class="service-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><path d="M5 8 H13" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="2" fill="currentColor"/></svg>
             <div>
               <h3 class="service-title">Content &amp; Marketing Automation</h3>
               <p class="service-desc">Automated, on-brand content generation with review built in — not just autoposting.</p>
             </div>
           </li>
-          <li class="service-item">
+          <li class="service-item reveal">
             <svg class="service-mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="8" r="2" fill="currentColor"/><path d="M5 8 H13" stroke="currentColor" stroke-width="1.4"/><circle cx="13" cy="8" r="2" fill="currentColor"/></svg>
             <div>
               <h3 class="service-title">Custom Internal Tools</h3>
