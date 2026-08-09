@@ -77,7 +77,7 @@
     </section>
 
     <section class="about" id="about">
-      <div class="wrap about-inner">
+      <div class="wrap about-inner reveal">
         <p class="eyebrow">About</p>
         <h2 class="section-heading">One person, the whole pipeline.</h2>
         <p class="about-body">I'm James — a solo developer working freelance on AI automation and integration, currently building toward a role in AI project management. I like taking a system from idea to something that actually runs unattended: the trigger, the generation, the human checkpoint, and the dashboard that tells you whether it's working. Everything below was scoped, built, and shipped by me.</p>
@@ -89,7 +89,7 @@
       <div class="wrap">
         <p class="eyebrow">How I Work</p>
         <h2 class="section-heading">Three steps, every project.</h2>
-        <ol class="process-list">
+        <ol class="process-list reveal">
           <!-- Same pattern as Work: copy a whole <li class="process-item">
                block to add a step. Numbers are typed by hand (01, 02, 03)
                since this is a real fixed sequence, not a generated list. -->
@@ -117,7 +117,7 @@
         <p class="eyebrow">Work</p>
         <h2 class="section-heading">Selected builds</h2>
 
-        <div class="work-list">
+        <div class="work-list reveal">
           <!-- Each project is one <article class="work-item"> block below.
                To add a new project: copy an entire block (including the
                <article> and </article> tags), paste it above or below this
@@ -148,7 +148,7 @@
         <p class="eyebrow">Services</p>
         <h2 class="section-heading">What I take on</h2>
 
-        <ul class="services-list">
+        <ul class="services-list reveal">
           <!-- Same pattern again: copy a whole <li class="service-item">
                block (including the small SVG bullet) to add a service. -->
           <li class="service-item">
@@ -184,15 +184,24 @@
     </section>
 
     <section class="contact" id="contact">
-      <div class="wrap contact-inner">
+      <div class="wrap contact-inner reveal">
         <p class="eyebrow">Contact</p>
         <h2 class="section-heading">Let's talk.</h2>
         <p class="contact-body">Available for freelance automation projects, and open to full-time AI project management roles.</p>
         <div class="contact-links">
-          <a href="mailto:[email protected]" class="contact-link">[email protected]</a>
+          <span class="contact-email-group">
+            <a href="mailto:[email protected]" class="contact-link">[email protected]</a>
+            <button type="button" class="copy-email-btn" id="copy-email" data-email="[email protected]" aria-label="Copy email address">
+              <svg class="copy-email-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="5" y="5" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M2 11V3a1 1 0 0 1 1-1h8" stroke="currentColor" stroke-width="1.3"/>
+              </svg>
+            </button>
+          </span>
           <a href="https://linkedin.com/in/your-profile" class="contact-link">LinkedIn</a>
           <a href="https://github.com/your-username" class="contact-link">GitHub</a>
         </div>
+        <p class="copy-note" id="copy-note" aria-live="polite"></p>
       </div>
     </section>
 
@@ -201,7 +210,7 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <p>James Baroni Harrison</p>
-      <p>&copy; 2026</p>
+      <p>&copy; <span class="footer-year">2026</span></p>
     </div>
   </footer>
 
