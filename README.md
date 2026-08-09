@@ -24,9 +24,7 @@ You can just double-click `index.html` and it'll open in your browser — no
 server needed at this level. If you'd rather serve it properly (closer to how
 it'll behave once hosted), from this folder run:
 
-```
 python3 -m http.server 8000
-```
 
 then open `http://localhost:8000`.
 
