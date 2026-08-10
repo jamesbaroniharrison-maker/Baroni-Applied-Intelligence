@@ -29,6 +29,15 @@
 
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <nav class="spine" aria-hidden="true">
+    <div class="spine-track"></div>
+    <div class="spine-fill" id="spine-fill"></div>
+    <span class="spine-node" data-target="about"></span>
+    <span class="spine-node" data-target="work"></span>
+    <span class="spine-node" data-target="services"></span>
+    <span class="spine-node" data-target="contact"></span>
+  </nav>
+
   <header class="site-header">
     <div class="wrap header-inner">
       <a href="#top" class="mark" aria-label="James Baroni Harrison — home">
@@ -81,9 +90,15 @@
         <div class="hero-graphic" id="hero-graphic" aria-hidden="true">
           <svg class="branch-svg" viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle class="branch-trunk-node" cx="24" cy="180" r="4"/>
-            <path class="branch-line branch-line--1" d="M28 180 H70 C130 180 120 60 200 60 H360" />
-            <path class="branch-line branch-line--2" d="M28 180 H100 C150 180 150 180 220 180 H360" />
-            <path class="branch-line branch-line--3" d="M28 180 H70 C130 180 120 300 200 300 H360" />
+            <path class="branch-line branch-line--1" pathLength="420" d="M28 180 H70 C130 180 120 60 200 60 H360" />
+            <path class="branch-line branch-line--2" pathLength="420" d="M28 180 H100 C150 180 150 180 220 180 H360" />
+            <path class="branch-line branch-line--3" pathLength="420" d="M28 180 H70 C130 180 120 300 200 300 H360" />
+            <path class="branch-flow branch-flow--1" pathLength="420" d="M28 180 H70 C130 180 120 60 200 60 H360" />
+            <path class="branch-flow branch-flow--2" pathLength="420" d="M28 180 H100 C150 180 150 180 220 180 H360" />
+            <path class="branch-flow branch-flow--3" pathLength="420" d="M28 180 H70 C130 180 120 300 200 300 H360" />
+            <rect class="branch-pad" x="356" y="56" width="8" height="8" transform="rotate(45 360 60)"/>
+            <rect class="branch-pad" x="356" y="176" width="8" height="8" transform="rotate(45 360 180)"/>
+            <rect class="branch-pad" x="356" y="296" width="8" height="8" transform="rotate(45 360 300)"/>
             <circle class="branch-node" cx="360" cy="60" r="5"/>
             <circle class="branch-node" cx="360" cy="180" r="5"/>
             <circle class="branch-node" cx="360" cy="300" r="5"/>
@@ -103,8 +118,10 @@
 
     <section class="process" id="process">
       <div class="wrap">
-        <p class="eyebrow">How I Work</p>
-        <h2 class="section-heading">Three steps, every project.</h2>
+        <div class="section-head reveal">
+          <p class="eyebrow">How I Work</p>
+          <h2 class="section-heading">Three steps, every project.</h2>
+        </div>
         <ol class="process-list">
           <!-- Same pattern as Work: copy a whole <li class="process-item">
                block to add a step. Numbers are typed by hand (01, 02, 03)
@@ -130,8 +147,10 @@
 
     <section class="work" id="work">
       <div class="wrap">
-        <p class="eyebrow">Work</p>
-        <h2 class="section-heading">Selected builds</h2>
+        <div class="section-head reveal">
+          <p class="eyebrow">Work</p>
+          <h2 class="section-heading">Selected builds</h2>
+        </div>
 
         <div class="work-list">
           <!-- Each project is one <article class="work-item"> block below.
@@ -178,8 +197,10 @@
 
     <section class="services" id="services">
       <div class="wrap">
-        <p class="eyebrow">Services</p>
-        <h2 class="section-heading">What I take on</h2>
+        <div class="section-head reveal">
+          <p class="eyebrow">Services</p>
+          <h2 class="section-heading">What I take on</h2>
+        </div>
 
         <ul class="services-list">
           <!-- Same pattern again: copy a whole <li class="service-item">

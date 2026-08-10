@@ -52,6 +52,55 @@ body {
 }
 
 /* ============================================
+   SCROLL SPINE — event (moss) to output (bronze)
+   ============================================ */
+.spine {
+  position: fixed;
+  left: 32px;
+  top: 110px;
+  bottom: 90px;
+  width: 2px;
+  z-index: 40;
+  display: block;
+}
+.spine-track {
+  position: absolute;
+  inset: 0;
+  background: var(--line);
+}
+.spine-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleY(0);
+  transform-origin: top;
+  background: linear-gradient(var(--moss), var(--signal) 45%, var(--bronze));
+  will-change: transform;
+}
+.spine-node {
+  position: absolute;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  transform: translate(-50%, -50%);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.spine-node.active {
+  background: var(--bronze);
+  border-color: var(--bronze);
+  box-shadow: 0 0 10px var(--bronze-glow);
+  transform: translate(-50%, -50%) scale(1.4);
+}
+@media (max-width: 1100px) {
+  .spine { display: none; }
+}
+
+/* ============================================
    FILM GRAIN — fixed overlay, whole page
    ============================================ */
 .grain-overlay {
@@ -228,21 +277,30 @@ button:focus-visible {
   gap: 2.25rem;
 }
 .nav-menu a {
+  display: inline-block;
   font-size: 0.92rem;
   color: var(--ink-muted);
-  transition: color 0.2s ease;
+  padding: 0.5rem 0.7rem;
+  margin: -0.5rem -0.7rem;
+  border-radius: 3px;
+  transition: color 0.2s ease, background-color 0.2s ease;
   position: relative;
 }
-.nav-menu a:hover { color: var(--ink); }
+.nav-menu a:not(.nav-cta):hover {
+  color: var(--ink);
+  background: var(--bg-raised);
+}
 .nav-menu a:not(.nav-cta)::after {
   content: "";
   position: absolute;
-  left: 0; bottom: -4px;
-  width: 0; height: 1px;
+  left: 0.7rem; right: 0.7rem; bottom: 0.25rem;
+  height: 1px;
+  transform: scaleX(0);
+  transform-origin: left;
   background: var(--bronze);
-  transition: width 0.2s ease;
+  transition: transform 0.25s ease;
 }
-.nav-menu a:not(.nav-cta):hover::after { width: 100%; }
+.nav-menu a:not(.nav-cta):hover::after { transform: scaleX(1); }
 
 .nav-cta {
   border: 1px solid var(--line);
@@ -374,9 +432,37 @@ button:focus-visible {
 @keyframes draw {
   to { stroke-dashoffset: 0; }
 }
+
+/* traveling energy pulse, starts once the branch has finished drawing in */
+.branch-flow {
+  stroke: var(--bronze);
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  opacity: 0;
+  stroke-dasharray: 10 300;
+  animation: flow 3.2s linear infinite;
+}
+.branch-flow--1 { animation-delay: 2s; }
+.branch-flow--2 { animation-delay: 2.5s; }
+.branch-flow--3 { animation-delay: 3s; }
+@keyframes flow {
+  0% { opacity: 0; stroke-dashoffset: 420; }
+  8% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { opacity: 0; stroke-dashoffset: -20; }
+}
+
+.branch-pad {
+  fill: none;
+  stroke: var(--bronze-dim);
+  stroke-width: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .branch-line { stroke-dashoffset: 0; animation: none; }
   .branch-node { animation: none; }
+  .branch-flow { display: none; }
   .hero-graphic { transition: none; }
 }
 
@@ -398,8 +484,8 @@ button:focus-visible {
    ============================================ */
 .reveal {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(36px) scale(0.98);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .reveal.in-view {
   opacity: 1;
@@ -441,15 +527,26 @@ button:focus-visible {
   margin-top: 0.5rem;
 }
 .process-item {
-  padding-top: 1.25rem;
+  position: relative;
+  padding: 1.25rem 1rem 1.5rem;
+  margin: 0 -1rem;
   border-top: 1px solid var(--line);
-  transition: border-color 0.2s ease, opacity 0.6s ease var(--reveal-delay, 0s), transform 0.6s ease var(--reveal-delay, 0s);
+  border-radius: 4px;
+  outline: 1px solid transparent;
+  outline-offset: 4px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), box-shadow 0.4s ease, background-color 0.4s ease, border-color 0.3s ease, outline-color 0.35s ease, outline-offset 0.35s ease;
 }
 .process-item:nth-child(1) { --reveal-delay: 0s; }
 .process-item:nth-child(2) { --reveal-delay: 0.1s; }
 .process-item:nth-child(3) { --reveal-delay: 0.2s; }
+.process-item.in-view { --reveal-delay: 0s; }
 .process-item:hover {
   border-top-color: var(--bronze);
+  background: var(--bg-raised);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 36px -22px rgba(0, 0, 0, 0.65);
+  outline-color: var(--bronze-dim);
+  outline-offset: 8px;
 }
 .process-index {
   display: block;
@@ -478,18 +575,29 @@ button:focus-visible {
   flex-direction: column;
 }
 .work-item {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1.4fr;
   gap: 2rem;
-  padding: 2.25rem 0;
+  padding: 2.25rem 1.25rem;
+  margin: 0 -1.25rem;
   border-top: 1px solid var(--line);
-  transition: border-color 0.2s ease, opacity 0.6s ease var(--reveal-delay, 0s), transform 0.6s ease var(--reveal-delay, 0s);
+  border-radius: 4px;
+  outline: 1px solid transparent;
+  outline-offset: 4px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), box-shadow 0.4s ease, background-color 0.4s ease, border-color 0.3s ease, outline-color 0.35s ease, outline-offset 0.35s ease;
 }
 .work-item:nth-child(1) { --reveal-delay: 0s; }
 .work-item:nth-child(2) { --reveal-delay: 0.12s; }
+.work-item.in-view { --reveal-delay: 0s; }
 .work-item:first-child { border-top: none; }
 .work-item:hover {
   border-top-color: var(--bronze);
+  background: var(--bg-raised);
+  transform: scale(1.015);
+  box-shadow: 0 24px 44px -26px rgba(0, 0, 0, 0.65);
+  outline-color: var(--bronze-dim);
+  outline-offset: 8px;
 }
 .work-title {
   font-size: 1.4rem;
@@ -550,15 +658,29 @@ button:focus-visible {
   gap: 2.25rem 3rem;
 }
 .service-item {
+  position: relative;
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  transition: opacity 0.6s ease var(--reveal-delay, 0s), transform 0.6s ease var(--reveal-delay, 0s);
+  padding: 1rem;
+  margin: -1rem;
+  border-radius: 4px;
+  outline: 1px solid transparent;
+  outline-offset: 4px;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), box-shadow 0.4s ease, background-color 0.4s ease, outline-color 0.35s ease, outline-offset 0.35s ease;
 }
 .service-item:nth-child(1) { --reveal-delay: 0s; }
 .service-item:nth-child(2) { --reveal-delay: 0.08s; }
 .service-item:nth-child(3) { --reveal-delay: 0.16s; }
 .service-item:nth-child(4) { --reveal-delay: 0.24s; }
+.service-item.in-view { --reveal-delay: 0s; }
+.service-item:hover {
+  background: var(--bg-raised);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 36px -22px rgba(0, 0, 0, 0.65);
+  outline-color: var(--bronze-dim);
+  outline-offset: 8px;
+}
 .service-mark {
   width: 16px; height: 16px;
   color: var(--moss);
