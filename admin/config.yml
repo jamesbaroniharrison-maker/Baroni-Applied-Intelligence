@@ -1,0 +1,223 @@
+backend:
+  name: github
+  repo: jamesbaroniharrison-maker/Daddys-Website
+  branch: main
+  # base_url points at your OAuth proxy — a small service that lets GitHub
+  # confirm it's really you before the CMS can commit to this repo. It has
+  # to be set up once before login works. See CMS_SETUP.md in the repo
+  # root for the exact steps.
+  base_url: https://REPLACE-WITH-YOUR-OAUTH-PROXY-URL
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "site"
+    label: "Site Settings"
+    files:
+      - name: "site"
+        label: "Site Content"
+        file: "content/site.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Headline (one line per row)"
+                name: "headline_lines"
+                widget: "list"
+                field: { label: "Line", name: "line", widget: "string" }
+              - label: "Subheading"
+                name: "sub"
+                widget: "text"
+              - label: "Primary button label"
+                name: "primary_cta_label"
+                widget: "string"
+              - label: "Primary button target section id"
+                name: "primary_cta_target"
+                widget: "string"
+                hint: "e.g. work — no # symbol"
+              - label: "Secondary button label"
+                name: "secondary_cta_label"
+                widget: "string"
+              - label: "Secondary button target section id"
+                name: "secondary_cta_target"
+                widget: "string"
+                hint: "e.g. contact — no # symbol"
+
+          - label: "About section"
+            name: "about"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+              - label: "Body"
+                name: "body"
+                widget: "text"
+              - label: "Status line"
+                name: "status"
+                widget: "string"
+
+          - label: "Process section heading"
+            name: "process"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+
+          - label: "Work section heading"
+            name: "work"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+
+          - label: "Services section heading"
+            name: "services"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+
+          - label: "Contact section"
+            name: "contact"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+              - label: "Body"
+                name: "body"
+                widget: "text"
+              - label: "Email address"
+                name: "email"
+                widget: "string"
+              - label: "LinkedIn URL"
+                name: "linkedin_url"
+                widget: "string"
+              - label: "GitHub URL"
+                name: "github_url"
+                widget: "string"
+
+          - label: "Footer"
+            name: "footer"
+            widget: "object"
+            fields:
+              - label: "Name"
+                name: "name"
+                widget: "string"
+
+          - label: "Appearance & Sections"
+            name: "settings"
+            widget: "object"
+            fields:
+              - label: "Accent color"
+                name: "accent"
+                widget: "select"
+                options:
+                  - { label: "Bronze (luxury/vintage)", value: "bronze" }
+                  - { label: "Moss (pure nature)", value: "moss" }
+              - label: "Font pairing"
+                name: "font_pairing"
+                widget: "select"
+                options:
+                  - { label: "Fraunces + IBM Plex Sans (default)", value: "fraunces-plex" }
+                  - { label: "Fraunces + Inter", value: "fraunces-inter" }
+              - label: "Visible sections"
+                name: "sections"
+                widget: "object"
+                fields:
+                  - { label: "About", name: "about", widget: "boolean" }
+                  - { label: "How I Work", name: "process", widget: "boolean" }
+                  - { label: "Work", name: "work", widget: "boolean" }
+                  - { label: "Services", name: "services", widget: "boolean" }
+                  - { label: "Contact", name: "contact", widget: "boolean" }
+
+  - name: "work"
+    label: "Work / Portfolio"
+    files:
+      - name: "work"
+        label: "Work Items"
+        file: "content/work.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Tags"
+                name: "tags"
+                widget: "list"
+                field: { label: "Tag", name: "tag", widget: "string" }
+              - label: "Description"
+                name: "description"
+                widget: "text"
+              - label: "Flow steps (optional)"
+                name: "flow"
+                widget: "list"
+                required: false
+                field: { label: "Step", name: "step", widget: "string" }
+                hint: "The real stages this project actually goes through, in order — leave empty to hide the diagram."
+
+  - name: "services"
+    label: "Services"
+    files:
+      - name: "services"
+        label: "Service Items"
+        file: "content/services.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Description"
+                name: "description"
+                widget: "text"
+
+  - name: "process"
+    label: "How I Work"
+    files:
+      - name: "process"
+        label: "Process Steps"
+        file: "content/process.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Description"
+                name: "description"
+                widget: "text"

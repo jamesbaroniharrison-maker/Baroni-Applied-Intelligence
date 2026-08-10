@@ -16,6 +16,22 @@
   --bronze-glow: rgba(199, 154, 92, 0.35);
   --ink-warm:   #EFE6D6;   /* headline ink, warmer than body ink */
 
+  /* accent — the swappable "output" color; default is the bronze/luxury
+     variant. --moss/--signal stay fixed as the "origin/nature" side of
+     the palette regardless of which accent is chosen. */
+  --accent:       var(--bronze);
+  --accent-dim:   var(--bronze-dim);
+  --accent-glow:  var(--bronze-glow);
+  --accent-light: #E7CA9C;
+}
+:root[data-accent="moss"] {
+  --accent:       #7CA982;
+  --accent-dim:   #3E5A47;
+  --accent-glow:  rgba(124, 169, 130, 0.35);
+  --accent-light: #B9DDC2;
+}
+
+:root {
   /* type */
   --font-display: "Fraunces", Georgia, serif;
   --font-body: "IBM Plex Sans", -apple-system, sans-serif;
@@ -24,6 +40,10 @@
   /* layout */
   --wrap: 1120px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
+}
+
+:root[data-font="fraunces-inter"] {
+  --font-body: "Inter", -apple-system, sans-serif;
 }
 
 /* ============================================
@@ -76,7 +96,7 @@ body {
   height: 100%;
   transform: scaleY(0);
   transform-origin: top;
-  background: linear-gradient(var(--moss), var(--signal) 45%, var(--bronze));
+  background: linear-gradient(var(--moss), var(--signal) 45%, var(--accent));
   will-change: transform;
 }
 .spine-node {
@@ -91,9 +111,9 @@ body {
   transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 .spine-node.active {
-  background: var(--bronze);
-  border-color: var(--bronze);
-  box-shadow: 0 0 10px var(--bronze-glow);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
   transform: translate(-50%, -50%) scale(1.4);
 }
 @media (max-width: 1100px) {
@@ -176,10 +196,10 @@ button:focus-visible {
   font-size: 0.78rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--bronze);
+  color: var(--accent);
   padding-bottom: 0.65rem;
   margin-bottom: 1.35rem;
-  border-bottom: 1px solid var(--bronze-dim);
+  border-bottom: 1px solid var(--accent-dim);
   width: fit-content;
 }
 .eyebrow::before {
@@ -187,7 +207,7 @@ button:focus-visible {
   width: 6px;
   height: 6px;
   flex-shrink: 0;
-  background: var(--bronze);
+  background: var(--accent);
   transform: rotate(45deg);
 }
 .contact-inner .eyebrow {
@@ -217,25 +237,25 @@ button:focus-visible {
   transition: background 0.2s ease, background-position 0.6s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 .btn-primary {
-  background: linear-gradient(100deg, var(--bronze) 0%, #E7CA9C 45%, var(--bronze) 100%);
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-light) 45%, var(--accent) 100%);
   background-size: 220% 100%;
   background-position: 0% 0%;
-  color: #1A1408;
-  border: 1px solid var(--bronze);
+  color: var(--bg);
+  border: 1px solid var(--accent);
 }
 .btn-primary:hover {
   background-position: 100% 0%;
-  border-color: var(--bronze);
+  border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: 0 10px 26px -10px var(--bronze-glow);
+  box-shadow: 0 10px 26px -10px var(--accent-glow);
 }
 .btn-ghost {
   border: 1px solid var(--line);
   color: var(--ink);
 }
 .btn-ghost:hover {
-  border-color: var(--bronze);
-  color: var(--bronze);
+  border-color: var(--accent);
+  color: var(--accent);
   transform: translateY(-2px);
 }
 
@@ -297,7 +317,7 @@ button:focus-visible {
   height: 1px;
   transform: scaleX(0);
   transform-origin: left;
-  background: var(--bronze);
+  background: var(--accent);
   transition: transform 0.25s ease;
 }
 .nav-menu a:not(.nav-cta):hover::after { transform: scaleX(1); }
@@ -309,8 +329,8 @@ button:focus-visible {
   color: var(--ink) !important;
 }
 .nav-cta:hover {
-  border-color: var(--bronze);
-  color: var(--bronze) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
 }
 
 .nav-toggle {
@@ -351,14 +371,14 @@ button:focus-visible {
   position: absolute;
   inset: 14px;
   z-index: 0;
-  border: 1px solid var(--bronze-dim);
+  border: 1px solid var(--accent-dim);
   pointer-events: none;
 }
 .hero-frame span {
   position: absolute;
   width: 16px;
   height: 16px;
-  border: 1px solid var(--bronze);
+  border: 1px solid var(--accent);
   opacity: 0.75;
 }
 .hero-frame .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
@@ -410,14 +430,14 @@ button:focus-visible {
 .branch-svg { width: 100%; height: auto; overflow: visible; }
 .branch-trunk-node { fill: var(--signal); }
 .branch-node {
-  fill: var(--bronze);
+  fill: var(--accent);
   animation: node-pulse 3.6s ease-in-out infinite;
 }
 .branch-node:nth-of-type(2) { animation-delay: 0.4s; }
 .branch-node:nth-of-type(3) { animation-delay: 0.8s; }
 @keyframes node-pulse {
-  0%, 100% { filter: drop-shadow(0 0 0 var(--bronze-glow)); }
-  50% { filter: drop-shadow(0 0 5px var(--bronze-glow)); }
+  0%, 100% { filter: drop-shadow(0 0 0 var(--accent-glow)); }
+  50% { filter: drop-shadow(0 0 5px var(--accent-glow)); }
 }
 .branch-line {
   stroke: var(--moss);
@@ -435,7 +455,7 @@ button:focus-visible {
 
 /* traveling energy pulse, starts once the branch has finished drawing in */
 .branch-flow {
-  stroke: var(--bronze);
+  stroke: var(--accent);
   stroke-width: 2;
   fill: none;
   stroke-linecap: round;
@@ -455,7 +475,7 @@ button:focus-visible {
 
 .branch-pad {
   fill: none;
-  stroke: var(--bronze-dim);
+  stroke: var(--accent-dim);
   stroke-width: 1;
 }
 
@@ -541,18 +561,18 @@ button:focus-visible {
 .process-item:nth-child(3) { --reveal-delay: 0.2s; }
 .process-item.in-view { --reveal-delay: 0s; }
 .process-item:hover {
-  border-top-color: var(--bronze);
+  border-top-color: var(--accent);
   background: var(--bg-raised);
   transform: translateY(-8px) scale(1.03);
   box-shadow: 0 20px 36px -22px rgba(0, 0, 0, 0.65);
-  outline-color: var(--bronze-dim);
+  outline-color: var(--accent-dim);
   outline-offset: 8px;
 }
 .process-index {
   display: block;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  color: var(--bronze);
+  color: var(--accent);
   letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
 }
@@ -592,11 +612,11 @@ button:focus-visible {
 .work-item.in-view { --reveal-delay: 0s; }
 .work-item:first-child { border-top: none; }
 .work-item:hover {
-  border-top-color: var(--bronze);
+  border-top-color: var(--accent);
   background: var(--bg-raised);
   transform: scale(1.015);
   box-shadow: 0 24px 44px -26px rgba(0, 0, 0, 0.65);
-  outline-color: var(--bronze-dim);
+  outline-color: var(--accent-dim);
   outline-offset: 8px;
 }
 .work-title {
@@ -605,12 +625,12 @@ button:focus-visible {
   transition: color 0.2s ease;
 }
 .work-item:hover .work-title {
-  color: var(--bronze);
+  color: var(--accent);
 }
 .work-tags {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--bronze);
+  color: var(--accent);
   letter-spacing: 0.02em;
 }
 .work-desc {
@@ -642,11 +662,11 @@ button:focus-visible {
   color: var(--ink-muted);
   white-space: nowrap;
 }
-.work-flow li .flow-num { color: var(--bronze); }
+.work-flow li .flow-num { color: var(--accent); }
 .work-flow li:not(:last-child)::after {
   content: "\2192";
   margin: 0 0.7rem;
-  color: var(--bronze-dim);
+  color: var(--accent-dim);
 }
 
 /* ============================================
@@ -678,7 +698,7 @@ button:focus-visible {
   background: var(--bg-raised);
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 20px 36px -22px rgba(0, 0, 0, 0.65);
-  outline-color: var(--bronze-dim);
+  outline-color: var(--accent-dim);
   outline-offset: 8px;
 }
 .service-mark {
@@ -689,7 +709,7 @@ button:focus-visible {
   transition: color 0.2s ease;
 }
 .service-item:hover .service-mark {
-  color: var(--bronze);
+  color: var(--accent);
 }
 .service-title {
   font-size: 1.05rem;
@@ -726,8 +746,8 @@ button:focus-visible {
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .contact-link:hover {
-  border-color: var(--bronze);
-  color: var(--bronze);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .contact-email-group {
@@ -750,14 +770,14 @@ button:focus-visible {
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 .copy-email-btn:hover {
-  border-color: var(--bronze);
-  color: var(--bronze);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .copy-email-icon { width: 12px; height: 12px; }
 .copy-note {
   font-family: var(--font-mono);
   font-size: 0.8rem;
-  color: var(--bronze);
+  color: var(--accent);
   margin-top: 0.75rem;
   min-height: 1em;
 }

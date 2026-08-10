@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "title": "Scope",
+      "description": "Start with the outcome, not the tool — what has to happen, and the smallest system that gets there."
+    },
+    {
+      "title": "Build",
+      "description": "Design and build the pipeline solo — the trigger, the generation, the review step, the delivery."
+    },
+    {
+      "title": "Report",
+      "description": "Ship with visibility — a dashboard or stats page that shows whether it's actually working."
+    }
+  ]
+}

@@ -1,28 +1,48 @@
-﻿# James Baroni Harrison — Portfolio / Business Site (Level 3)
+﻿# James Baroni Harrison — Portfolio / Business Site (Level 4)
 
-Plain HTML, CSS, and vanilla JS. No build step, no framework, no dependencies
-besides two Google Fonts loaded via `<link>` tags. This is deliberate — Level 1
-should not need anything more than a browser to run.
+Plain HTML, CSS, and vanilla JS — still no build step, no framework. Content
+now lives in `content/*.json` instead of hardcoded in `index.html`, fetched
+and rendered client-side on load. Editable through a real admin UI at
+`/admin` (Decap CMS, commits straight to this repo) — see
+[CMS_SETUP.md](CMS_SETUP.md) for the one-time login setup.
 
 ## Files
 
-- `index.html` — all page content and structure
-- `styles.css` — all styling (colors, type, layout, responsive rules)
-- `script.js` — the only interactive behavior: the mobile nav menu toggle
+- `index.html` — page structure/shell; text content is overwritten at load
+  time by `content/site.json`, and the Work/Services/Process lists are
+  rendered entirely from their JSON files. The static text already in the
+  HTML is the fallback shown if those fetches ever fail.
+- `styles.css` — all styling (colors, type, layout, responsive rules,
+  the two curated accent/font variants)
+- `script.js` — fetches `content/*.json`, renders it into the page, then
+  wires up all interactive behavior (mobile nav, scroll reveal, hero
+  parallax, scroll-progress spine, copy-email)
+- `content/site.json` — hero/about/work/services/contact copy, contact
+  links, accent + font choice, section visibility
+- `content/work.json`, `content/services.json`, `content/process.json` —
+  the three repeatable lists, each editable (add/remove/reorder) from `/admin`
+- `admin/` — the Decap CMS admin UI and its config
 
 ## Before you deploy — replace these placeholders
 
-Search `index.html` for these and swap in your real details:
+Edit `content/site.json` (either directly, or through `/admin` once it's set
+up — see [CMS_SETUP.md](CMS_SETUP.md)) and swap in your real details under
+`contact`:
 
-- `[email protected]` (appears twice: the `mailto:` link and the visible text)
-- `https://linkedin.com/in/your-profile`
-- `https://github.com/your-username`
+- `email`
+- `linkedin_url`
+- `github_url`
+
+`index.html` has the same placeholder values baked in as its static
+fallback — update those too if you want the fallback to match in case the
+content fetch ever fails.
 
 ## Running it locally
 
-You can just double-click `index.html` and it'll open in your browser — no
-server needed at this level. If you'd rather serve it properly (closer to how
-it'll behave once hosted), from this folder run:
+Content is now fetched via `fetch('content/site.json')` etc., which browsers
+block under the `file://` protocol (CORS). Double-clicking `index.html` will
+still render *something* — the static fallback text baked into the HTML —
+but not your actual current content. To see the real thing, serve it:
 
 python3 -m http.server 8000
 
@@ -30,10 +50,12 @@ then open `http://localhost:8000`.
 
 ## What's intentionally NOT here yet
 
-No backend, no database, no working contact form (the email/LinkedIn/GitHub
-links work, a real form doesn't yet), no build tooling. That's correct for
-Level 1 — those show up at later levels once there's an actual reason for them
-(Render for hosting once we deploy, Neon once there's real data to store).
+No database, no working contact form (the email/LinkedIn/GitHub links work, a
+real form doesn't yet), no build tooling. The admin UI at `/admin` edits
+content by committing directly to this git repo — there's no server-side app
+behind it, which is what keeps this free and simple. A database (Neon) and a
+real backend show up at Level 6, once there's an actual reason for them
+(auth, a live app, not just content editing).
 
 ## Design notes
 
@@ -46,27 +68,28 @@ Level 1 — those show up at later levels once there's an actual reason for them
 - Respects `prefers-reduced-motion` throughout, and all interactive elements
   have a visible focus state for keyboard navigation.
 
-## Adding new content (Level 3 pattern)
+## Adding new content (Level 4 pattern)
 
-Work items, process steps, and services are each a self-contained, repeatable
-block in `index.html`, marked with a comment explaining exactly what to copy.
-Search the file for "copy" to find all three spots. No build step, no data
-file — just copy a whole block and edit the text. This is deliberately simple:
-a custom templating system isn't worth the complexity until there's dozens of
-these, not a handful.
+Work items, process steps, and services each live as a list in their own
+JSON file (`content/work.json`, `content/process.json`,
+`content/services.json`) and are rendered into the page by `script.js` at
+load time. Add, remove, or reorder entries either by editing the JSON
+directly or through `/admin`. No build step — the JSON is fetched as-is,
+same as any other static asset.
 
-## Next: Level 4
+## Next: Level 5
 
-Content management — right now everything lives in index.html by hand, which
-is fine at this size. Level 4 is about deciding whether/when that changes
-(e.g. if a blog gets added) without overbuilding for content that doesn't
-exist yet.
+Conversion-focused: copy, analytics, performance tuning. Nothing about the
+content architecture needs to change for that — Level 5 is about what's
+said and measured, not how it's stored.
 
 ## Framework note
 
-We deliberately stayed vanilla HTML/CSS/JS through Level 3 rather than moving
+We deliberately stayed vanilla HTML/CSS/JS through Level 4 rather than moving
 to React — this site doesn't have the kind of interdependent, changing UI
-state that a framework earns its keep on. That's expected to change around
+state that a framework earns its keep on, and the admin UI (Decap CMS) is a
+separate, self-contained app that doesn't touch this site's own stack.
+That's expected to change around
 Level 6, when there's a real app (dashboard, auth, live data) behind the
 marketing site. At that point React gets introduced specifically for that
 piece, likely as a separate app from this static site, not a rewrite of it.
