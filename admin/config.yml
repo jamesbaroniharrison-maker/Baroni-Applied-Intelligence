@@ -2,11 +2,10 @@ backend:
   name: github
   repo: jamesbaroniharrison-maker/Daddys-Website
   branch: main
-  # base_url points at your OAuth proxy — a small service that lets GitHub
-  # confirm it's really you before the CMS can commit to this repo. It has
-  # to be set up once before login works. See CMS_SETUP.md in the repo
-  # root for the exact steps.
-  base_url: https://REPLACE-WITH-YOUR-OAUTH-PROXY-URL
+  # base_url points at the OAuth proxy — a small service that lets GitHub
+  # confirm it's really you before the CMS can commit to this repo. See
+  # CMS_SETUP.md in the repo root for how this was set up.
+  base_url: https://mywebsite.james-baroniharrison.workers.dev
 
 media_folder: "uploads"
 public_folder: "/uploads"
