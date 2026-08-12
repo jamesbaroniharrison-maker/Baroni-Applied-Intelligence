@@ -15,6 +15,7 @@
   --bronze-dim: #7A5C34;   /* muted bronze: hairlines, frames */
   --bronze-glow: rgba(199, 154, 92, 0.35);
   --ink-warm:   #EFE6D6;   /* headline ink, warmer than body ink */
+  --error:      #D98C7A;   /* form error state — muted warm red, not pure alarm red */
 
   /* accent — the swappable "output" color; default is the bronze/luxury
      variant. --moss/--signal stay fixed as the "origin/nature" side of
@@ -780,6 +781,97 @@ button:focus-visible {
   color: var(--accent);
   margin-top: 0.75rem;
   min-height: 1em;
+}
+
+.form-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin: 2.75rem 0 1.75rem;
+}
+.form-divider::before,
+.form-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.contact-form {
+  text-align: left;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 1.75rem;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.form-row .form-field { margin-bottom: 0; }
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.form-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.7rem 0.85rem;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+.form-input:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+.form-textarea { resize: vertical; min-height: 7rem; }
+
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  margin: 0;
+}
+
+.form-submit-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+.form-status {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+.form-status[data-state="ok"] { color: var(--accent); }
+.form-status[data-state="error"] { color: var(--error); }
+
+@media (max-width: 560px) {
+  .form-row { grid-template-columns: 1fr; }
 }
 
 /* ============================================

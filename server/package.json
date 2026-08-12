@@ -1,0 +1,19 @@
+{
+  "name": "daddyshome-contact-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Contact form API: validates + rate-limits submissions, stores them in Postgres, and emails a notification.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}

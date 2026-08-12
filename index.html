@@ -295,6 +295,35 @@
           <a href="https://github.com/jamesbaroniharrison-maker" class="contact-link">GitHub</a>
         </div>
         <p class="copy-note" id="copy-note" aria-live="polite"></p>
+
+        <p class="form-divider"><span>Or send a message directly</span></p>
+
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="cf-name">Name</label>
+              <input class="form-input" type="text" id="cf-name" name="name" autocomplete="name" required maxlength="100">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="cf-email">Email</label>
+              <input class="form-input" type="email" id="cf-email" name="email" autocomplete="email" required maxlength="200">
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="cf-message">Message</label>
+            <textarea class="form-input form-textarea" id="cf-message" name="message" rows="5" required maxlength="5000"></textarea>
+          </div>
+          <!-- honeypot: hidden from real visitors via CSS (not type="hidden",
+               which some bots skip), left for bots that fill every field -->
+          <div class="form-field form-honeypot" aria-hidden="true">
+            <label class="form-label" for="cf-company">Company</label>
+            <input class="form-input" type="text" id="cf-company" name="company" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="form-submit-row">
+            <button type="submit" class="btn btn-primary" id="cf-submit">Send message</button>
+            <p class="form-status" id="cf-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
       </div>
     </section>
 

@@ -11,6 +11,10 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+// Contact form backend — see ../SERVER_SETUP.md. Update once the API is
+// deployed as its own Render Web Service (separate from this static site).
+const CONTACT_API_BASE = 'https://REPLACE-WITH-YOUR-CONTACT-API-URL';
+
 async function fetchJson(path) {
   try {
     const res = await fetch(path, { cache: 'no-cache' });
@@ -230,6 +234,56 @@ function initInteractions() {
         copyNote.textContent = 'Copied — ' + email;
       } catch (err) {
         copyNote.textContent = email;
+      }
+    });
+  }
+
+  // Contact form
+  const contactForm = document.getElementById('contact-form');
+  const cfSubmit = document.getElementById('cf-submit');
+  const cfStatus = document.getElementById('cf-status');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        name: contactForm.name.value,
+        email: contactForm.email.value,
+        message: contactForm.message.value,
+        company: contactForm.company.value, // honeypot
+      };
+
+      cfSubmit.disabled = true;
+      cfStatus.dataset.state = '';
+      cfStatus.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(`${CONTACT_API_BASE}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const body = await res.json().catch(() => ({}));
+
+        if (res.ok && body.ok) {
+          cfStatus.dataset.state = 'ok';
+          cfStatus.textContent = "Message sent — I'll get back to you soon.";
+          contactForm.reset();
+        } else if (res.status === 429) {
+          cfStatus.dataset.state = 'error';
+          cfStatus.textContent = body.error || 'Please wait a moment before sending another message.';
+        } else if (res.status === 422) {
+          cfStatus.dataset.state = 'error';
+          cfStatus.textContent = body.error || 'Please check the form and try again.';
+        } else {
+          throw new Error('unexpected response');
+        }
+      } catch (err) {
+        cfStatus.dataset.state = 'error';
+        cfStatus.textContent = 'Something went wrong sending that — try again, or email directly using the address above.';
+      } finally {
+        cfSubmit.disabled = false;
       }
     });
   }
