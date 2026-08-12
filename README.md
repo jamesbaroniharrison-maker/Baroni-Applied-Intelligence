@@ -1,10 +1,15 @@
-﻿# James Baroni Harrison — Portfolio / Business Site (Level 4)
+﻿# James Baroni Harrison — Portfolio / Business Site (Level 5)
 
 Plain HTML, CSS, and vanilla JS — still no build step, no framework. Content
-now lives in `content/*.json` instead of hardcoded in `index.html`, fetched
-and rendered client-side on load. Editable through a real admin UI at
-`/admin` (Decap CMS, commits straight to this repo) — see
+lives in `content/*.json` instead of hardcoded in `index.html`, fetched and
+rendered client-side on load. Editable through a real admin UI at `/admin`
+(Decap CMS, commits straight to this repo) — see
 [CMS_SETUP.md](CMS_SETUP.md) for the one-time login setup.
+
+Level 5 added conversion/measurement basics: Open Graph + Twitter Card meta
+tags with a branded share image, a favicon, JSON-LD structured data, and
+Cloudflare Web Analytics (see [ANALYTICS_SETUP.md](ANALYTICS_SETUP.md) for
+the one-time site registration step).
 
 ## Files
 
@@ -77,15 +82,15 @@ load time. Add, remove, or reorder entries either by editing the JSON
 directly or through `/admin`. No build step — the JSON is fetched as-is,
 same as any other static asset.
 
-## Next: Level 5
+## Next: Level 6
 
-Conversion-focused: copy, analytics, performance tuning. Nothing about the
-content architecture needs to change for that — Level 5 is about what's
-said and measured, not how it's stored.
+Full-stack: auth, a database (Neon), and a real contact form backend. That's
+also when React gets introduced — see the Framework note below — since
+that's the point this stops being just a marketing site.
 
 ## Framework note
 
-We deliberately stayed vanilla HTML/CSS/JS through Level 4 rather than moving
+We deliberately stayed vanilla HTML/CSS/JS through Level 5 rather than moving
 to React — this site doesn't have the kind of interdependent, changing UI
 state that a framework earns its keep on, and the admin UI (Decap CMS) is a
 separate, self-contained app that doesn't touch this site's own stack.
