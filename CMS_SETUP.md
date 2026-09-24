@@ -63,7 +63,7 @@ Open [admin/config.yml](admin/config.yml) and replace the placeholder:
 ```yaml
 backend:
   name: github
-  repo: jamesbaroniharrison-maker/Daddys-Website
+  repo: jamesbaroniharrison-maker/Baroni-Applied-Intelligence
   branch: main
   base_url: https://REPLACE-WITH-YOUR-OAUTH-PROXY-URL
 ```

@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: jamesbaroniharrison-maker/Daddys-Website
+  repo: jamesbaroniharrison-maker/Baroni-Applied-Intelligence
   branch: main
   # base_url points at the OAuth proxy — a small service that lets GitHub
   # confirm it's really you before the CMS can commit to this repo. See
