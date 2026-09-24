@@ -2,15 +2,40 @@
   "items": [
     {
       "title": "Automated Social Content Pipeline",
-      "tags": ["Automation", "Content generation", "Analytics"],
+      "tags": [
+        "Automation",
+        "Content generation",
+        "Analytics"
+      ],
       "description": "An event triggers the whole chain: an automatic email update and feedback request go out, then the system drafts posts for LinkedIn, WhatsApp, and Facebook based on what happened. Real-time feedback feeds back into the drafts, a manual pass adds likes and comments, and a stats page tracks everything that went out and how it performed.",
-      "flow": ["Event", "AI Drafts", "Human Review", "Published", "Tracked"]
+      "flow": [
+        "Event",
+        "AI drafts",
+        "Review",
+        "Published",
+        "Tracked"
+      ],
+      "meta": "Solo · end-to-end",
+      "highlight_step": 3,
+      "highlight_label": "Human"
     },
     {
       "title": "Personal Voice Writer",
-      "tags": ["NLP", "Personalization", "Content generation"],
+      "tags": [
+        "NLP",
+        "Personalization",
+        "Content generation"
+      ],
       "description": "Learns how a specific person writes, then generates LinkedIn posts in that voice — personal updates, industry commentary, and company announcements — so the output sounds like them, not a template.",
-      "flow": ["Voice Sample", "Learn Style", "Generate", "Sounds Like Them"]
+      "flow": [
+        "Voice sample",
+        "Learn style",
+        "Generate",
+        "Sounds like them"
+      ],
+      "meta": "Solo · end-to-end",
+      "highlight_step": 4,
+      "highlight_label": "Output"
     }
   ]
 }

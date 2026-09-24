@@ -1,4 +1,4 @@
-﻿# James Baroni Harrison — Portfolio / Business Site (Level 6)
+# James Baroni Harrison — Portfolio / Business Site (Level 6)
 
 The site itself (`index.html`, `styles.css`, `script.js`) is still plain
 HTML/CSS/JS — no build step, no framework. Content lives in `content/*.json`,
@@ -24,15 +24,16 @@ concrete reason for one (see Next, below).
   time by `content/site.json`, and the Work/Services/Process lists are
   rendered entirely from their JSON files. The static text already in the
   HTML is the fallback shown if those fetches ever fail.
-- `styles.css` — all styling (colors, type, layout, responsive rules,
-  the two curated accent/font variants)
+- `styles.css` — all styling: colour tokens, type (Newsreader / Geist /
+  Geist Mono), layout, responsive rules (menu collapses below 900px)
 - `script.js` — fetches `content/*.json`, renders it into the page, then
-  wires up all interactive behavior (mobile nav, scroll reveal, hero
-  parallax, scroll-progress spine, copy-email)
-- `content/site.json` — hero/about/work/services/contact copy, contact
-  links, accent + font choice, section visibility
-- `content/work.json`, `content/services.json`, `content/process.json` —
-  the three repeatable lists, each editable (add/remove/reorder) from `/admin`
+  wires up all interactive behavior (mobile menu, active nav link, scroll
+  progress bar, hero pipeline run-log animation, copy-email, contact form)
+- `content/site.json` — hero/about/work/services/credentials/contact copy,
+  contact links, section visibility
+- `content/work.json`, `content/services.json`, `content/process.json`,
+  `content/credentials.json` — the repeatable lists, each editable
+  (add/remove/reorder) from `/admin`
 - `admin/` — the Decap CMS admin UI and its config
 - `server/` — the contact form API (Express + Postgres), deployed as its
   own Render Web Service, entirely separate from the static site. Has its

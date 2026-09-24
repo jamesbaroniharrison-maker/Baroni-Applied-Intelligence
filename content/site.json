@@ -1,12 +1,12 @@
 {
   "hero": {
-    "eyebrow": "Freelance — AI Automation & Integration",
+    "eyebrow": "Freelance · open to AI PM roles",
     "headline_lines": [
       "Systems that trigger,",
       "write, and report",
       "on themselves."
     ],
-    "sub": "I build end-to-end AI automation — from a single event to published content to the dashboard that shows it worked. Every project on this site, solo, start to finish.",
+    "sub": "I build end-to-end AI automation — from a single event to published content to the dashboard that shows it worked. Every project here: solo, start to finish.",
     "primary_cta_label": "See the work",
     "primary_cta_target": "work",
     "secondary_cta_label": "Get in touch",
@@ -15,8 +15,7 @@
   "about": {
     "eyebrow": "About",
     "heading": "One person, the whole pipeline.",
-    "body": "I'm James — a solo developer working freelance on AI automation and integration, currently building toward a role in AI project management. I like taking a system from idea to something that actually runs unattended: the trigger, the generation, the human checkpoint, and the dashboard that tells you whether it's working. Everything below was scoped, built, and shipped by me.",
-    "status": "Currently freelance, project-based — open to full-time AI project management roles."
+    "body": "I'm James — a solo developer working freelance on AI automation and integration, currently building toward a role in AI project management. I like taking a system from idea to something that runs unattended: the trigger, the generation, the human checkpoint, and the dashboard that tells you whether it's working. Everything below was scoped, built, and shipped by me."
   },
   "process": {
     "eyebrow": "How I Work",
@@ -30,11 +29,15 @@
     "eyebrow": "Services",
     "heading": "What I take on"
   },
+  "credentials": {
+    "eyebrow": "Credentials",
+    "heading": "Education & certification"
+  },
   "contact": {
     "eyebrow": "Contact",
     "heading": "Let's talk.",
     "body": "Available for freelance automation projects, and open to full-time AI project management roles.",
-    "email": "[email protected]",
+    "email": "james.baroniharrison@gmail.com",
     "linkedin_url": "https://www.linkedin.com/in/james-baroni-harrison-65371a1ab",
     "github_url": "https://github.com/jamesbaroniharrison-maker"
   },
@@ -42,13 +45,12 @@
     "name": "James Baroni Harrison"
   },
   "settings": {
-    "accent": "bronze",
-    "font_pairing": "fraunces-plex",
     "sections": {
       "about": true,
       "process": true,
       "work": true,
       "services": true,
+      "credentials": true,
       "contact": true
     }
   }

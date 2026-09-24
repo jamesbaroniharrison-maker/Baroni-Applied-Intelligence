@@ -22,13 +22,15 @@ collections:
             name: "hero"
             widget: "object"
             fields:
-              - label: "Eyebrow"
+              - label: "Status pill"
                 name: "eyebrow"
                 widget: "string"
-              - label: "Headline (one line per row)"
+                hint: "Short line in the pill above the headline, e.g. Freelance · open to AI PM roles"
+              - label: "Headline"
                 name: "headline_lines"
                 widget: "list"
-                field: { label: "Line", name: "line", widget: "string" }
+                field: { label: "Part", name: "line", widget: "string" }
+                hint: "The parts are joined into one headline. The last part is shown in gold italics."
               - label: "Subheading"
                 name: "sub"
                 widget: "text"
@@ -60,9 +62,6 @@ collections:
               - label: "Body"
                 name: "body"
                 widget: "text"
-              - label: "Status line"
-                name: "status"
-                widget: "string"
 
           - label: "Process section heading"
             name: "process"
@@ -97,6 +96,17 @@ collections:
                 name: "heading"
                 widget: "string"
 
+          - label: "Credentials section heading"
+            name: "credentials"
+            widget: "object"
+            fields:
+              - label: "Eyebrow"
+                name: "eyebrow"
+                widget: "string"
+              - label: "Heading"
+                name: "heading"
+                widget: "string"
+
           - label: "Contact section"
             name: "contact"
             widget: "object"
@@ -107,6 +117,7 @@ collections:
               - label: "Heading"
                 name: "heading"
                 widget: "string"
+                hint: "The last word is shown in gold italics."
               - label: "Body"
                 name: "body"
                 widget: "text"
@@ -128,22 +139,10 @@ collections:
                 name: "name"
                 widget: "string"
 
-          - label: "Appearance & Sections"
+          - label: "Sections"
             name: "settings"
             widget: "object"
             fields:
-              - label: "Accent color"
-                name: "accent"
-                widget: "select"
-                options:
-                  - { label: "Bronze (luxury/vintage)", value: "bronze" }
-                  - { label: "Moss (pure nature)", value: "moss" }
-              - label: "Font pairing"
-                name: "font_pairing"
-                widget: "select"
-                options:
-                  - { label: "Fraunces + IBM Plex Sans (default)", value: "fraunces-plex" }
-                  - { label: "Fraunces + Inter", value: "fraunces-inter" }
               - label: "Visible sections"
                 name: "sections"
                 widget: "object"
@@ -152,6 +151,7 @@ collections:
                   - { label: "How I Work", name: "process", widget: "boolean" }
                   - { label: "Work", name: "work", widget: "boolean" }
                   - { label: "Services", name: "services", widget: "boolean" }
+                  - { label: "Credentials", name: "credentials", widget: "boolean" }
                   - { label: "Contact", name: "contact", widget: "boolean" }
 
   - name: "work"
@@ -182,6 +182,22 @@ collections:
                 required: false
                 field: { label: "Step", name: "step", widget: "string" }
                 hint: "The real stages this project actually goes through, in order — leave empty to hide the diagram."
+              - label: "Highlighted step number (optional)"
+                name: "highlight_step"
+                widget: "number"
+                value_type: "int"
+                required: false
+                hint: "e.g. 3 highlights the third step in green"
+              - label: "Highlighted step tag (optional)"
+                name: "highlight_label"
+                widget: "string"
+                required: false
+                hint: "Short word shown next to the highlighted step's number, e.g. Human"
+              - label: "Meta line"
+                name: "meta"
+                widget: "string"
+                required: false
+                default: "Solo · end-to-end"
 
   - name: "services"
     label: "Services"
@@ -201,6 +217,47 @@ collections:
               - label: "Description"
                 name: "description"
                 widget: "text"
+
+  - name: "credentials"
+    label: "Credentials"
+    files:
+      - name: "credentials"
+        label: "Education & Certification"
+        file: "content/credentials.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{title}}"
+            fields:
+              - label: "Badge initials"
+                name: "badge"
+                widget: "string"
+                hint: "1–2 letters shown in the circle, e.g. QM"
+              - label: "Title"
+                name: "title"
+                widget: "string"
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: "string"
+                required: false
+              - label: "Status"
+                name: "status"
+                widget: "select"
+                options:
+                  - { label: "In progress", value: "in_progress" }
+                  - { label: "Completed", value: "completed" }
+                  - { label: "Link (e.g. verify on Credly)", value: "link" }
+              - label: "Link label"
+                name: "link_label"
+                widget: "string"
+                required: false
+                hint: "Only used when Status is Link"
+              - label: "Link URL"
+                name: "link_url"
+                widget: "string"
+                required: false
+                hint: "Only used when Status is Link"
 
   - name: "process"
     label: "How I Work"
