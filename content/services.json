@@ -2,19 +2,19 @@
   "items": [
     {
       "title": "AI Automation Systems",
-      "description": "End-to-end pipelines: an event happens, the system drafts, checks, and delivers — with a human checkpoint wherever it matters."
+      "description": "Event in, work delivered — with a human checkpoint where it matters."
     },
     {
       "title": "AI Integration",
-      "description": "Adding AI capability into a workflow or tool you already use, without rebuilding everything around it."
+      "description": "AI added to the tools you already use, no rebuild."
     },
     {
       "title": "Content & Marketing Automation",
-      "description": "Automated, on-brand content generation with review built in — not just autoposting."
+      "description": "On-brand content, drafted automatically, reviewed by you."
     },
     {
       "title": "Custom Internal Tools",
-      "description": "Small, solo-built tools that solve one specific operational problem well."
+      "description": "Small tools that solve one operational problem well."
     }
   ]
 }

@@ -1,13 +1,16 @@
-// Based on the design handoff's reference build (Temporary/New/reference_build/main.js),
-// plus: content loading from content/*.json (edited via /admin), the contact
-// form backend, and section numbering that skips hidden sections.
+// Site v2 (freelance-first). Plain JS, no build step. Content comes from
+// content/*.json (edited via /admin); the static HTML in index.html is the
+// fallback if any fetch fails.
 
 // Contact form backend — see SERVER_SETUP.md. Update once the API is
 // deployed as its own Render Web Service. While it's still the placeholder,
-// the form opens the visitor's email app with the message pre-filled.
+// the form opens the visitor's email app with the note pre-filled.
 const CONTACT_API_BASE = 'https://REPLACE-WITH-YOUR-CONTACT-API-URL';
 
-const SECTION_IDS = ['about', 'work', 'services', 'credentials', 'contact'];
+// Numbered "NN — LABEL" sections, in page order.
+const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'credentials', 'book'];
+// Everything the rail / active-section tracking follows, in page order.
+const TRACKED_SECTIONS = ['proof', ...LABELLED_SECTIONS];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -20,8 +23,7 @@ function escapeHtml(str) {
 }
 
 // ============================================
-// CONTENT LOADING — if a fetch fails (offline, file missing, JSON
-// malformed), the static HTML in index.html stays exactly as it is.
+// CONTENT LOADING
 // ============================================
 
 async function fetchJson(path) {
@@ -40,9 +42,9 @@ function setText(selector, value) {
   if (el) el.textContent = value;
 }
 
-// Plain text, with the last part wrapped in the gold italic <em>.
-function withEmphasis(lead, last) {
-  return (lead ? escapeHtml(lead) + ' ' : '') + `<em>${escapeHtml(last)}</em>`;
+// Plain text followed by the gold italic <em> part.
+function withEmphasis(lead, emphasis) {
+  return (lead ? escapeHtml(lead) + (emphasis ? ' ' : '') : '') + (emphasis ? `<em>${escapeHtml(emphasis)}</em>` : '');
 }
 
 function applySite(site) {
@@ -54,40 +56,30 @@ function applySite(site) {
       $('.hero-title').innerHTML = withEmphasis(lines.join(' '), last);
     }
     setText('.lead', site.hero.sub);
-    const primary = $('.hero-primary');
     if (site.hero.primary_cta_label) setText('.hero-primary .btn-label', site.hero.primary_cta_label);
-    if (site.hero.primary_cta_target) primary.setAttribute('href', '#' + site.hero.primary_cta_target);
-    const secondary = $('.hero-secondary');
-    if (site.hero.secondary_cta_label) secondary.textContent = site.hero.secondary_cta_label;
-    if (site.hero.secondary_cta_target) secondary.setAttribute('href', '#' + site.hero.secondary_cta_target);
+    if (site.hero.primary_cta_target) $('.hero-primary').setAttribute('href', '#' + site.hero.primary_cta_target);
+    if (site.hero.secondary_cta_label) setText('.hero-secondary', site.hero.secondary_cta_label);
+    if (site.hero.secondary_cta_target) $('.hero-secondary').setAttribute('href', '#' + site.hero.secondary_cta_target);
   }
 
-  SECTION_IDS.forEach((id) => {
+  LABELLED_SECTIONS.forEach((id) => {
     const block = site[id];
+    if (!block) return;
     const label = $(`#${id} .section-label`);
-    if (block && block.eyebrow && label) label.dataset.eyebrow = block.eyebrow;
-    if (block && id !== 'contact') setText(`#${id} .h2`, block.heading);
+    if (block.eyebrow && label) label.dataset.eyebrow = block.eyebrow;
+    if (id !== 'book') setText(`#${id} .h2`, block.heading);
   });
-  if (site.about) setText('.about-body', site.about.body);
 
-  if (site.process && (site.process.eyebrow || site.process.heading)) {
-    const heading = String(site.process.heading || '').replace(/\.$/, '');
-    setText('#about .caption', [site.process.eyebrow, heading].filter(Boolean).join(' — ').toUpperCase());
-  }
-
-  if (site.contact) {
-    if (site.contact.heading) {
-      const words = String(site.contact.heading).trim().split(/\s+/);
-      const last = words.pop();
-      $('.contact-title').innerHTML = withEmphasis(words.join(' '), last);
+  if (site.book) {
+    if (site.book.heading) $('.contact-title').innerHTML = withEmphasis(site.book.heading, site.book.heading_emphasis);
+    setText('.contact-body', site.book.body);
+    if (site.book.email) {
+      $('.copy-email').dataset.email = site.book.email;
+      setText('.copy-email .email', site.book.email);
+      $('.footer-pm').setAttribute('href', `mailto:${site.book.email}?subject=${encodeURIComponent('AI PM enquiry')}`);
     }
-    setText('.contact-body', site.contact.body);
-    if (site.contact.email) {
-      $('.copy-email').dataset.email = site.contact.email;
-      setText('.copy-email .email', site.contact.email);
-    }
-    if (site.contact.linkedin_url) $('.linkedin-link').setAttribute('href', site.contact.linkedin_url);
-    if (site.contact.github_url) $('.github-link').setAttribute('href', site.contact.github_url);
+    if (site.book.linkedin_url) $$('.linkedin-link').forEach((a) => a.setAttribute('href', site.book.linkedin_url));
+    if (site.book.github_url) $$('.github-link').forEach((a) => a.setAttribute('href', site.book.github_url));
   }
 
   if (site.footer && site.footer.name) setText('.footer-name', site.footer.name);
@@ -110,51 +102,65 @@ function renderProcess(items) {
 
 function renderWork(items) {
   $('.builds').innerHTML = items.map((item, i) => {
-    const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
     const flow = Array.isArray(item.flow) ? item.flow : [];
     const key = Number(item.highlight_step) || 0;
-    const strip = flow.length ? `<div class="strip">${flow.map((step, s) => {
+    const strip = flow.length ? `<ol class="strip">${flow.map((step, s) => {
       const isKey = s + 1 === key;
       const num = pad(s + 1) + (isKey && item.highlight_label ? ' · ' + escapeHtml(String(item.highlight_label).toUpperCase()) : '');
       const conn = s < flow.length - 1 ? '<i class="conn"></i>' : '';
-      return `<div class="strip-step${isKey ? ' is-key' : ''}"><div class="strip-num">${num}</div><div class="strip-label">${escapeHtml(step)}</div></div>${conn}`;
-    }).join('')}</div>` : '';
+      return `<li class="strip-item"><div class="strip-step${isKey ? ' is-key' : ''}"><div class="strip-num">${num}</div><div class="strip-label">${escapeHtml(step)}</div></div>${conn}</li>`;
+    }).join('')}</ol>` : '';
+    const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
+    const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
     return `
       <article class="build">
-        <div class="build-meta"><span>BUILD ${pad(i + 1)}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
-        <h3 class="h3">${escapeHtml(item.title)}</h3>
-        ${tags ? `<div class="tags">${tags}</div>` : ''}
+        <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
+        <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
         <p class="build-desc">${escapeHtml(item.description)}</p>
         ${strip}
+        ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
       </article>`;
   }).join('');
-  if (items[0] && items[0].title) setText('.runlog-foot-label', `Build 01 — ${items[0].title}`);
 }
 
+// The full-width "AI PM / embedded ops" row stays; only the cells before it are replaced.
 function renderServices(items) {
-  $('.services-grid').innerHTML = items.map((item) => `
+  const grid = $('.services-grid');
+  $$('.svc', grid).forEach((el) => el.remove());
+  grid.insertAdjacentHTML('afterbegin', items.map((item) => `
     <div class="cell svc"><div class="svc-title">${escapeHtml(item.title)}</div><p>${escapeHtml(item.description)}</p></div>
-  `).join('');
+  `).join(''));
+}
+
+function renderFaq(items) {
+  $('.faq-list').innerHTML = items.map((item, i) => {
+    const open = i === 0;
+    return `
+      <div class="faq-item">
+        <button type="button" class="faq-q" aria-expanded="${open}" aria-controls="faq-a-${i + 1}" id="faq-q-${i + 1}"><span>${escapeHtml(item.question)}</span><span class="faq-sign" aria-hidden="true">${open ? '−' : '+'}</span></button>
+        <p class="faq-a" id="faq-a-${i + 1}" role="region" aria-labelledby="faq-q-${i + 1}"${open ? '' : ' hidden'}>${escapeHtml(item.answer)}</p>
+      </div>`;
+  }).join('');
 }
 
 function renderCredentials(items) {
   $('.creds').innerHTML = items.map((item) => {
     let status = '';
     if (item.status === 'in_progress') {
-      status = '<span class="pill pill-gold"><span class="dot dot-gold pulse"></span>IN PROGRESS</span>';
+      status = '<span class="cred-status cred-status--gold">IN PROGRESS</span>';
     } else if (item.status === 'completed') {
-      status = '<span class="pill">COMPLETED</span>';
+      status = '<span class="cred-status">COMPLETED</span>';
     } else if (item.status === 'link' && item.link_url) {
-      status = `<a class="pill pill-link" href="${escapeHtml(item.link_url)}" target="_blank" rel="noopener">${escapeHtml(String(item.link_label || 'Verify').toUpperCase())} →</a>`;
+      status = `<a class="cred-status cred-status--link" href="${escapeHtml(item.link_url)}" target="_blank" rel="noopener">${escapeHtml(String(item.link_label || 'Verify').toUpperCase())} ↗</a>`;
     }
-    return `<li class="cred"><span class="badge">${escapeHtml(item.badge || '')}</span><div class="cred-text"><div class="cred-title">${escapeHtml(item.title)}</div>${item.subtitle ? `<div class="cred-sub">${escapeHtml(item.subtitle)}</div>` : ''}</div>${status}</li>`;
+    return `<li class="cred"><div class="cred-text"><span class="cred-title">${escapeHtml(item.title)}</span>${item.subtitle ? `<span class="cred-sub">${escapeHtml(item.subtitle)}</span>` : ''}</div>${status}</li>`;
   }).join('');
 }
 
-// "01 — ABOUT" etc., numbered over visible sections only.
+// "01 — HOW IT WORKS" etc., numbered over visible sections only.
 function numberSections() {
   let n = 0;
-  SECTION_IDS.forEach((id) => {
+  LABELLED_SECTIONS.forEach((id) => {
     const section = document.getElementById(id);
     if (!section || section.hidden) return;
     const label = $('.section-label', section);
@@ -163,19 +169,23 @@ function numberSections() {
   });
 }
 
+const hasItems = (json) => json && Array.isArray(json.items) && json.items.length;
+
 async function loadContent() {
-  const [site, work, services, process, credentials] = await Promise.all([
+  const [site, work, services, process, credentials, faq] = await Promise.all([
     fetchJson('content/site.json'),
     fetchJson('content/work.json'),
     fetchJson('content/services.json'),
     fetchJson('content/process.json'),
     fetchJson('content/credentials.json'),
+    fetchJson('content/faq.json'),
   ]);
   if (site) applySite(site);
-  if (process && Array.isArray(process.items) && process.items.length) renderProcess(process.items);
-  if (work && Array.isArray(work.items) && work.items.length) renderWork(work.items);
-  if (services && Array.isArray(services.items) && services.items.length) renderServices(services.items);
-  if (credentials && Array.isArray(credentials.items) && credentials.items.length) renderCredentials(credentials.items);
+  if (hasItems(process)) renderProcess(process.items);
+  if (hasItems(work)) renderWork(work.items);
+  if (hasItems(services)) renderServices(services.items);
+  if (hasItems(credentials)) renderCredentials(credentials.items);
+  if (hasItems(faq)) renderFaq(faq.items);
   numberSections();
 }
 
@@ -208,40 +218,92 @@ function initRunLog() {
   setInterval(() => { tick = tick >= 7 ? 0 : tick + 1; paint(); }, 1100);
 }
 
-// Active nav and the left scroll rail.
+// Case-study step strips light up like the hero pipeline, but faster: the
+// first time the case studies come on screen, each strip lights its steps in
+// turn (current = gold), then they all stay lit. Every strip starts together
+// and finishes together — the per-step pace is set by its step count so the
+// last steps light at the same moment. Runs once; state changes only, so it
+// runs regardless of reduced motion.
+function initStrips() {
+  const TOTAL_MS = 2750; // start of the first step to all steps lit
+  const strips = $$('.build .strip').map((strip) => {
+    const steps = $$('.strip-step', strip);
+    const conns = $$('.conn', strip);
+    const paint = (tick) => {
+      steps.forEach((el, i) => {
+        el.classList.toggle('is-done', i < tick);
+        el.classList.toggle('is-current', i === tick);
+      });
+      conns.forEach((el, i) => el.classList.toggle('is-done', i < tick));
+    };
+    paint(-1); // nothing lit until the case studies are on screen
+    return { steps, paint };
+  });
+  if (!strips.length) return;
+
+  const start = () => {
+    strips.forEach(({ steps, paint }) => {
+      const stepMs = TOTAL_MS / steps.length;
+      let tick = 0;
+      paint(tick);
+      const timer = setInterval(() => {
+        tick += 1;
+        paint(tick);
+        if (tick >= steps.length) clearInterval(timer);
+      }, stepMs);
+    });
+  };
+
+  const observer = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    observer.disconnect();
+    start();
+  });
+  observer.observe($('.build .strip'));
+}
+
+// Active nav, the left scroll rail and the mobile bar.
 function initScroll() {
   const navLinks = $$('.nav-links a');
   const railFill = $('.rail-fill');
   const railNodes = $$('.rail-node');
+  const mobileBar = $('.mobile-bar');
+  const small = window.matchMedia('(max-width: 699px)');
 
   const onScroll = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     let active = '';
-    SECTION_IDS.forEach((id) => {
+    TRACKED_SECTIONS.forEach((id) => {
       const el = document.getElementById(id);
       if (el && !el.hidden && el.getBoundingClientRect().top < innerHeight * 0.4) active = id;
     });
-    if (max - scrollY < 4) active = 'contact';
+    if (max - scrollY < 4) active = 'book';
     navLinks.forEach((a) => a.classList.toggle('is-active', a.dataset.nav === active));
 
     const pct = max > 0 ? Math.min(100, (scrollY / max) * 100) : 0;
 
-    // Gradient fill grows with scroll; each node sits where the fill
+    // Gradient fill grows with scroll; each dot sits where the fill
     // arrives when its section reaches the header.
     railFill.style.clipPath = 'inset(0 0 ' + (100 - pct) + '% 0)';
     railNodes.forEach((n) => {
       const sec = document.getElementById(n.dataset.rail);
       const p = sec && max > 0 ? Math.min(1, Math.max(0, (sec.offsetTop - 70) / max)) * 100 : 0;
       n.style.top = p + '%';
-      n.classList.toggle('is-active', n.dataset.rail === active);
-      n.classList.toggle('is-passed', n.dataset.rail !== active && p <= pct + 0.5);
+      const isActive = n.dataset.rail === active;
+      n.classList.toggle('is-active', isActive);
+      n.classList.toggle('is-passed', !isActive && p <= pct + 0.5);
+      if (isActive) n.setAttribute('aria-current', 'true');
+      else n.removeAttribute('aria-current');
     });
+
+    mobileBar.hidden = !(small.matches && pct > 3 && active !== 'book');
   };
 
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
   addEventListener('load', onScroll); // fonts/content can shift section offsets
   onScroll();
+  setTimeout(onScroll, 600);
 }
 
 function initMenu() {
@@ -255,6 +317,21 @@ function initMenu() {
   menuBtn.addEventListener('click', () => setMenu(menu.hidden));
   $$('a', menu).forEach((a) => a.addEventListener('click', () => setMenu(false)));
   addEventListener('resize', () => { if (innerWidth >= 900) setMenu(false); });
+}
+
+// One answer open at a time; clicking the open one closes it.
+function initFaq() {
+  $('.faq-list').addEventListener('click', (e) => {
+    const btn = e.target.closest('.faq-q');
+    if (!btn) return;
+    const opening = btn.getAttribute('aria-expanded') !== 'true';
+    $$('.faq-q').forEach((q) => {
+      const open = q === btn && opening;
+      q.setAttribute('aria-expanded', String(open));
+      $('.faq-sign', q).textContent = open ? '−' : '+';
+      document.getElementById(q.getAttribute('aria-controls')).hidden = !open;
+    });
+  });
 }
 
 function initCopyEmail() {
@@ -294,18 +371,19 @@ function initForm() {
     e.preventDefault();
     const name = form.name.value.trim();
     const email = form.email.value.trim();
-    const message = form.message.value.trim();
-    if (!name || !/\S+@\S+\.\S+/.test(email) || !message) {
-      err.textContent = 'Add your name, a valid email, and a message.';
+    // The note is optional, so say so rather than sending an empty body.
+    const message = form.message.value.trim() || '(No details yet — happy to explain on a call.)';
+    if (!name || !/\S+@\S+\.\S+/.test(email)) {
+      err.textContent = 'Add your name and a valid email.';
       return;
     }
 
     if (useMailto) {
       const to = $('.copy-email').dataset.email;
-      const subj = encodeURIComponent('Project enquiry from ' + name);
+      const subj = encodeURIComponent('Scope call enquiry from ' + name);
       const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
       location.href = 'mailto:' + to + '?subject=' + subj + '&body=' + body;
-      showSuccess(name, 'Your email app should have opened with the message ready. I usually reply within a day or two.');
+      showSuccess(name, "Your email app should have opened with the note ready. I'll reply within 24 hours.");
       return;
     }
 
@@ -318,9 +396,9 @@ function initForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
-        showSuccess(name, 'Your message is on its way. I usually reply within a day or two.');
+        showSuccess(name, "Your note is on its way. I'll reply within 24 hours.");
       } else if (res.status === 429) {
-        err.textContent = data.error || 'Please wait a moment before sending another message.';
+        err.textContent = data.error || 'Please wait a moment before sending another note.';
       } else if (res.status === 422) {
         err.textContent = data.error || 'Please check the form and try again.';
       } else {
@@ -346,4 +424,8 @@ initMenu();
 initCopyEmail();
 initForm();
 setText('.footer-year', new Date().getFullYear());
-loadContent().finally(initScroll);
+loadContent().finally(() => {
+  initFaq();
+  initStrips();
+  initScroll();
+});

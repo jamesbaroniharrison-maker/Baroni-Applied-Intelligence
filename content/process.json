@@ -2,15 +2,15 @@
   "items": [
     {
       "title": "Scope",
-      "description": "Start with the outcome, not the tool — what has to happen, and the smallest system that gets there."
+      "description": "A 20-minute call to pick the one task worth automating first."
     },
     {
       "title": "Build",
-      "description": "Design and build the pipeline solo — the trigger, the generation, the review step, the delivery."
+      "description": "I build the whole pipeline. You approve; you don't manage."
     },
     {
       "title": "Report",
-      "description": "Ship with visibility — a dashboard or stats page that shows whether it's actually working."
+      "description": "A dashboard shows what ran and the time it saved."
     }
   ]
 }

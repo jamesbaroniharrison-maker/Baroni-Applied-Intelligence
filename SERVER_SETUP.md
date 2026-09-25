@@ -51,7 +51,7 @@ site.
    - `CONTACT_EMAIL_FROM` — from step 2 (or leave as `onboarding@resend.dev`)
    - `ALLOWED_ORIGINS` — comma-separated list of every origin allowed to
      call this API, e.g.
-     `https://daddys-website.onrender.com,http://localhost:8000`
+     `https://baroniapplied.co.uk,https://www.baroniapplied.co.uk,http://localhost:8000`
 6. Deploy. Render gives this service its own URL, something like
    `https://daddys-contact-api.onrender.com`.
 7. Check it's alive: visit `https://<that-url>/health` — should return

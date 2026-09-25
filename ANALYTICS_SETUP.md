@@ -11,9 +11,8 @@ default — no cross-site tracking, no persistent identifiers).
 1. Log into the Cloudflare dashboard (same account as the OAuth worker
    from CMS_SETUP.md).
 2. Go to **Analytics & Logs → Web Analytics**.
-3. Click **Add a site**, enter your site's hostname (e.g.
-   `daddys-website.onrender.com`, or your custom domain once you have
-   one).
+3. Click **Add a site**, enter your site's hostname:
+   `baroniapplied.co.uk`.
 4. Cloudflare gives you a snippet that looks like:
 
    ```html

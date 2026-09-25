@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "question": "What if I don't know what to automate yet?",
+      "answer": "That's what the scope call is for. We walk through your week, find the task that's repetitive, rules-based and eating hours, and start there. If nothing's worth automating, I'll tell you."
+    },
+    {
+      "question": "How involved do I need to be during the build?",
+      "answer": "Light touch: a kickoff, short check-ins, and approving outputs at the review step. You review; I build."
+    },
+    {
+      "question": "What happens after launch — do you disappear?",
+      "answer": "No. Every build ships with a dashboard and a handover, and I stay on for fixes and tweaks while it beds in. Ongoing support is there if you want it."
+    },
+    {
+      "question": "What if I'm not technical?",
+      "answer": "You don't need to be. You interact with the system where you already work — email, Slack, a simple approval page. Everything under the hood is on me."
+    },
+    {
+      "question": "How is this different from just using ChatGPT myself?",
+      "answer": "ChatGPT waits for you to prompt it. A pipeline runs on its own: it triggers from real events, drafts in your voice, waits for your approval, publishes, and reports back. You stop doing the task, instead of doing it slightly faster."
+    }
+  ]
+}

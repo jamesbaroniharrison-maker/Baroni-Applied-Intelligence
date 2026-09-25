@@ -1,13 +1,11 @@
 {
   "items": [
     {
-      "title": "Automated Social Content Pipeline",
-      "tags": [
-        "Automation",
-        "Content generation",
-        "Analytics"
-      ],
-      "description": "An event triggers the whole chain: an automatic email update and feedback request go out, then the system drafts posts for LinkedIn, WhatsApp, and Facebook based on what happened. Real-time feedback feeds back into the drafts, a manual pass adds likes and comments, and a stats page tracks everything that went out and how it performed.",
+      "label": "Content pipeline",
+      "title": "Cut a 6-hour weekly content task to",
+      "title_emphasis": "40 minutes.",
+      "meta": "Solo · end-to-end",
+      "description": "One event now triggers the whole chain: update emails and feedback requests go out, posts for LinkedIn, WhatsApp and Facebook get drafted from what happened, and a stats page tracks how everything performed. The only human step left is approving the drafts.",
       "flow": [
         "Event",
         "AI drafts",
@@ -15,27 +13,33 @@
         "Published",
         "Tracked"
       ],
-      "meta": "Solo · end-to-end",
       "highlight_step": 3,
-      "highlight_label": "Human"
+      "highlight_label": "You",
+      "tags": [
+        "Automation",
+        "Content generation",
+        "Analytics"
+      ]
     },
     {
-      "title": "Personal Voice Writer",
-      "tags": [
-        "NLP",
-        "Personalization",
-        "Content generation"
-      ],
-      "description": "Learns how a specific person writes, then generates LinkedIn posts in that voice — personal updates, industry commentary, and company announcements — so the output sounds like them, not a template.",
+      "label": "Voice writer",
+      "title": "LinkedIn posts in their own voice —",
+      "title_emphasis": "drafted for them.",
+      "meta": "Solo · end-to-end",
+      "description": "It learns how a specific person writes, then produces personal updates, industry commentary and company announcements that sound like them, not a template. They edit instead of starting from a blank page.",
       "flow": [
         "Voice sample",
         "Learn style",
         "Generate",
         "Sounds like them"
       ],
-      "meta": "Solo · end-to-end",
       "highlight_step": 4,
-      "highlight_label": "Output"
+      "highlight_label": "Output",
+      "tags": [
+        "NLP",
+        "Personalization",
+        "Content generation"
+      ]
     }
   ]
 }

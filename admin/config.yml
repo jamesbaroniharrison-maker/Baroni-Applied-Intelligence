@@ -10,6 +10,7 @@ backend:
 media_folder: "uploads"
 public_folder: "/uploads"
 
+# Field names match content/*.json, which script.js renders into index.html.
 collections:
   - name: "site"
     label: "Site Settings"
@@ -22,122 +23,69 @@ collections:
             name: "hero"
             widget: "object"
             fields:
-              - label: "Status pill"
-                name: "eyebrow"
-                widget: "string"
-                hint: "Short line in the pill above the headline, e.g. Freelance · open to AI PM roles"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", hint: "Short line next to the gold diamond above the headline" }
               - label: "Headline"
                 name: "headline_lines"
                 widget: "list"
                 field: { label: "Part", name: "line", widget: "string" }
                 hint: "The parts are joined into one headline. The last part is shown in gold italics."
-              - label: "Subheading"
-                name: "sub"
-                widget: "text"
-              - label: "Primary button label"
-                name: "primary_cta_label"
-                widget: "string"
-              - label: "Primary button target section id"
-                name: "primary_cta_target"
-                widget: "string"
-                hint: "e.g. work — no # symbol"
-              - label: "Secondary button label"
-                name: "secondary_cta_label"
-                widget: "string"
-              - label: "Secondary button target section id"
-                name: "secondary_cta_target"
-                widget: "string"
-                hint: "e.g. contact — no # symbol"
+              - { label: "Subheading", name: "sub", widget: "text" }
+              - { label: "Primary button label", name: "primary_cta_label", widget: "string" }
+              - { label: "Primary button target section id", name: "primary_cta_target", widget: "string", hint: "e.g. work — no # symbol" }
+              - { label: "Secondary button label", name: "secondary_cta_label", widget: "string" }
+              - { label: "Secondary button target section id", name: "secondary_cta_target", widget: "string", hint: "e.g. book — no # symbol" }
 
-          - label: "About section"
-            name: "about"
+          - label: "How it works section"
+            name: "how"
             widget: "object"
             fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
-              - label: "Body"
-                name: "body"
-                widget: "text"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
 
-          - label: "Process section heading"
-            name: "process"
-            widget: "object"
-            fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
-
-          - label: "Work section heading"
+          - label: "Case studies section"
             name: "work"
             widget: "object"
             fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
 
-          - label: "Services section heading"
+          - label: "Services section"
             name: "services"
             widget: "object"
             fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
 
-          - label: "Credentials section heading"
+          - label: "FAQ section"
+            name: "faq"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+
+          - label: "Credentials section"
             name: "credentials"
             widget: "object"
             fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
 
-          - label: "Contact section"
-            name: "contact"
+          - label: "Book a call section"
+            name: "book"
             widget: "object"
             fields:
-              - label: "Eyebrow"
-                name: "eyebrow"
-                widget: "string"
-              - label: "Heading"
-                name: "heading"
-                widget: "string"
-                hint: "The last word is shown in gold italics."
-              - label: "Body"
-                name: "body"
-                widget: "text"
-              - label: "Email address"
-                name: "email"
-                widget: "string"
-              - label: "LinkedIn URL"
-                name: "linkedin_url"
-                widget: "string"
-              - label: "GitHub URL"
-                name: "github_url"
-                widget: "string"
+              - { label: "Eyebrow", name: "eyebrow", widget: "string" }
+              - { label: "Heading", name: "heading", widget: "string" }
+              - { label: "Heading — gold italic ending", name: "heading_emphasis", widget: "string", required: false }
+              - { label: "Body", name: "body", widget: "text" }
+              - { label: "Email address", name: "email", widget: "string" }
+              - { label: "LinkedIn URL", name: "linkedin_url", widget: "string" }
+              - { label: "GitHub URL", name: "github_url", widget: "string" }
 
           - label: "Footer"
             name: "footer"
             widget: "object"
             fields:
-              - label: "Name"
-                name: "name"
-                widget: "string"
+              - { label: "Name", name: "name", widget: "string" }
 
           - label: "Sections"
             name: "settings"
@@ -147,57 +95,43 @@ collections:
                 name: "sections"
                 widget: "object"
                 fields:
-                  - { label: "About", name: "about", widget: "boolean" }
-                  - { label: "How I Work", name: "process", widget: "boolean" }
-                  - { label: "Work", name: "work", widget: "boolean" }
+                  - { label: "Proof strip", name: "proof", widget: "boolean" }
+                  - { label: "How it works", name: "how", widget: "boolean" }
+                  - { label: "Case studies", name: "work", widget: "boolean" }
                   - { label: "Services", name: "services", widget: "boolean" }
+                  - { label: "FAQ", name: "faq", widget: "boolean" }
                   - { label: "Credentials", name: "credentials", widget: "boolean" }
-                  - { label: "Contact", name: "contact", widget: "boolean" }
+                  - { label: "Book a call", name: "book", widget: "boolean" }
 
   - name: "work"
-    label: "Work / Portfolio"
+    label: "Case Studies"
     files:
       - name: "work"
-        label: "Work Items"
+        label: "Case Studies"
         file: "content/work.json"
         fields:
           - label: "Items"
             name: "items"
             widget: "list"
-            summary: "{{title}}"
+            summary: "{{label}}"
             fields:
-              - label: "Title"
-                name: "title"
-                widget: "string"
-              - label: "Tags"
-                name: "tags"
-                widget: "list"
-                field: { label: "Tag", name: "tag", widget: "string" }
-              - label: "Description"
-                name: "description"
-                widget: "text"
-              - label: "Flow steps (optional)"
+              - { label: "Short label", name: "label", widget: "string", required: false, hint: "Shown after BUILD 01, e.g. Content pipeline" }
+              - { label: "Headline (result)", name: "title", widget: "string", hint: "Lead with the result" }
+              - { label: "Headline — gold italic ending", name: "title_emphasis", widget: "string", required: false }
+              - { label: "Meta line", name: "meta", widget: "string", required: false, default: "Solo · end-to-end" }
+              - { label: "Description", name: "description", widget: "text" }
+              - label: "Steps (optional)"
                 name: "flow"
                 widget: "list"
                 required: false
                 field: { label: "Step", name: "step", widget: "string" }
-                hint: "The real stages this project actually goes through, in order — leave empty to hide the diagram."
-              - label: "Highlighted step number (optional)"
-                name: "highlight_step"
-                widget: "number"
-                value_type: "int"
-                required: false
-                hint: "e.g. 3 highlights the third step in green"
-              - label: "Highlighted step tag (optional)"
-                name: "highlight_label"
-                widget: "string"
-                required: false
-                hint: "Short word shown next to the highlighted step's number, e.g. Human"
-              - label: "Meta line"
-                name: "meta"
-                widget: "string"
-                required: false
-                default: "Solo · end-to-end"
+                hint: "The real stages this project goes through, in order — leave empty to hide the strip."
+              - { label: "Highlighted step number (optional)", name: "highlight_step", widget: "number", value_type: "int", required: false, hint: "e.g. 3 highlights the third step in gold" }
+              - { label: "Highlighted step tag (optional)", name: "highlight_label", widget: "string", required: false, hint: "Short word after the step number, e.g. You" }
+              - label: "Tool tags"
+                name: "tags"
+                widget: "list"
+                field: { label: "Tag", name: "tag", widget: "string" }
 
   - name: "services"
     label: "Services"
@@ -211,12 +145,23 @@ collections:
             widget: "list"
             summary: "{{title}}"
             fields:
-              - label: "Title"
-                name: "title"
-                widget: "string"
-              - label: "Description"
-                name: "description"
-                widget: "text"
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "One-line description", name: "description", widget: "text" }
+
+  - name: "faq"
+    label: "FAQ"
+    files:
+      - name: "faq"
+        label: "Questions"
+        file: "content/faq.json"
+        fields:
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            summary: "{{question}}"
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - { label: "Answer", name: "answer", widget: "text" }
 
   - name: "credentials"
     label: "Credentials"
@@ -230,17 +175,8 @@ collections:
             widget: "list"
             summary: "{{title}}"
             fields:
-              - label: "Badge initials"
-                name: "badge"
-                widget: "string"
-                hint: "1–2 letters shown in the circle, e.g. QM"
-              - label: "Title"
-                name: "title"
-                widget: "string"
-              - label: "Subtitle"
-                name: "subtitle"
-                widget: "string"
-                required: false
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
               - label: "Status"
                 name: "status"
                 widget: "select"
@@ -248,22 +184,14 @@ collections:
                   - { label: "In progress", value: "in_progress" }
                   - { label: "Completed", value: "completed" }
                   - { label: "Link (e.g. verify on Credly)", value: "link" }
-              - label: "Link label"
-                name: "link_label"
-                widget: "string"
-                required: false
-                hint: "Only used when Status is Link"
-              - label: "Link URL"
-                name: "link_url"
-                widget: "string"
-                required: false
-                hint: "Only used when Status is Link"
+              - { label: "Link label", name: "link_label", widget: "string", required: false, hint: "Only used when Status is Link" }
+              - { label: "Link URL", name: "link_url", widget: "string", required: false, hint: "Only used when Status is Link" }
 
   - name: "process"
-    label: "How I Work"
+    label: "How It Works"
     files:
       - name: "process"
-        label: "Process Steps"
+        label: "Steps"
         file: "content/process.json"
         fields:
           - label: "Items"
@@ -271,9 +199,5 @@ collections:
             widget: "list"
             summary: "{{title}}"
             fields:
-              - label: "Title"
-                name: "title"
-                widget: "string"
-              - label: "Description"
-                name: "description"
-                widget: "text"
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }

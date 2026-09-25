@@ -23,7 +23,7 @@ just the login handshake.
    (direct path: `github.com/settings/developers`).
 2. Fill in:
    - **Application name**: anything, e.g. "Daddys Website Admin"
-   - **Homepage URL**: your live site URL (e.g. `https://daddys-website.onrender.com`)
+   - **Homepage URL**: your live site URL (`https://baroniapplied.co.uk`)
    - **Authorization callback URL**: `https://<your-oauth-proxy-domain>/callback`
      (you'll get this domain in Step 2 — you can come back and fill this in after)
 3. Click **Register application**.
