@@ -1,44 +1,85 @@
 {
   "items": [
     {
+      "label": "Voice-matched outreach",
+      "title": "Cold outreach and follow-ups, drafted in your own voice -",
+      "title_emphasis": "I use it to book these calls.",
+      "meta": "Solo · end-to-end",
+      "description": "Same style-learning engine as the Voice Writer, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.",
+      "flow": [
+        "Target list",
+        "AI drafts",
+        "Review",
+        "Sent"
+      ],
+      "tags": [
+        "Automation",
+        "NLP",
+        "Personalization"
+      ],
+      "highlights": [
+        {
+          "step": 3,
+          "label": "You"
+        }
+      ]
+    },
+    {
       "label": "Content pipeline",
       "title": "Cut a 6-hour weekly content task to",
       "title_emphasis": "40 minutes.",
       "meta": "Solo · end-to-end",
-      "description": "One event now triggers the whole chain: update emails and feedback requests go out, posts for LinkedIn, WhatsApp and Facebook get drafted from what happened, and a stats page tracks how everything performed. The only human step left is approving the drafts.",
+      "description": "One event kicks off the whole chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts itself, in that person's own voice, learned from a sample of what they've actually written before. Not a template. A stats page tracks how it's actually landing. The only thing a human still does is hit approve.",
       "flow": [
         "Event",
+        "Learns their writing style",
         "AI drafts",
         "Review",
         "Published",
         "Tracked"
       ],
-      "highlight_step": 3,
-      "highlight_label": "You",
+      "highlights": [
+        {
+          "step": 2,
+          "label": "Voice engine"
+        },
+        {
+          "step": 4,
+          "label": "You"
+        }
+      ],
       "tags": [
         "Automation",
+        "NLP",
+        "Personalization",
         "Content generation",
         "Analytics"
       ]
     },
     {
-      "label": "Voice writer",
-      "title": "LinkedIn posts in their own voice —",
-      "title_emphasis": "drafted for them.",
+      "label": "Zossima",
+      "title": "One coach that adapts to",
+      "title_emphasis": "how you like to be pushed.",
       "meta": "Solo · end-to-end",
-      "description": "It learns how a specific person writes, then produces personal updates, industry commentary and company announcements that sound like them, not a template. They edit instead of starting from a blank page.",
+      "description": "One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say late-night Instagram scrolling your ex's page leaves you feeling like crap, it can just lock that app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.",
       "flow": [
-        "Voice sample",
-        "Learn style",
-        "Generate",
-        "Sounds like them"
+        "Check in",
+        "Learns your style across all of it",
+        "Coaching runs",
+        "Pattern → rule (app lock, nudge)",
+        "Weekly plan vs. actual"
       ],
-      "highlight_step": 4,
-      "highlight_label": "Output",
       "tags": [
-        "NLP",
         "Personalization",
-        "Content generation"
+        "Behavior change",
+        "Pattern recognition",
+        "Feedback loops"
+      ],
+      "highlights": [
+        {
+          "step": 2,
+          "label": "Adapts"
+        }
       ]
     }
   ]

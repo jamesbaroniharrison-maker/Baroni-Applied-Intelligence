@@ -2,12 +2,12 @@
 // content/*.json (edited via /admin); the static HTML in index.html is the
 // fallback if any fetch fails.
 
-// Contact form backend — see SERVER_SETUP.md. Update once the API is
+// Contact form backend - see SERVER_SETUP.md. Update once the API is
 // deployed as its own Render Web Service. While it's still the placeholder,
 // the form opens the visitor's email app with the note pre-filled.
 const CONTACT_API_BASE = 'https://REPLACE-WITH-YOUR-CONTACT-API-URL';
 
-// Numbered "NN — LABEL" sections, in page order.
+// Numbered "NN - LABEL" sections, in page order.
 const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'credentials', 'book'];
 // Everything the rail / active-section tracking follows, in page order.
 const TRACKED_SECTIONS = ['proof', ...LABELLED_SECTIONS];
@@ -103,10 +103,13 @@ function renderProcess(items) {
 function renderWork(items) {
   $('.builds').innerHTML = items.map((item, i) => {
     const flow = Array.isArray(item.flow) ? item.flow : [];
-    const key = Number(item.highlight_step) || 0;
+    // highlighted steps: [{ step, label }], e.g. 04 · YOU (older single-field items still work)
+    const keys = new Map((item.highlights || (item.highlight_step ? [{ step: item.highlight_step, label: item.highlight_label }] : []))
+      .map((h) => [Number(h.step), h.label || '']));
     const strip = flow.length ? `<ol class="strip">${flow.map((step, s) => {
-      const isKey = s + 1 === key;
-      const num = pad(s + 1) + (isKey && item.highlight_label ? ' · ' + escapeHtml(String(item.highlight_label).toUpperCase()) : '');
+      const isKey = keys.has(s + 1);
+      const tag = keys.get(s + 1);
+      const num = pad(s + 1) + (isKey && tag ? ' · ' + escapeHtml(String(tag).toUpperCase()) : '');
       const conn = s < flow.length - 1 ? '<i class="conn"></i>' : '';
       return `<li class="strip-item"><div class="strip-step${isKey ? ' is-key' : ''}"><div class="strip-num">${num}</div><div class="strip-label">${escapeHtml(step)}</div></div>${conn}</li>`;
     }).join('')}</ol>` : '';
@@ -157,7 +160,7 @@ function renderCredentials(items) {
   }).join('');
 }
 
-// "01 — HOW IT WORKS" etc., numbered over visible sections only.
+// "01 - HOW IT WORKS" etc., numbered over visible sections only.
 function numberSections() {
   let n = 0;
   LABELLED_SECTIONS.forEach((id) => {
@@ -165,7 +168,7 @@ function numberSections() {
     if (!section || section.hidden) return;
     const label = $('.section-label', section);
     n += 1;
-    if (label) label.textContent = `${pad(n)} — ${label.dataset.eyebrow}`;
+    if (label) label.textContent = `${pad(n)} - ${label.dataset.eyebrow}`;
   });
 }
 
@@ -193,8 +196,8 @@ async function loadContent() {
 // INTERACTIONS
 // ============================================
 
-// Run-log animation — state changes only, no movement, so it runs
-// regardless of reduced-motion. Ticks 5–7 hold everything "done".
+// Run-log animation - state changes only, no movement, so it runs
+// regardless of reduced-motion. Ticks 5-7 hold everything "done".
 function initRunLog() {
   const steps = $$('.runlog .step:not(.step-joke)');
   // The fax row never runs — it sits queued, then gets skipped once the
@@ -218,15 +221,14 @@ function initRunLog() {
   setInterval(() => { tick = tick >= 7 ? 0 : tick + 1; paint(); }, 1100);
 }
 
-// Case-study step strips light up like the hero pipeline, but faster: the
-// first time the case studies come on screen, each strip lights its steps in
-// turn (current = gold), then they all stay lit. Every strip starts together
-// and finishes together — the per-step pace is set by its step count so the
-// last steps light at the same moment. Runs once; state changes only, so it
-// runs regardless of reduced motion.
+// Case-study step strips light up like the hero pipeline, but faster: each
+// strip starts on its own once its step boxes are on screen, lights its
+// steps in turn (current = gold), then stays lit. Every strip takes the same
+// total time whatever its step count. Runs once per strip; state changes
+// only, so it runs regardless of reduced motion.
 function initStrips() {
   const TOTAL_MS = 2750; // start of the first step to all steps lit
-  const strips = $$('.build .strip').map((strip) => {
+  $$('.build .strip').forEach((strip) => {
     const steps = $$('.strip-step', strip);
     const conns = $$('.conn', strip);
     const paint = (tick) => {
@@ -236,30 +238,48 @@ function initStrips() {
       });
       conns.forEach((el, i) => el.classList.toggle('is-done', i < tick));
     };
-    paint(-1); // nothing lit until the case studies are on screen
-    return { steps, paint };
-  });
-  if (!strips.length) return;
+    paint(-1); // nothing lit until the boxes are on screen
 
-  const start = () => {
-    strips.forEach(({ steps, paint }) => {
-      const stepMs = TOTAL_MS / steps.length;
+    const start = () => {
       let tick = 0;
       paint(tick);
       const timer = setInterval(() => {
         tick += 1;
         paint(tick);
         if (tick >= steps.length) clearInterval(timer);
-      }, stepMs);
-    });
-  };
+      }, TOTAL_MS / steps.length);
+    };
 
-  const observer = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    observer.disconnect();
-    start();
+    // most of the strip visible, not just the top of the card
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      start();
+    }, { threshold: 0.75 });
+    observer.observe(strip);
   });
-  observer.observe($('.build .strip'));
+}
+
+// Reduced-rate spots left this quarter. Not a live count: it steps down
+// through each calendar quarter - 2 left in the first third, 1 in the
+// middle third, 0 in the last - then resets when the next quarter starts.
+function initSpots() {
+  const now = new Date();
+  const qStartMonth = Math.floor(now.getMonth() / 3) * 3;
+  const qStart = new Date(now.getFullYear(), qStartMonth, 1);
+  const qEnd = new Date(now.getFullYear(), qStartMonth + 3, 1);
+  const progress = (now - qStart) / (qEnd - qStart);
+  const left = progress < 1 / 3 ? 2 : progress < 2 / 3 ? 1 : 0;
+  const line = $('.spots-left');
+  if (!line) return;
+  line.classList.toggle('is-full', left === 0);
+  if (left > 0) {
+    setText('.spots-text', `${left} of 2 spots left this quarter`);
+  } else {
+    const opens = qEnd.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    setText('.spots-text', `This quarter's spots are taken - next 2 open ${opens}`);
+    setText('.spots-link', 'ASK ABOUT NEXT QUARTER →');
+  }
 }
 
 // Active nav, the left scroll rail and the mobile bar.
@@ -372,7 +392,7 @@ function initForm() {
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     // The note is optional, so say so rather than sending an empty body.
-    const message = form.message.value.trim() || '(No details yet — happy to explain on a call.)';
+    const message = form.message.value.trim() || '(No details yet - happy to explain on a call.)';
     if (!name || !/\S+@\S+\.\S+/.test(email)) {
       err.textContent = 'Add your name and a valid email.';
       return;
@@ -381,7 +401,7 @@ function initForm() {
     if (useMailto) {
       const to = $('.copy-email').dataset.email;
       const subj = encodeURIComponent('Scope call enquiry from ' + name);
-      const body = encodeURIComponent(message + '\n\n— ' + name + ' (' + email + ')');
+      const body = encodeURIComponent(message + '\n\n- ' + name + ' (' + email + ')');
       location.href = 'mailto:' + to + '?subject=' + subj + '&body=' + body;
       showSuccess(name, "Your email app should have opened with the note ready. I'll reply within 24 hours.");
       return;
@@ -405,7 +425,7 @@ function initForm() {
         throw new Error('unexpected response');
       }
     } catch (e2) {
-      err.textContent = 'Something went wrong sending that — try again, or email me directly.';
+      err.textContent = 'Something went wrong sending that - try again, or email me directly.';
     } finally {
       submitBtn.disabled = false;
     }
@@ -420,6 +440,7 @@ function initForm() {
 }
 
 initRunLog();
+initSpots();
 initMenu();
 initCopyEmail();
 initForm();

@@ -2,7 +2,7 @@ backend:
   name: github
   repo: jamesbaroniharrison-maker/Baroni-Applied-Intelligence
   branch: main
-  # base_url points at the OAuth proxy — a small service that lets GitHub
+  # base_url points at the OAuth proxy - a small service that lets GitHub
   # confirm it's really you before the CMS can commit to this repo. See
   # CMS_SETUP.md in the repo root for how this was set up.
   base_url: https://mywebsite.james-baroniharrison.workers.dev
@@ -31,9 +31,9 @@ collections:
                 hint: "The parts are joined into one headline. The last part is shown in gold italics."
               - { label: "Subheading", name: "sub", widget: "text" }
               - { label: "Primary button label", name: "primary_cta_label", widget: "string" }
-              - { label: "Primary button target section id", name: "primary_cta_target", widget: "string", hint: "e.g. work — no # symbol" }
+              - { label: "Primary button target section id", name: "primary_cta_target", widget: "string", hint: "e.g. work - no # symbol" }
               - { label: "Secondary button label", name: "secondary_cta_label", widget: "string" }
-              - { label: "Secondary button target section id", name: "secondary_cta_target", widget: "string", hint: "e.g. book — no # symbol" }
+              - { label: "Secondary button target section id", name: "secondary_cta_target", widget: "string", hint: "e.g. book - no # symbol" }
 
           - label: "How it works section"
             name: "how"
@@ -75,7 +75,7 @@ collections:
             fields:
               - { label: "Eyebrow", name: "eyebrow", widget: "string" }
               - { label: "Heading", name: "heading", widget: "string" }
-              - { label: "Heading — gold italic ending", name: "heading_emphasis", widget: "string", required: false }
+              - { label: "Heading - gold italic ending", name: "heading_emphasis", widget: "string", required: false }
               - { label: "Body", name: "body", widget: "text" }
               - { label: "Email address", name: "email", widget: "string" }
               - { label: "LinkedIn URL", name: "linkedin_url", widget: "string" }
@@ -117,7 +117,7 @@ collections:
             fields:
               - { label: "Short label", name: "label", widget: "string", required: false, hint: "Shown after BUILD 01, e.g. Content pipeline" }
               - { label: "Headline (result)", name: "title", widget: "string", hint: "Lead with the result" }
-              - { label: "Headline — gold italic ending", name: "title_emphasis", widget: "string", required: false }
+              - { label: "Headline - gold italic ending", name: "title_emphasis", widget: "string", required: false }
               - { label: "Meta line", name: "meta", widget: "string", required: false, default: "Solo · end-to-end" }
               - { label: "Description", name: "description", widget: "text" }
               - label: "Steps (optional)"
@@ -125,9 +125,16 @@ collections:
                 widget: "list"
                 required: false
                 field: { label: "Step", name: "step", widget: "string" }
-                hint: "The real stages this project goes through, in order — leave empty to hide the strip."
-              - { label: "Highlighted step number (optional)", name: "highlight_step", widget: "number", value_type: "int", required: false, hint: "e.g. 3 highlights the third step in gold" }
-              - { label: "Highlighted step tag (optional)", name: "highlight_label", widget: "string", required: false, hint: "Short word after the step number, e.g. You" }
+                hint: "The real stages this project goes through, in order - leave empty to hide the strip."
+              - label: "Highlighted steps (optional)"
+                name: "highlights"
+                widget: "list"
+                required: false
+                summary: "{{step}} · {{label}}"
+                hint: "Steps shown in gold, e.g. step 4 with tag You"
+                fields:
+                  - { label: "Step number", name: "step", widget: "number", value_type: "int" }
+                  - { label: "Tag", name: "label", widget: "string", required: false, hint: "Short word after the step number, e.g. You" }
               - label: "Tool tags"
                 name: "tags"
                 widget: "list"

@@ -2,10 +2,10 @@
   "hero": {
     "eyebrow": "AI automation · built solo, start to finish",
     "headline_lines": [
-      "Stop babysitting your content and ops.",
-      "I build the system that does it for you."
+      "Stop babysitting your content and your ops.",
+      "I build the system that does it instead."
     ],
-    "sub": "End-to-end AI pipelines — trigger, generation, your approval, and a dashboard that proves it works. Real hours back in your week.",
+    "sub": "End-to-end AI pipelines: the trigger, the generation, your approval, and a dashboard that actually proves it's working. Real hours back in your week.",
     "primary_cta_label": "See a system running live",
     "primary_cta_target": "work",
     "secondary_cta_label": "Book a scope call",
@@ -34,7 +34,7 @@
     "eyebrow": "Book a call",
     "heading": "Bring one task that",
     "heading_emphasis": "eats your week.",
-    "body": "A free 20-minute scope call. No prep, no pitch deck — we'll work out whether it's worth automating, and what it would give back.",
+    "body": "A free 20-minute scope call. No prep, no pitch deck - we'll work out whether it's worth automating, and what it would give back.",
     "email": "james@baroniapplied.co.uk",
     "linkedin_url": "https://www.linkedin.com/in/james-baroni-harrison-65371a1ab",
     "github_url": "https://github.com/jamesbaroniharrison-maker"

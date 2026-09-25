@@ -26,7 +26,7 @@ p{margin:0}
 .pulse{animation:pulse 2s ease-in-out infinite}
 .pulse-fast{animation:pulse 1.4s ease-in-out infinite;width:6px;height:6px}
 
-/* gold diamonds — the only accent outside the pipeline panel and rail */
+/* gold diamonds - the only accent outside the pipeline panel and rail */
 .diamond{display:inline-block;flex:0 0 7px;width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
 .diamond-sm{display:inline-block;flex:0 0 4px;width:4px;height:4px;background:var(--gold-dim);transform:rotate(45deg)}
 .diamond-lg{flex-basis:10px;width:10px;height:10px}
@@ -119,6 +119,10 @@ p{margin:0}
 .proof-label--gold{color:var(--gold)}
 .hairline-grid .proof-title{font-family:var(--serif);font-size:26px;line-height:1.2;color:var(--ink);margin:0;text-wrap:balance}
 .hairline-grid .proof-body{margin:0}
+.hairline-grid .spots-left{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--gold)}
+.spots-left .diamond{flex-basis:6px;width:6px;height:6px}
+.hairline-grid .spots-left.is-full{color:var(--ink-3)}
+.spots-left.is-full .diamond{background:var(--gold-dim)}
 .proof-link{margin-top:auto;padding-top:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em}
 
 /* how it works */
@@ -146,15 +150,29 @@ p{margin:0}
 .build-meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-3)}
 .build-desc{font-size:17px;line-height:1.7;color:var(--ink-2);max-width:680px;margin-top:20px;text-wrap:pretty}
 
-/* step strip — lights up once like the hero pipeline, all strips in sync
-   (script.js initStrips): queued steps are dim, the current one is gold,
+/* step strip - lights up once like the hero pipeline, each strip when its
+   boxes come on screen (script.js initStrips): queued steps are dim, the current one is gold,
    done ones stay lit */
-.strip{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px 0;margin-top:28px}
-.strip-item{flex:1 1 140px;display:flex;align-items:center;min-width:0}
+/* Layout follows the card's own width: one row with connectors when every
+   step fits, otherwise a neat grid without connectors (never a dangling
+   line or a lone full-width step). */
+.build{container-type:inline-size}
+.strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:28px}
+.strip-item{display:flex;align-items:center;min-width:0}
 .strip-step{flex:1;min-width:0;align-self:stretch;padding:14px 16px;border:1px solid var(--line-2);opacity:.4;transition:border-color .25s ease,background .25s ease,opacity .25s ease}
 .strip-num{font-family:var(--mono);font-size:11px;color:var(--ink-4);transition:color .25s ease}
 .strip-label{font-size:14px;font-weight:500;margin-top:6px}
-.conn{display:block;flex:0 0 14px;height:1px;background:var(--line-2);transition:background .25s ease}
+.conn{display:none;flex:0 0 14px;height:1px;background:var(--line-2);transition:background .25s ease}
+@container (min-width:620px){
+  .strip:not(:has(> .strip-item:nth-child(6))){display:flex;gap:0}
+  .strip:not(:has(> .strip-item:nth-child(6))) .strip-item{flex:1 1 0}
+  .strip:not(:has(> .strip-item:nth-child(6))) .conn{display:block}
+}
+@container (min-width:740px){
+  .strip{display:flex;gap:0}
+  .strip .strip-item{flex:1 1 0}
+  .strip .conn{display:block}
+}
 .strip-step.is-done{opacity:1;border-color:#5a5238}
 .strip-step.is-done.is-key{border-color:var(--gold);background:rgba(212,168,106,.09)}
 .strip-step.is-current{opacity:1;border-color:var(--gold);background:rgba(212,168,106,.14)}
@@ -173,7 +191,7 @@ p{margin:0}
 .faq-sign{flex:0 0 28px;height:28px;border:1px solid var(--line-4);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;color:var(--gold)}
 .faq-a{font-size:17px;line-height:1.7;color:var(--ink-2);max-width:680px;padding:0 52px 26px 0;text-wrap:pretty}
 
-/* credentials — compact list */
+/* credentials - compact list */
 .creds-section .section-grid{padding-top:clamp(48px,6vw,80px);padding-bottom:clamp(48px,6vw,80px);gap:16px 48px}
 .creds-section .section-grid>.section-label{padding-top:20px}
 .creds{border-top:1px solid var(--line-2)}
@@ -208,6 +226,7 @@ p{margin:0}
 .contact-form input:focus,.contact-form textarea:focus{border-color:var(--gold)}
 .contact-form ::placeholder{color:var(--ink-4)}
 .form-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.price-line{margin-top:-6px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--ink-3)}
 .form-error{font-size:14px;color:var(--error)}
 .form-success{display:flex;flex-direction:column;gap:14px;padding:12px 0}
 .success-title{font-family:var(--serif);font-size:30px;outline:none}
@@ -266,8 +285,6 @@ a:focus-visible,button:focus-visible{outline:1px solid var(--gold);outline-offse
   .trust-line{font-size:11px;letter-spacing:0;gap:8px 10px}
 }
 @media (max-width:699px){
-  .conn{display:none}
-  .strip{gap:8px}
   .site-footer{padding-bottom:76px}
 }
 
@@ -279,7 +296,7 @@ a:focus-visible,button:focus-visible{outline:1px solid var(--gold);outline-offse
 .step-joke.is-skipped .step-name{text-decoration:line-through;text-decoration-color:var(--ink-3);color:var(--ink-2)}
 
 /* Reduced motion: stop the pulsing dots and smooth scroll. The run log and
-   case-study strips still animate — they only change state. */
+   case-study strips still animate - they only change state. */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .pulse,.pulse-fast{animation:none}
