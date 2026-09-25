@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=22">
+<link rel="stylesheet" href="styles.css?v=25">
 
 <script type="application/ld+json">
 {
@@ -118,7 +118,7 @@
         <li class="step"><span class="step-ring"></span><div><div class="step-name">Tracked</div><div class="step-detail">Stats page updated</div></div><span class="step-status">QUEUED</span></li>
         <li class="step step-joke" aria-hidden="true"><span class="step-ring"></span><div><div class="step-name">Fax to head office</div><div class="step-detail">Just kidding!</div></div><span class="step-status">QUEUED</span></li>
       </ol>
-      <a href="#work" class="runlog-foot"><span class="runlog-foot-label">Build 02 - Automated Social Content Pipeline</span><span>→</span></a>
+      <a href="#work" class="runlog-foot"><span class="runlog-foot-label">Build 02 - Content Pipeline</span><span>→</span></a>
     </div>
   </section>
 
@@ -161,7 +161,7 @@
       <div class="section-body">
         <h2 class="h2">What changed, not just what was built.</h2>
         <div class="builds">
-          <article class="build">
+          <article class="build" id="build-01">
             <div class="build-meta"><span>BUILD 01 · VOICE-MATCHED OUTREACH</span><span>Solo · end-to-end</span></div>
             <h3 class="h3">Cold outreach and follow-ups, drafted in your own voice - <em>I use it to book these calls.</em></h3>
             <p class="build-desc">Same style-learning engine as the content pipeline's voice engine, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.</p>
@@ -173,7 +173,7 @@
             </ol>
             <div class="build-foot"><div class="tags"><span>Automation</span><span>NLP</span><span>Personalization</span></div></div>
           </article>
-          <article class="build">
+          <article class="build" id="build-02">
             <div class="build-meta"><span>BUILD 02 · CONTENT PIPELINE</span><span>Solo · end-to-end</span></div>
             <h3 class="h3">Cut a 6-hour weekly content task to <em>40 minutes.</em></h3>
             <p class="build-desc">One event kicks off the whole chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts itself, in that person's own voice, learned from a sample of what they've actually written before. Not a template. A stats page tracks how it's actually landing. The only thing a human still does is hit approve.</p>
@@ -187,10 +187,10 @@
             </ol>
             <div class="build-foot"><div class="tags"><span>Automation</span><span>NLP</span><span>Personalization</span><span>Content generation</span><span>Analytics</span></div></div>
           </article>
-          <article class="build">
+          <article class="build" id="build-03">
             <div class="build-meta"><span>BUILD 03 · ZOSSIMA</span><span>Solo · end-to-end</span></div>
             <h3 class="h3">One coach that adapts to <em>how you like to be pushed.</em></h3>
-            <p class="build-desc">One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say late-night Instagram scrolling your ex's page leaves you feeling like crap, it can just lock that app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.</p>
+            <p class="build-desc">One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say doomscrolling late at night leaves you feeling like crap, and it can just lock the app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.</p>
             <ol class="strip">
               <li class="strip-item"><div class="strip-step"><div class="strip-num">01</div><div class="strip-label">Check in</div></div><i class="conn"></i></li>
               <li class="strip-item"><div class="strip-step is-key"><div class="strip-num">02 · ADAPTS</div><div class="strip-label">Learns your style across all of it</div></div><i class="conn"></i></li>
@@ -211,10 +211,10 @@
       <div class="section-body">
         <h2 class="h2">What I take on</h2>
         <div class="hairline-grid services-grid">
-          <div class="cell svc"><div class="svc-title">AI Automation Systems</div><p>Event in, work delivered - with a human checkpoint where it matters.</p></div>
+          <div class="cell svc"><div class="svc-title">AI Automation Systems</div><p>Event in, work delivered - with a human checkpoint where it matters.</p><a class="svc-link" href="#build-02">→ Build 02: Content Pipeline</a></div>
+          <div class="cell svc"><div class="svc-title">Content &amp; Marketing Automation</div><p>On-brand content, drafted automatically, reviewed by you.</p><a class="svc-link" href="#build-01">→ Build 01: Voice-Matched Outreach</a></div>
           <div class="cell svc"><div class="svc-title">AI Integration</div><p>AI added to the tools you already use, no rebuild.</p></div>
-          <div class="cell svc"><div class="svc-title">Content &amp; Marketing Automation</div><p>On-brand content, drafted automatically, reviewed by you.</p></div>
-          <div class="cell svc"><div class="svc-title">Custom Internal Tools</div><p>Small tools that solve one operational problem well.</p></div>
+          <div class="cell svc"><div class="svc-title">Custom Internal Tools</div><p>Small tools that solve one operational problem well.</p><a class="svc-link" href="#build-03">→ Build 03: Zossima</a></div>
           <div class="svc-embedded">
             <div class="svc-embedded-text">
               <div class="svc-embedded-title"><span class="diamond" aria-hidden="true"></span><span>AI PM / embedded ops</span></div>
@@ -262,7 +262,7 @@
     <div class="container section-grid">
       <div class="section-label" data-eyebrow="Credentials">05 - CREDENTIALS</div>
       <ul class="section-body creds">
-        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-status cred-status--gold">IN PROGRESS</span></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-state"><span class="cred-status cred-status--gold">IN PROGRESS</span><span class="cred-note">Completing in 2027</span></span></li>
         <li class="cred"><div class="cred-text"><span class="cred-title">Google Project Management Certificate</span><span class="cred-sub">Agile, Scrum, risk, stakeholders</span></div><a class="cred-status cred-status--link" href="https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url" target="_blank" rel="noopener">VERIFY ON CREDLY ↗</a></li>
         <li class="cred"><div class="cred-text"><span class="cred-title">Advanced Coding, Advanced Honours</span><span class="cred-sub">University of Helsinki</span></div><span class="cred-status">COMPLETED</span></li>
         <li class="cred"><div class="cred-text"><span class="cred-title">BSc Psychology with Business Management</span><span class="cred-sub">University of Sussex</span></div><span class="cred-status">COMPLETED</span></li>
@@ -327,7 +327,7 @@
   <a href="#book" class="mobile-bar-cta">Book a call</a>
 </div>
 
-<script src="script.js?v=22"></script>
+<script src="script.js?v=24"></script>
 
 <!-- Cloudflare Web Analytics - cookieless, no consent banner needed.
      See ANALYTICS_SETUP.md. -->

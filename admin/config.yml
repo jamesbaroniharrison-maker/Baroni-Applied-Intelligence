@@ -154,6 +154,7 @@ collections:
             fields:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "One-line description", name: "description", widget: "text" }
+              - { label: "Linked case study (optional)", name: "case_study", widget: "string", required: false, hint: "The case study's Short label exactly, e.g. Content Pipeline - the build number is filled in automatically" }
 
   - name: "faq"
     label: "FAQ"
@@ -191,6 +192,7 @@ collections:
                   - { label: "In progress", value: "in_progress" }
                   - { label: "Completed", value: "completed" }
                   - { label: "Link (e.g. verify on Credly)", value: "link" }
+              - { label: "Small note under the status (optional)", name: "note", widget: "string", required: false, hint: "e.g. Completing in 2027" }
               - { label: "Link label", name: "link_label", widget: "string", required: false, hint: "Only used when Status is Link" }
               - { label: "Link URL", name: "link_url", widget: "string", required: false, hint: "Only used when Status is Link" }
 

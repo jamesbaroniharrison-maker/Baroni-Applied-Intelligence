@@ -116,7 +116,7 @@ function renderWork(items) {
     const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
     const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
     return `
-      <article class="build">
+      <article class="build" id="build-${pad(i + 1)}">
         <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
         <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
         <p class="build-desc">${escapeHtml(item.description)}</p>
@@ -126,13 +126,18 @@ function renderWork(items) {
   }).join('');
 }
 
-// The full-width "AI PM / embedded ops" row stays; only the cells before it are replaced.
-function renderServices(items) {
+// The full-width "AI PM / embedded ops" row stays; only the cells before it are
+// replaced. A service can point at a case study by its label; the build
+// number comes from the case studies' current order, so it never goes stale.
+function renderServices(items, workItems) {
+  const labels = (workItems || []).map((w) => w.label);
   const grid = $('.services-grid');
   $$('.svc', grid).forEach((el) => el.remove());
-  grid.insertAdjacentHTML('afterbegin', items.map((item) => `
-    <div class="cell svc"><div class="svc-title">${escapeHtml(item.title)}</div><p>${escapeHtml(item.description)}</p></div>
-  `).join(''));
+  grid.insertAdjacentHTML('afterbegin', items.map((item) => {
+    const k = labels.indexOf(item.case_study) + 1;
+    const link = k ? `<a class="svc-link" href="#build-${pad(k)}">→ Build ${pad(k)}: ${escapeHtml(item.case_study)}</a>` : '';
+    return `<div class="cell svc"><div class="svc-title">${escapeHtml(item.title)}</div><p>${escapeHtml(item.description)}</p>${link}</div>`;
+  }).join(''));
 }
 
 function renderFaq(items) {
@@ -156,6 +161,8 @@ function renderCredentials(items) {
     } else if (item.status === 'link' && item.link_url) {
       status = `<a class="cred-status cred-status--link" href="${escapeHtml(item.link_url)}" target="_blank" rel="noopener">${escapeHtml(String(item.link_label || 'Verify').toUpperCase())} ↗</a>`;
     }
+    // optional small note under the status, e.g. "Completing in 2027"
+    if (item.note) status = `<span class="cred-state">${status}<span class="cred-note">${escapeHtml(item.note)}</span></span>`;
     return `<li class="cred"><div class="cred-text"><span class="cred-title">${escapeHtml(item.title)}</span>${item.subtitle ? `<span class="cred-sub">${escapeHtml(item.subtitle)}</span>` : ''}</div>${status}</li>`;
   }).join('');
 }
@@ -186,7 +193,7 @@ async function loadContent() {
   if (site) applySite(site);
   if (hasItems(process)) renderProcess(process.items);
   if (hasItems(work)) renderWork(work.items);
-  if (hasItems(services)) renderServices(services.items);
+  if (hasItems(services)) renderServices(services.items, hasItems(work) ? work.items : null);
   if (hasItems(credentials)) renderCredentials(credentials.items);
   if (hasItems(faq)) renderFaq(faq.items);
   numberSections();

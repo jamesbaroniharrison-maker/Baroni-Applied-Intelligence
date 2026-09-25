@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "label": "Voice-matched outreach",
+      "label": "Voice-Matched Outreach",
       "title": "Cold outreach and follow-ups, drafted in your own voice -",
       "title_emphasis": "I use it to book these calls.",
       "meta": "Solo · end-to-end",
@@ -25,7 +25,7 @@
       ]
     },
     {
-      "label": "Content pipeline",
+      "label": "Content Pipeline",
       "title": "Cut a 6-hour weekly content task to",
       "title_emphasis": "40 minutes.",
       "meta": "Solo · end-to-end",
@@ -61,7 +61,7 @@
       "title": "One coach that adapts to",
       "title_emphasis": "how you like to be pushed.",
       "meta": "Solo · end-to-end",
-      "description": "One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say late-night Instagram scrolling your ex's page leaves you feeling like crap, it can just lock that app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.",
+      "description": "One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say doomscrolling late at night leaves you feeling like crap, and it can just lock the app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.",
       "flow": [
         "Check in",
         "Learns your style across all of it",

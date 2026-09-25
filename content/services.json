@@ -2,19 +2,22 @@
   "items": [
     {
       "title": "AI Automation Systems",
-      "description": "Event in, work delivered - with a human checkpoint where it matters."
+      "description": "Event in, work delivered - with a human checkpoint where it matters.",
+      "case_study": "Content Pipeline"
+    },
+    {
+      "title": "Content & Marketing Automation",
+      "description": "On-brand content, drafted automatically, reviewed by you.",
+      "case_study": "Voice-Matched Outreach"
     },
     {
       "title": "AI Integration",
       "description": "AI added to the tools you already use, no rebuild."
     },
     {
-      "title": "Content & Marketing Automation",
-      "description": "On-brand content, drafted automatically, reviewed by you."
-    },
-    {
       "title": "Custom Internal Tools",
-      "description": "Small tools that solve one operational problem well."
+      "description": "Small tools that solve one operational problem well.",
+      "case_study": "Zossima"
     }
   ]
 }

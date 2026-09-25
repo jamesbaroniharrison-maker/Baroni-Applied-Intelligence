@@ -137,6 +137,8 @@ p{margin:0}
 .svc:hover{background:var(--panel)}
 .svc-title{font-size:20px;font-weight:500}
 .services-grid p{line-height:1.65;margin-top:12px}
+.svc{display:flex;flex-direction:column}
+.svc-link{margin-top:auto;padding-top:16px;font-family:var(--mono);font-size:12px;letter-spacing:.06em}
 .svc-embedded{grid-column:1/-1;background:var(--panel);padding:32px 30px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 40px}
 .svc-embedded-text{flex:1 1 420px;min-width:0}
 .svc-embedded-title{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:500}
@@ -202,6 +204,9 @@ p{margin:0}
 .cred-status{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-3);white-space:nowrap}
 .cred-status--gold,.cred-status--link{color:var(--gold)}
 .cred-status--link:hover{color:var(--ink)}
+.cred-state{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.cred-note{font-size:12px;color:var(--ink-3);white-space:nowrap}
+@media (max-width:699px){.cred-state{align-items:flex-start}}
 
 /* book a call */
 .contact{padding-top:var(--pad-y);padding-bottom:var(--pad-y);display:flex;flex-wrap:wrap;gap:48px 64px;align-items:flex-start}
