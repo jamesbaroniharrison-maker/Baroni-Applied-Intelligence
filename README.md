@@ -1,114 +1,87 @@
-# James Baroni Harrison — Portfolio / Business Site (Level 6)
+# Baroni Applied Intelligence - site
 
-The site itself (`index.html`, `styles.css`, `script.js`) is still plain
-HTML/CSS/JS — no build step, no framework. Content lives in `content/*.json`,
+Live at **https://baroniapplied.co.uk**, served by GitHub Pages from this
+repo's `main` branch (custom domain set in `CNAME`, DNS at Porkbun). Every
+push to `main` goes live in a minute or two.
+
+The site itself (`index.html`, `styles.css`, `script.js`) is plain
+HTML/CSS/JS - no build step, no framework. Content lives in `content/*.json`,
 fetched and rendered client-side on load, editable through a real admin UI
-at `/admin` (Decap CMS, commits straight to this repo) — see
+at `/admin` (Decap CMS, commits straight to this repo) - see
 [CMS_SETUP.md](CMS_SETUP.md) for the one-time login setup.
 
-Level 5 added conversion/measurement basics: Open Graph + Twitter Card meta
-tags with a branded share image, a favicon, JSON-LD structured data, and
-Cloudflare Web Analytics (see [ANALYTICS_SETUP.md](ANALYTICS_SETUP.md)).
+Also here: Open Graph / Twitter Card meta with a branded share image
+(`og-image.png`), JSON-LD structured data, and Cloudflare Web Analytics (see
+[ANALYTICS_SETUP.md](ANALYTICS_SETUP.md)).
 
-Level 6 added the first real backend: [server/](server/) is a small, tested
-Express API (separate Render deploy from the static site) that the contact
-form posts to — it validates submissions, stores them in a Neon Postgres
-database, and emails a notification. See
-[SERVER_SETUP.md](SERVER_SETUP.md) for the one-time Neon/Resend/Render
-setup. No auth/login-protected dashboard yet — deferred until there's a
-concrete reason for one (see Next, below).
+[server/](server/) is a small, tested Express API (Neon Postgres + Resend)
+that the contact form can post to. It isn't deployed yet - GitHub Pages only
+serves static files, so it needs its own host (see
+[SERVER_SETUP.md](SERVER_SETUP.md)). Until then the form opens the visitor's
+email app with the note pre-filled.
+
+## Page order
+
+Header -> Hero (with the pipeline run log) -> Proof strip -> 01 How it works ->
+02 Case studies -> 03 Services -> 04 FAQ -> 05 Credentials -> 06 Book a call ->
+Footer, plus a sticky "Book a call" bar on phones and a scroll rail on wide
+screens.
 
 ## Files
 
-- `index.html` — page structure/shell; text content is overwritten at load
-  time by `content/site.json`, and the Work/Services/Process lists are
-  rendered entirely from their JSON files. The static text already in the
-  HTML is the fallback shown if those fetches ever fail.
-- `styles.css` — all styling: colour tokens, type (Newsreader / Geist /
-  Geist Mono), layout, responsive rules (menu collapses below 900px)
-- `script.js` — fetches `content/*.json`, renders it into the page, then
-  wires up all interactive behavior (mobile menu, active nav link, scroll
-  progress bar, hero pipeline run-log animation, copy-email, contact form)
-- `content/site.json` — hero/about/work/services/credentials/contact copy,
-  contact links, section visibility
-- `content/work.json`, `content/services.json`, `content/process.json`,
-  `content/credentials.json` — the repeatable lists, each editable
-  (add/remove/reorder) from `/admin`
-- `admin/` — the Decap CMS admin UI and its config
-- `server/` — the contact form API (Express + Postgres), deployed as its
-  own Render Web Service, entirely separate from the static site. Has its
-  own tests (`server/test/`, run with `npm test` from inside `server/`).
+- `index.html` - page structure. Text is overwritten at load time from
+  `content/*.json`; the static text in the HTML is the fallback shown if
+  those fetches ever fail.
+- `styles.css` - all styling: colour tokens, type (Newsreader / Geist /
+  Geist Mono), layout, responsive rules (menu collapses below 900px).
+- `script.js` - fetches `content/*.json`, renders it into the page, then
+  wires up the interactions: mobile menu, active nav link, scroll rail, hero
+  run-log animation, case-study step strips, FAQ accordion, spots counter,
+  copy-email, contact form, mobile bar.
+- `content/site.json` - hero, section headings, the Book a call section
+  (email, LinkedIn, GitHub), footer, section visibility.
+- `content/work.json`, `services.json`, `process.json` (How it works),
+  `faq.json`, `credentials.json` - the repeatable lists, each editable
+  (add/remove/reorder) from `/admin`.
+- `brand/` - the Baroni mark (size tiers + light versions), favicons and app
+  icons. Use the size tier that matches the display size: `lg` 96px+, `md`
+  48-95px, `sm` 28-47px, `xs` under 28px, and `-light` files on light
+  backgrounds.
+- `admin/` - the Decap CMS admin UI and its config.
+- `server/` - the contact form API, with its own tests (`npm test` from
+  inside `server/`).
 
-## Before you deploy — replace these placeholders
+## Things to know before editing
 
-Edit `content/site.json` (either directly, or through `/admin` once it's set
-up — see [CMS_SETUP.md](CMS_SETUP.md)) and swap in your real details under
-`contact`:
-
-- `email`
-- `linkedin_url`
-- `github_url`
-
-`index.html` has the same placeholder values baked in as its static
-fallback — update those too if you want the fallback to match in case the
-content fetch ever fails.
-
-Also in `script.js`, near the top: `CONTACT_API_BASE` is still a
-placeholder until the backend is deployed — see
-[SERVER_SETUP.md](SERVER_SETUP.md).
+- **The hero pipeline run log** (including the "Fax to head office - Just
+  kidding!" row) is deliberately hand-written in `index.html`, not driven by
+  the CMS. Leave it as it is unless you mean to change it.
+- **The spots counter** in the proof strip is date-based, not a live count:
+  2 left in the first month of each quarter, 1 in the second, 0 in the third.
+  It's `initSpots()` in `script.js`.
+- **`CONTACT_API_BASE`** near the top of `script.js` is a placeholder until
+  the server is deployed.
+- CSS/JS links in `index.html` carry a `?v=` number - bump it when you change
+  `styles.css` or `script.js` so browsers don't keep an old copy.
 
 ## Running it locally
 
-Content is now fetched via `fetch('content/site.json')` etc., which browsers
-block under the `file://` protocol (CORS). Double-clicking `index.html` will
-still render *something* — the static fallback text baked into the HTML —
-but not your actual current content. To see the real thing, serve it:
+Content is fetched via `fetch('content/site.json')` etc., which browsers
+block under `file://`. Serve the folder instead:
 
-python3 -m http.server 8000
+```
+python -m http.server 8000
+```
 
 then open `http://localhost:8000`.
 
-## What's intentionally NOT here yet
-
-No auth, no login-protected views, no build tooling for the static site
-itself. The admin UI at `/admin` edits content by committing directly to
-this git repo — there's no server-side app behind it, which is what keeps
-that piece free and simple. The contact form backend (`server/`) is the
-one real server-side app so far; auth shows up if/when there's a concrete
-reason for a login-gated page (e.g. a submissions dashboard) rather than
-being built speculatively ahead of that need.
-
 ## Design notes
 
-- Colors, fonts, and spacing are all defined as CSS custom properties at the
-  top of `styles.css` (`:root { ... }`) — change a value there and it updates
-  everywhere.
-- The branching line graphic in the hero is hand-built SVG, not an image file
-  — it's meant to echo the "one event → many outputs" shape of your actual
-  automation work.
-- Respects `prefers-reduced-motion` throughout, and all interactive elements
-  have a visible focus state for keyboard navigation.
-
-## Adding new content (Level 4 pattern)
-
-Work items, process steps, and services each live as a list in their own
-JSON file (`content/work.json`, `content/process.json`,
-`content/services.json`) and are rendered into the page by `script.js` at
-load time. Add, remove, or reorder entries either by editing the JSON
-directly or through `/admin`. No build step — the JSON is fetched as-is,
-same as any other static asset.
-
-## Next: Level 7
-
-Elite production: CI/CD, monitoring/error tracking on the new `server/` API,
-accessibility/perf audits, and documentation polish. Auth + a submissions
-dashboard could also happen here or later — still deferred until there's a
-concrete reason to build it, per the Level 6 note above.
-
-## Framework note
-
-Still vanilla HTML/CSS/JS for the site itself, and now for `server/` too —
-a handful of REST endpoints don't need a framework beyond Express. React
-gets introduced only if/when there's real interdependent, changing UI state
-to justify it (e.g. a submissions dashboard with filtering/sorting/live
-updates) — not by default just because a backend now exists.
+- Colours, fonts and spacing are CSS custom properties at the top of
+  `styles.css` (`:root { ... }`) - change a value there and it updates
+  everywhere. Gold is the only accent; sage appears only in the pipeline
+  panel and the rail.
+- The hero run log and the case-study strips only change state (no movement),
+  so they run even with reduced motion on; the pulsing dots and smooth
+  scrolling switch off.
+- All interactive elements have a visible keyboard focus state.
