@@ -10,7 +10,7 @@ const CONTACT_API_BASE = 'https://REPLACE-WITH-YOUR-CONTACT-API-URL';
 // Numbered "NN - LABEL" sections, in page order.
 const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'credentials', 'book'];
 // Everything the rail / active-section tracking follows, in page order.
-const TRACKED_SECTIONS = ['proof', ...LABELLED_SECTIONS];
+const TRACKED_SECTIONS = ['automate', 'proof', ...LABELLED_SECTIONS];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -116,7 +116,7 @@ function renderWork(items) {
     const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
     const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
     return `
-      <article class="build" id="build-${pad(i + 1)}">
+      <article class="build" id="build-${pad(i + 1)}"${item.image ? ` data-image="${escapeHtml(item.image)}"` : ''}${item.visual ? ` data-visual="${escapeHtml(item.visual)}"` : ''}>
         <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
         <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
         <p class="build-desc">${escapeHtml(item.description)}</p>
@@ -124,6 +124,31 @@ function renderWork(items) {
         ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
       </article>`;
   }).join('');
+}
+
+// Case-study visuals go between the description and the step strip. A card
+// with data-image shows that screenshot; otherwise data-visual picks one of
+// the placeholder mock-ups in <template id="visual-…"> in index.html.
+function applyVisuals() {
+  $$('.build').forEach((card) => {
+    if ($('.build-visual', card)) return;
+    let visual = null;
+    if (card.dataset.image) {
+      visual = document.createElement('div');
+      visual.className = 'build-visual build-visual--image';
+      const img = document.createElement('img');
+      img.src = card.dataset.image;
+      img.alt = '';
+      img.loading = 'lazy';
+      visual.append(img);
+    } else if (card.dataset.visual) {
+      const tpl = document.getElementById('visual-' + card.dataset.visual);
+      if (tpl) visual = tpl.content.firstElementChild.cloneNode(true);
+    }
+    if (!visual) return;
+    const before = $('.strip', card) || $('.build-foot', card);
+    card.insertBefore(visual, before);
+  });
 }
 
 // The full-width "AI PM / embedded ops" row stays; only the cells before it are
@@ -196,6 +221,7 @@ async function loadContent() {
   if (hasItems(services)) renderServices(services.items, hasItems(work) ? work.items : null);
   if (hasItems(credentials)) renderCredentials(credentials.items);
   if (hasItems(faq)) renderFaq(faq.items);
+  applyVisuals();
   numberSections();
 }
 

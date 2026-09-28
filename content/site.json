@@ -1,11 +1,11 @@
 {
   "hero": {
-    "eyebrow": "AI automation · built solo, start to finish",
+    "eyebrow": "AI automation for small businesses",
     "headline_lines": [
-      "Stop babysitting your content and your ops.",
-      "I build the system that does it instead."
+      "I set up AI to do your repetitive work.",
+      "You just approve it."
     ],
-    "sub": "End-to-end AI pipelines: the trigger, the generation, your approval, and a dashboard that actually proves it's working. Real hours back in your week.",
+    "sub": "Social posts, client emails, weekly reports: written, sent and tracked automatically. Real hours back in your week.",
     "primary_cta_label": "See a system running live",
     "primary_cta_target": "work",
     "secondary_cta_label": "Book a scope call",

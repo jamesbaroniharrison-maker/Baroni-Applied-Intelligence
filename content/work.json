@@ -22,7 +22,8 @@
           "step": 3,
           "label": "You"
         }
-      ]
+      ],
+      "visual": "voice"
     },
     {
       "label": "Content Pipeline",
@@ -54,7 +55,8 @@
         "Personalization",
         "Content generation",
         "Analytics"
-      ]
+      ],
+      "visual": "approval"
     },
     {
       "label": "Zossima",

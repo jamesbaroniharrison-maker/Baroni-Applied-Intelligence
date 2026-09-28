@@ -22,10 +22,15 @@ email app with the note pre-filled.
 
 ## Page order
 
-Header -> Hero (with the pipeline run log) -> Proof strip -> 01 How it works ->
-02 Case studies -> 03 Services -> 04 FAQ -> 05 Credentials -> 06 Book a call ->
-Footer, plus a sticky "Book a call" bar on phones and a scroll rail on wide
-screens.
+Header -> Hero (with the pipeline run log) -> What I automate -> Before/after
+band -> Proof strip -> 01 How it works -> 02 Case studies -> 03 Services ->
+04 FAQ -> 05 Credentials -> 06 Book a call -> Sign-off -> Footer, plus a sticky
+"Book a call" bar on phones and a scroll rail on wide screens.
+
+The What I automate tiles and the case-study visuals are HTML/CSS mock-ups, not
+images. The case-study ones live in `<template id="visual-...">` blocks at the
+bottom of `index.html`; a case study picks one with its `visual` field, or
+shows a real screenshot instead via its `image` field (both in `/admin`).
 
 ## Files
 
