@@ -1,3 +1,5 @@
+> **Superseded for this site:** the contact form now uses a Cloudflare Worker instead of this Render setup. See [CONTACT_SETUP.md](CONTACT_SETUP.md). This file is kept for reference.
+
 # Setting up the contact form backend
 
 The contact form on the site posts to a small API in [server/](server/) —

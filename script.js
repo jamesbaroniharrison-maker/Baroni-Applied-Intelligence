@@ -2,10 +2,12 @@
 // content/*.json (edited via /admin); the static HTML in index.html is the
 // fallback if any fetch fails.
 
-// Contact form backend - see SERVER_SETUP.md. Update once the API is
-// deployed as its own Render Web Service. While it's still the placeholder,
-// the form opens the visitor's email app with the note pre-filled.
-const CONTACT_API_BASE = 'https://REPLACE-WITH-YOUR-CONTACT-API-URL';
+// Contact form back end - see CONTACT_SETUP_GMAIL.md (Google Apps Script,
+// paste its full ".../exec" address here) or CONTACT_SETUP.md (Cloudflare
+// Worker, paste its base address). While it's still the placeholder, the form
+// only opens the visitor's own email app with the note pre-filled, so
+// nothing is sent or stored.
+const CONTACT_API_BASE = 'https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsGYT8t143YNNz1DgjkftDlVWt3qrehW2-Jg0dPIaVBzoxS0_TtlTZxcEg/exec';
 
 // Numbered "NN - LABEL" sections, in page order.
 const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'credentials', 'book'];
@@ -409,6 +411,9 @@ function initForm() {
   const success = $('.form-success');
   const submitBtn = $('button[type="submit"]', form);
   const useMailto = CONTACT_API_BASE.includes('REPLACE-WITH');
+  // Apps Script always answers HTTP 200 and can't handle a CORS pre-flight, so
+  // it gets the note as text/plain and reports problems in the JSON body.
+  const isAppsScript = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(CONTACT_API_BASE);
 
   const showSuccess = (name, message) => {
     $('.success-name').textContent = name;
@@ -442,9 +447,9 @@ function initForm() {
 
     submitBtn.disabled = true;
     try {
-      const res = await fetch(`${CONTACT_API_BASE}/api/contact`, {
+      const res = await fetch(isAppsScript ? CONTACT_API_BASE : `${CONTACT_API_BASE}/api/contact`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': isAppsScript ? 'text/plain;charset=utf-8' : 'application/json' },
         body: JSON.stringify({ name, email, message, company: form.company.value }),
       });
       const data = await res.json().catch(() => ({}));
@@ -454,6 +459,8 @@ function initForm() {
         err.textContent = data.error || 'Please wait a moment before sending another note.';
       } else if (res.status === 422) {
         err.textContent = data.error || 'Please check the form and try again.';
+      } else if (res.ok && data.error) {
+        err.textContent = data.error; // Apps Script reports problems with a 200
       } else {
         throw new Error('unexpected response');
       }

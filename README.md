@@ -14,11 +14,15 @@ Also here: Open Graph / Twitter Card meta with a branded share image
 (`og-image.png`), JSON-LD structured data, and Cloudflare Web Analytics (see
 [ANALYTICS_SETUP.md](ANALYTICS_SETUP.md)).
 
-[server/](server/) is a small, tested Express API (Neon Postgres + Resend)
-that the contact form can post to. It isn't deployed yet - GitHub Pages only
-serves static files, so it needs its own host (see
-[SERVER_SETUP.md](SERVER_SETUP.md)). Until then the form opens the visitor's
-email app with the note pre-filled.
+The contact form needs a back end, and GitHub Pages can only serve static
+files. Two ready-made options:
+[apps-script/](apps-script/) - a Google Apps Script that emails your own Gmail
+and logs notes in a Google Sheet (simplest, see
+[CONTACT_SETUP_GMAIL.md](CONTACT_SETUP_GMAIL.md)); or [worker/](worker/) - a
+Cloudflare Worker with a database and Resend email (see
+[CONTACT_SETUP.md](CONTACT_SETUP.md)). Until `CONTACT_API_BASE` in `script.js`
+points at one of them, the form only opens the visitor's own email app, so
+nothing is sent or stored. (`server/` is an earlier Express version; not used.)
 
 ## Page order
 
@@ -53,8 +57,11 @@ shows a real screenshot instead via its `image` field (both in `/admin`).
   48-95px, `sm` 28-47px, `xs` under 28px, and `-light` files on light
   backgrounds.
 - `admin/` - the Decap CMS admin UI and its config.
-- `server/` - the contact form API, with its own tests (`npm test` from
-  inside `server/`).
+- `apps-script/` - the contact form API as a Google Apps Script (Gmail + a
+  Google Sheet), with tests (`node --test test/code.test.js`).
+- `worker/` - the same API as a Cloudflare Worker, with tests
+  (`node --test test/worker.test.js` from inside `worker/`).
+- `server/` - the earlier Express version of the contact API (not used).
 
 ## Things to know before editing
 
@@ -65,7 +72,7 @@ shows a real screenshot instead via its `image` field (both in `/admin`).
   2 left in the first month of each quarter, 1 in the second, 0 in the third.
   It's `initSpots()` in `script.js`.
 - **`CONTACT_API_BASE`** near the top of `script.js` is a placeholder until
-  the server is deployed.
+  a back end is deployed (see CONTACT_SETUP_GMAIL.md or CONTACT_SETUP.md).
 - CSS/JS links in `index.html` carry a `?v=` number - bump it when you change
   `styles.css` or `script.js` so browsers don't keep an old copy.
 

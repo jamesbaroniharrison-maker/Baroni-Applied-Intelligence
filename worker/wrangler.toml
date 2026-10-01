@@ -1,0 +1,18 @@
+name = "baroni-contact"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Plain settings (safe to commit). The Resend API key is NOT here: it is set
+# as a secret with `npx wrangler secret put RESEND_API_KEY` (see CONTACT_SETUP.md).
+[vars]
+# where notifications are sent: your Zoho mailbox
+CONTACT_EMAIL_TO = "james@baroniapplied.co.uk"
+# must be an address on the domain you verify in Resend; needs no mailbox
+CONTACT_EMAIL_FROM = "notifications@baroniapplied.co.uk"
+# only these sites may call the API
+ALLOWED_ORIGINS = "https://baroniapplied.co.uk,https://www.baroniapplied.co.uk,http://localhost:8000"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "baroni-contact"
+database_id = "REPLACE-WITH-YOUR-DATABASE-ID"
