@@ -1,0 +1,14 @@
+# GitHub Pages (Jekyll) build settings.
+# Internal docs stay in the repo but are never published to baroniapplied.co.uk.
+exclude:
+  - PROJECT_BRAIN.md
+  - CLAUDE.md
+  - README.md
+  - ANALYTICS_SETUP.md
+  - CMS_SETUP.md
+  - CONTACT_SETUP.md
+  - CONTACT_SETUP_GMAIL.md
+  - SERVER_SETUP.md
+  - server/
+  - worker/
+  - apps-script/

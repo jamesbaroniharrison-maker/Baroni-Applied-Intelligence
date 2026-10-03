@@ -1,0 +1,4 @@
+.claude/settings.local.json
+# Local-only docs (Project Brain) - kept off this public repo
+PROJECT_BRAIN.md
+CLAUDE.md
