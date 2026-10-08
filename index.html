@@ -31,7 +31,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=26">
+<link rel="stylesheet" href="styles.css?v=30">
+<!-- Opening animation: plays on every load of the top of the page (not when
+     a link goes straight to a section). The page always starts at the very top. -->
+<script>(function(){try{if(!location.hash||location.hash==='#top'){if(location.hash)history.replaceState(null,'',location.pathname+location.search);if('scrollRestoration' in history)history.scrollRestoration='manual';document.documentElement.classList.add('intro')}}catch(e){}})();</script>
 
 <script type="application/ld+json">
 {
@@ -51,6 +54,13 @@
 </script>
 </head>
 <body>
+<div class="intro-overlay" aria-hidden="true">
+  <div class="intro-bg"></div>
+  <div class="intro-stage">
+    <div class="intro-flower"><svg viewBox="0 0 64 64"></svg></div>
+    <div class="intro-word"><span class="intro-name">Baroni</span><span class="intro-tag">APPLIED INTELLIGENCE</span></div>
+  </div>
+</div>
 
 <a class="skip-link" href="#top">Skip to content</a>
 
@@ -90,8 +100,8 @@
   <a class="rail-node" href="#work" data-rail="work" data-label="Case studies" aria-label="Case studies"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#services" data-rail="services" data-label="Services" aria-label="Services"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#faq" data-rail="faq" data-label="FAQ" aria-label="FAQ"><span class="rail-dot"></span></a>
-  <a class="rail-node" href="#credentials" data-rail="credentials" data-label="Credentials" aria-label="Credentials"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#book" data-rail="book" data-label="Book a call" aria-label="Book a call"><span class="rail-dot"></span></a>
+  <a class="rail-node" href="#credentials" data-rail="credentials" data-label="Credentials" aria-label="Credentials"><span class="rail-dot"></span></a>
 </nav>
 
 <main id="top">
@@ -322,22 +332,10 @@
     </div>
   </section>
 
-  <section id="credentials" class="section creds-section">
-    <div class="container section-grid">
-      <div class="section-label" data-eyebrow="Credentials">05 - CREDENTIALS</div>
-      <ul class="section-body creds">
-        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-state"><span class="cred-status cred-status--gold">IN PROGRESS</span><span class="cred-note">Completing in 2027</span></span></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">Google Project Management Certificate</span><span class="cred-sub">Agile, Scrum, risk, stakeholders</span></div><a class="cred-status cred-status--link" href="https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url" target="_blank" rel="noopener">VERIFY ON CREDLY ↗</a></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">Advanced Coding, Advanced Honours</span><span class="cred-sub">University of Helsinki</span></div><span class="cred-status">COMPLETED</span></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">BSc Psychology with Business Management</span><span class="cred-sub">University of Sussex</span></div><span class="cred-status">COMPLETED</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <section id="book" class="section section-alt">
+  <section id="book" class="section">
     <div class="container contact">
       <div class="contact-intro">
-        <div class="section-label" data-eyebrow="Book a call">06 - BOOK A CALL</div>
+        <div class="section-label" data-eyebrow="Book a call">05 - BOOK A CALL</div>
         <h2 class="contact-title">Bring one task that <em>eats your week.</em></h2>
         <p class="body-lg narrow contact-body">A free 20-minute scope call. No prep, no pitch deck - we'll work out whether it's worth automating, and what it would give back.</p>
         <p class="trust-line"><span>Free · 20 minutes</span><span class="diamond-sm" aria-hidden="true"></span><span>Reply within 24 hours</span></p>
@@ -373,6 +371,21 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="container to-top-row">
+      <a href="#top" class="btn btn-secondary to-top">Back to top <span aria-hidden="true">↑</span></a>
+    </div>
+  </section>
+
+  <section id="credentials" class="section section-alt creds-section">
+    <div class="container section-grid">
+      <div class="section-label" data-eyebrow="Credentials">06 - CREDENTIALS</div>
+      <ul class="section-body creds">
+        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-state"><span class="cred-status cred-status--gold">IN PROGRESS</span><span class="cred-note">Completing in 2027</span></span></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">Google Project Management Certificate</span><span class="cred-sub">Agile, Scrum, risk, stakeholders</span></div><a class="cred-status cred-status--link" href="https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url" target="_blank" rel="noopener">VERIFY ON CREDLY ↗</a></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">Advanced Coding, Honours</span><span class="cred-sub">University of Helsinki</span></div><span class="cred-status">COMPLETED</span></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">BSc Psychology with Business Management</span><span class="cred-sub">University of Sussex</span></div><span class="cred-status">COMPLETED</span></li>
+      </ul>
     </div>
   </section>
 </main>
@@ -422,7 +435,7 @@
     <span class="footer-name">Baroni Applied Intelligence · James Baroni-Harrison</span>
     <a href="mailto:james@baroniapplied.co.uk?subject=AI%20PM%20enquiry" class="footer-pm">Hiring an AI PM? Let's talk →</a>
     <a href="privacy">Privacy</a>
-    <a href="#top">Back to top ↑</a>
+    <a href="#top" class="to-top">Back to top ↑</a>
     <span>© <span class="footer-year">2026</span></span>
   </div>
 </footer>
@@ -432,7 +445,7 @@
   <a href="#book" class="mobile-bar-cta">Book a call</a>
 </div>
 
-<script src="script.js?v=28"></script>
+<script src="script.js?v=33"></script>
 
 <!-- Cloudflare Web Analytics - cookieless, no consent banner needed.
      See ANALYTICS_SETUP.md. -->
