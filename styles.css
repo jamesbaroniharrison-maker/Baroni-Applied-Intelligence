@@ -119,10 +119,6 @@ p{margin:0}
 .proof-label--gold{color:var(--gold)}
 .hairline-grid .proof-title{font-family:var(--serif);font-size:26px;line-height:1.2;color:var(--ink);margin:0;text-wrap:balance}
 .hairline-grid .proof-body{margin:0}
-.hairline-grid .spots-left{display:flex;align-items:center;gap:10px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--gold)}
-.spots-left .diamond{flex-basis:6px;width:6px;height:6px}
-.hairline-grid .spots-left.is-full{color:var(--ink-3)}
-.spots-left.is-full .diamond{background:var(--gold-dim)}
 .proof-link{margin-top:auto;padding-top:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em}
 
 /* how it works */
@@ -454,3 +450,42 @@ html.intro-landing .hero-text>:nth-child(5){animation-delay:.32s}
 /* Back to top, under the booking form */
 #book .contact{padding-bottom:40px}
 .to-top-row{display:flex;justify-content:center;padding-bottom:var(--pad-y)}
+
+/* Tender pack -> health check mock-up (Build 03). script.js runs the loop:
+   the page is scanned, each finding lights its line and drops in, then the
+   verdict lands. */
+.visual-tender{position:relative;overflow:hidden;padding:28px clamp(18px,3vw,32px);background:radial-gradient(circle at 15% 10%,#3a4a3c,#242923 70%);display:flex;flex-wrap:wrap;align-items:flex-start;gap:20px}
+.tender-doc{position:relative;flex:1 1 200px;min-width:0;max-width:280px;background:#f7f4ec;box-shadow:0 26px 44px -18px rgba(0,0,0,.75);transform:rotate(-1.5deg)}
+.tender-doc-head{display:flex;justify-content:space-between;gap:8px;padding:8px 12px;background:#e4dfd2;font-family:var(--mono);font-size:9px;color:#6b685e;white-space:nowrap}
+.tender-doc-head span:first-child{overflow:hidden;text-overflow:ellipsis}
+.tender-page{font-weight:500;color:#2a2d28}
+.tender-doc-body{position:relative;overflow:hidden;padding:14px 14px 18px;display:flex;flex-direction:column;gap:8px}
+.tl{display:block;height:5px;background:#dcd8cc;transition:background .3s,box-shadow .3s}
+.tl.is-hit{background:var(--gold);box-shadow:0 0 0 3px rgba(212,168,106,.25)}
+.tl.is-hit.is-stop{background:var(--error);box-shadow:0 0 0 3px rgba(227,154,126,.25)}
+.tl.is-hit.is-warn{background:#c9c4b6;box-shadow:0 0 0 3px rgba(201,196,182,.5)}
+.tender-scan{position:absolute;left:0;right:0;top:0;height:26px;background:linear-gradient(180deg,transparent,rgba(143,182,154,.35) 70%,rgba(111,150,121,.9));opacity:0;pointer-events:none}
+.visual-tender.is-scanning .tender-scan{opacity:1;animation:tender-scan 1.1s linear infinite}
+@keyframes tender-scan{from{transform:translateY(-26px)}to{transform:translateY(190px)}}
+.tender-results{position:relative;flex:1 1 280px;min-width:0;background:#1b1f1a;border:1px solid var(--line-3);box-shadow:0 26px 44px -18px rgba(0,0,0,.75)}
+.tender-results-head{display:flex;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3)}
+.tender-count{color:var(--ink);font-weight:500}
+.tender-row{display:grid;grid-template-columns:96px 1fr;gap:2px 12px;padding:9px 14px;border-bottom:1px solid var(--line);opacity:0;transform:translateX(14px);transition:opacity .45s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.tender-row.is-in{opacity:1;transform:none}
+.tr-key{font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--ink-3);padding-top:2px}
+.tr-val{font-size:13px;color:var(--ink)}
+.tr-src{grid-column:2;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--sage)}
+.tender-row.is-warn .tr-src{color:var(--ink-2)}
+.tender-row.is-stop .tr-val,.tender-row.is-stop .tr-src{color:var(--error)}
+.tender-verdict{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-3)}
+.tender-verdict b{padding:5px 10px;border:1px solid var(--error);color:var(--error);font-weight:500;letter-spacing:.14em;opacity:0;transform:scale(1.6) rotate(-6deg);transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1)}
+.tender-verdict.is-in b{opacity:1;transform:rotate(-3deg)}
+.visual-tender .visual-mark{opacity:.12}
+@container (max-width:520px){.tender-doc{max-width:none;transform:none}.tender-row{grid-template-columns:86px 1fr}}
+
+/* Data and safety section */
+.safe-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:40px}
+@media (max-width:640px){.safe-grid{grid-template-columns:1fr}}
+.safe-grid .cell{padding:28px 26px 32px;display:flex;flex-direction:column;gap:12px}
+.safe-grid .cell-title{margin-top:0;font-size:22px;line-height:1.2;text-wrap:balance}
+.safe-note{margin-top:24px;max-width:68ch;font-size:14px;line-height:1.6;color:var(--ink-2)}

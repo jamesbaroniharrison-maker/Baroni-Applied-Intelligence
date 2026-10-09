@@ -12,7 +12,7 @@ const CONTACT_API_BASE = 'https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsG
 // Numbered "NN - LABEL" sections, in page order.
 const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'book', 'credentials'];
 // Everything the rail / active-section tracking follows, in page order.
-const TRACKED_SECTIONS = ['automate', 'proof', ...LABELLED_SECTIONS];
+const TRACKED_SECTIONS = ['automate', 'proof', 'how', 'safe', ...LABELLED_SECTIONS.slice(1)];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -340,6 +340,54 @@ function initIntro() {
 // INTERACTIONS
 // ============================================
 
+// Build 03's tender mock-up: scan the pack (page counter ticks up), light
+// each finding's line and drop its row in, stamp the verdict, hold, repeat.
+// Runs only while on screen.
+function initTenderVisuals() {
+  $$('.visual-tender').forEach((v) => {
+    const page = $('.tender-page', v);
+    const count = $('.tender-count', v);
+    const rows = $$('.tender-row', v);
+    const verdict = $('.tender-verdict', v);
+    const kinds = rows.map((r) => (r.classList.contains('is-stop') ? 'is-stop' : r.classList.contains('is-warn') ? 'is-warn' : ''));
+    const hits = rows.map((_, i) => $(`.tl-hit[data-hit="${i}"]`, v));
+    const PAGES = 38;
+    let timers = [];
+    let running = false;
+    const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+
+    const reset = () => {
+      v.classList.remove('is-scanning');
+      rows.forEach((r) => r.classList.remove('is-in'));
+      hits.forEach((h) => h && h.classList.remove('is-hit', 'is-stop', 'is-warn'));
+      verdict.classList.remove('is-in');
+      page.textContent = '1';
+      count.textContent = '0';
+    };
+    const cycle = () => {
+      reset();
+      at(400, () => v.classList.add('is-scanning'));
+      for (let p = 2; p <= PAGES; p += 1) at(400 + (p - 1) * 105, () => { page.textContent = String(p); });
+      rows.forEach((r, i) => at(1100 + i * 900, () => {
+        if (hits[i]) hits[i].classList.add('is-hit', ...(kinds[i] ? [kinds[i]] : []));
+        r.classList.add('is-in');
+        count.textContent = String(i + 1);
+      }));
+      const end = 1100 + rows.length * 900;
+      at(end - 300, () => v.classList.remove('is-scanning'));
+      at(end + 200, () => verdict.classList.add('is-in'));
+      at(end + 4200, cycle);
+    };
+    const stop = () => { timers.forEach(clearTimeout); timers = []; };
+
+    reset();
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !running) { running = true; cycle(); }
+      else if (!entry.isIntersecting && running) { running = false; stop(); }
+    }, { threshold: 0.4 }).observe(v);
+  });
+}
+
 // Run-log animation - state changes only, no movement, so it runs
 // regardless of reduced-motion. Ticks 5-7 hold everything "done".
 function initRunLog() {
@@ -402,28 +450,6 @@ function initStrips() {
     }, { threshold: 0.75 });
     observer.observe(strip);
   });
-}
-
-// Reduced-rate spots left this quarter. Not a live count: it steps down
-// through each calendar quarter - 2 left in the first third, 1 in the
-// middle third, 0 in the last - then resets when the next quarter starts.
-function initSpots() {
-  const now = new Date();
-  const qStartMonth = Math.floor(now.getMonth() / 3) * 3;
-  const qStart = new Date(now.getFullYear(), qStartMonth, 1);
-  const qEnd = new Date(now.getFullYear(), qStartMonth + 3, 1);
-  const progress = (now - qStart) / (qEnd - qStart);
-  const left = progress < 1 / 3 ? 2 : progress < 2 / 3 ? 1 : 0;
-  const line = $('.spots-left');
-  if (!line) return;
-  line.classList.toggle('is-full', left === 0);
-  if (left > 0) {
-    setText('.spots-text', `${left} of 2 spots left this quarter`);
-  } else {
-    const opens = qEnd.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-    setText('.spots-text', `This quarter's spots are taken - next 2 open ${opens}`);
-    setText('.spots-link', 'ASK ABOUT NEXT QUARTER →');
-  }
 }
 
 // Active nav, the left scroll rail and the mobile bar.
@@ -602,7 +628,6 @@ function initForm() {
 initIntro();
 initToTop();
 initRunLog();
-initSpots();
 initMenu();
 initCopyEmail();
 initForm();
@@ -610,5 +635,6 @@ setText('.footer-year', new Date().getFullYear());
 loadContent().finally(() => {
   initFaq();
   initStrips();
+  initTenderVisuals();
   initScroll();
 });

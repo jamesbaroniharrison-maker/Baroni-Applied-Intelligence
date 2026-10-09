@@ -4,7 +4,7 @@
       "label": "Voice-Matched Outreach",
       "title": "Cold outreach and follow-ups, drafted in your own voice -",
       "title_emphasis": "I use it to book these calls.",
-      "meta": "Solo · end-to-end",
+      "meta": "Live · in my own business",
       "description": "Same style-learning engine as the content pipeline's voice engine, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.",
       "flow": [
         "Target list",
@@ -29,7 +29,7 @@
       "label": "Content Pipeline",
       "title": "Cut a 6-hour weekly content task to",
       "title_emphasis": "40 minutes.",
-      "meta": "Solo · end-to-end",
+      "meta": "Live",
       "description": "One event kicks off the whole chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts itself, in that person's own voice, learned from a sample of what they've actually written before. Not a template. A stats page tracks how it's actually landing. The only thing a human still does is hit approve.",
       "flow": [
         "Event",
@@ -59,30 +59,35 @@
       "visual": "approval"
     },
     {
-      "label": "Zossima",
-      "title": "One coach that adapts to",
-      "title_emphasis": "how you like to be pushed.",
-      "meta": "Solo · end-to-end",
-      "description": "One coach that covers fitness, headspace and journaling, and it actually learns your tone across all of it: more direct here, gentler there, depending on what's actually landing for you. Journaling is what closes the loop. Flag a pattern once, say doomscrolling late at night leaves you feeling like crap, and it can just lock the app past a set time. No extra app, no extra step. It also runs a lightweight contact list: flag the people you actually mean to keep in touch with, and it nudges you when it's been too long. A weekly check-in stacks what you planned against what you actually did, without turning it into some scorecard. Built on a Psychology background (BSc, University of Sussex) - the tone-adaptation isn't a prompt trick, it's designed around how people actually respond to feedback.",
+      "label": "Tender",
+      "title": "Reads a whole tender pack and tells you",
+      "title_emphasis": "if it's worth bidding.",
+      "meta": "In progress · stage 1",
+      "description": "Tender packs are huge. Dozens of documents, and someone has to read every page before they even know if it's worth bidding. So I built something that reads the lot: PDFs, Word files, spreadsheets, even scans. It pulls out the deadline, what you have to send back, the requirements and the contract risks, then checks them against your company and gives you a go or no-go. The bit I care about most is that every answer comes with the page and the exact quote it came from, and the value is re-read from that quote, not taken on the AI's word. If it can't find something, it says so. It doesn't guess. I tested it on real council tenders against a demo contractor, and it caught £2m of insurance cover against £5m required and flagged it as a hard stop, before anyone wasted a week on the bid. This is stage one. Next up is the bid writer, which checks every claim in the answer against the company's own records.",
       "flow": [
-        "Check in",
-        "Learns your style across all of it",
-        "Coaching runs",
-        "Pattern → rule (app lock, nudge)",
-        "Weekly plan vs. actual"
+        "Tender pack in",
+        "Reads every page",
+        "Every answer quoted to its page",
+        "Checked against your company",
+        "Go / no-go"
       ],
       "tags": [
-        "Personalization",
-        "Behavior change",
-        "Pattern recognition",
-        "Feedback loops"
+        "Document AI",
+        "Extraction",
+        "Verification",
+        "Risk scoring"
       ],
       "highlights": [
         {
-          "step": 2,
-          "label": "Adapts"
+          "step": 3,
+          "label": "Verified"
+        },
+        {
+          "step": 5,
+          "label": "You"
         }
-      ]
+      ],
+      "visual": "tender"
     }
   ]
 }

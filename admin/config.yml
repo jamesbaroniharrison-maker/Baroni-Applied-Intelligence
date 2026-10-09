@@ -142,6 +142,7 @@ collections:
                 options:
                   - { label: "Approval screen mock-up", value: "approval" }
                   - { label: "Voice sample → draft mock-up", value: "voice" }
+                  - { label: "Tender pack → health check mock-up", value: "tender" }
                 hint: "Placeholder illustration between the description and the steps"
               - { label: "Screenshot (optional)", name: "image", widget: "image", required: false, hint: "Replaces the mock-up when set" }
               - label: "Tool tags"

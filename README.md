@@ -68,9 +68,10 @@ shows a real screenshot instead via its `image` field (both in `/admin`).
 - **The hero pipeline run log** (including the "Fax to head office - Just
   kidding!" row) is deliberately hand-written in `index.html`, not driven by
   the CMS. Leave it as it is unless you mean to change it.
-- **The spots counter** in the proof strip is date-based, not a live count:
-  2 left in the first month of each quarter, 1 in the second, 0 in the third.
-  It's `initSpots()` in `script.js`.
+- **Pricing is on application** (the line under the contact form and the
+  "Start small" cell in the proof strip). There is no scarcity counter.
+- **The "Safe, simple and in your hands" section** (`#safe`) is static HTML
+  in `index.html`, not driven by the CMS.
 - **`CONTACT_API_BASE`** near the top of `script.js` is a placeholder until
   a back end is deployed (see CONTACT_SETUP_GMAIL.md or CONTACT_SETUP.md).
 - CSS/JS links in `index.html` carry a `?v=` number - bump it when you change
