@@ -63,7 +63,7 @@ collections:
               - { label: "Eyebrow", name: "eyebrow", widget: "string" }
               - { label: "Heading", name: "heading", widget: "string" }
 
-          - label: "Background section"
+          - label: "Credentials section"
             name: "credentials"
             widget: "object"
             fields:
@@ -100,7 +100,7 @@ collections:
                   - { label: "Case studies", name: "work", widget: "boolean" }
                   - { label: "Services", name: "services", widget: "boolean" }
                   - { label: "FAQ", name: "faq", widget: "boolean" }
-                  - { label: "Background", name: "credentials", widget: "boolean" }
+                  - { label: "Credentials", name: "credentials", widget: "boolean" }
                   - { label: "Book a call", name: "book", widget: "boolean" }
 
   - name: "work"
@@ -182,7 +182,7 @@ collections:
               - { label: "Answer", name: "answer", widget: "text" }
 
   - name: "credentials"
-    label: "Background"
+    label: "Credentials"
     files:
       - name: "credentials"
         label: "Education & Certification"
