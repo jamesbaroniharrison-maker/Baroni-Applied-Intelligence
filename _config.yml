@@ -12,3 +12,4 @@ exclude:
   - server/
   - worker/
   - apps-script/
+  - archive/

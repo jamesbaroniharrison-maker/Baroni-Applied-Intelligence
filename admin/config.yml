@@ -115,11 +115,11 @@ collections:
             widget: "list"
             summary: "{{label}}"
             fields:
-              - { label: "Short label", name: "label", widget: "string", required: false, hint: "Shown after BUILD 01, e.g. Content pipeline" }
+              - { label: "Short label", name: "label", widget: "string", required: false, hint: "Shown after BUILD 01, e.g. Automatic social media posts" }
               - { label: "Headline (result)", name: "title", widget: "string", hint: "Lead with the result" }
               - { label: "Headline - gold italic ending", name: "title_emphasis", widget: "string", required: false }
               - { label: "Meta line", name: "meta", widget: "string", required: false, default: "Solo · end-to-end" }
-              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Description", name: "description", widget: "text", hint: "Start a line with - (dash and space) to make it a bullet point." }
               - label: "Steps (optional)"
                 name: "flow"
                 widget: "list"
@@ -145,6 +145,14 @@ collections:
                   - { label: "Tender pack → health check mock-up", value: "tender" }
                 hint: "Placeholder illustration between the description and the steps"
               - { label: "Screenshot (optional)", name: "image", widget: "image", required: false, hint: "Replaces the mock-up when set" }
+              - label: "Layout (optional)"
+                name: "layout"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "Standard", value: "standard" }
+                  - { label: "Result with steps (write each step as Title | one-line detail)", value: "result-steps" }
+                hint: "Result with steps puts the animated visual beside the numbered steps."
               - label: "Tool tags"
                 name: "tags"
                 widget: "list"

@@ -10,9 +10,9 @@
 const CONTACT_API_BASE = 'https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsGYT8t143YNNz1DgjkftDlVWt3qrehW2-Jg0dPIaVBzoxS0_TtlTZxcEg/exec';
 
 // Numbered "NN - LABEL" sections, in page order.
-const LABELLED_SECTIONS = ['how', 'work', 'services', 'faq', 'book', 'credentials'];
+const LABELLED_SECTIONS = ['how', 'work', 'services', 'book', 'credentials'];
 // Everything the rail / active-section tracking follows, in page order.
-const TRACKED_SECTIONS = ['automate', 'proof', 'how', 'safe', ...LABELLED_SECTIONS.slice(1)];
+const TRACKED_SECTIONS = ['automate', 'proof', 'how', 'safe', 'work', 'services', 'book', 'credentials', 'faq'];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -72,6 +72,11 @@ function applySite(site) {
     if (id !== 'book') setText(`#${id} .h2`, block.heading);
   });
 
+  if (site.faq) {
+    setText('.faq-toggle-title', site.faq.eyebrow);
+    if (site.faq.heading) $('.faq-toggle-hint').dataset.hint = site.faq.heading;
+  }
+
   if (site.book) {
     if (site.book.heading) $('.contact-title').innerHTML = withEmphasis(site.book.heading, site.book.heading_emphasis);
     setText('.contact-body', site.book.body);
@@ -102,8 +107,43 @@ function renderProcess(items) {
   `).join('');
 }
 
+// A case-study description is paragraphs; a line starting "- " becomes a bullet point.
+function renderDescription(text) {
+  const out = [];
+  let bullets = [];
+  const flush = () => { if (bullets.length) out.push(`<ul>${bullets.join('')}</ul>`); bullets = []; };
+  String(text || '').split('\n').forEach((line) => {
+    if (line.startsWith('- ')) { bullets.push(`<li>${escapeHtml(line.slice(2))}</li>`); return; }
+    flush();
+    if (line.trim()) out.push(`<p>${escapeHtml(line)}</p>`);
+  });
+  flush();
+  return out.join('');
+}
+
+// The "Result with steps" layout: the animated visual beside a short numbered list. Each step is
+// written "Title | one-line detail".
+function renderResultCard(item, i) {
+  const steps = (Array.isArray(item.flow) ? item.flow : []).map((step, n) => {
+    const [title, ...rest] = String(step).split('|');
+    const detail = rest.join('|').trim();
+    return `<li><span class="n">${pad(n + 1)}</span><div><div class="t">${escapeHtml(title.trim())}</div>${detail ? `<div class="d">${escapeHtml(detail)}</div>` : ''}</div></li>`;
+  }).join('');
+  const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
+  const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
+  return `
+      <article class="build build--result" id="build-${pad(i + 1)}"${item.image ? ` data-image="${escapeHtml(item.image)}"` : ''}${item.visual ? ` data-visual="${escapeHtml(item.visual)}"` : ''}>
+        <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
+        <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
+        <div class="c-top"><div class="c-visual"></div><ol class="c-steps">${steps}</ol></div>
+        ${item.description ? `<div class="build-desc">${renderDescription(item.description)}</div>` : ''}
+        ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
+      </article>`;
+}
+
 function renderWork(items) {
   $('.builds').innerHTML = items.map((item, i) => {
+    if (item.layout === 'result-steps') return renderResultCard(item, i);
     const flow = Array.isArray(item.flow) ? item.flow : [];
     // highlighted steps: [{ step, label }], e.g. 04 · YOU (older single-field items still work)
     const keys = new Map((item.highlights || (item.highlight_step ? [{ step: item.highlight_step, label: item.highlight_label }] : []))
@@ -121,7 +161,7 @@ function renderWork(items) {
       <article class="build" id="build-${pad(i + 1)}"${item.image ? ` data-image="${escapeHtml(item.image)}"` : ''}${item.visual ? ` data-visual="${escapeHtml(item.visual)}"` : ''}>
         <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
         <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
-        <p class="build-desc">${escapeHtml(item.description)}</p>
+        <div class="build-desc">${renderDescription(item.description)}</div>
         ${strip}
         ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
       </article>`;
@@ -148,6 +188,8 @@ function applyVisuals() {
       if (tpl) visual = tpl.content.firstElementChild.cloneNode(true);
     }
     if (!visual) return;
+    const slot = $('.c-visual', card);
+    if (slot) { slot.append(visual); return; }
     const before = $('.strip', card) || $('.build-foot', card);
     card.insertBefore(visual, before);
   });
@@ -168,14 +210,13 @@ function renderServices(items, workItems) {
 }
 
 function renderFaq(items) {
-  $('.faq-list').innerHTML = items.map((item, i) => {
-    const open = i === 0;
-    return `
+  $('.faq-list').innerHTML = items.map((item, i) => `
       <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="${open}" aria-controls="faq-a-${i + 1}" id="faq-q-${i + 1}"><span>${escapeHtml(item.question)}</span><span class="faq-sign" aria-hidden="true">${open ? '−' : '+'}</span></button>
-        <p class="faq-a" id="faq-a-${i + 1}" role="region" aria-labelledby="faq-q-${i + 1}"${open ? '' : ' hidden'}>${escapeHtml(item.answer)}</p>
-      </div>`;
-  }).join('');
+        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-${i + 1}" id="faq-q-${i + 1}"><span>${escapeHtml(item.question)}</span><span class="faq-sign" aria-hidden="true">+</span></button>
+        <p class="faq-a" id="faq-a-${i + 1}" role="region" aria-labelledby="faq-q-${i + 1}" hidden>${escapeHtml(item.answer)}</p>
+      </div>`).join('');
+  const hint = $('.faq-toggle-hint');
+  hint.textContent = `${hint.dataset.hint || 'Before you book'} · ${items.length} questions`;
 }
 
 function renderCredentials(items) {
@@ -344,47 +385,45 @@ function initIntro() {
 // each finding's line and drop its row in, stamp the verdict, hold, repeat.
 // Runs only while on screen.
 function initTenderVisuals() {
+  // The £2m vs £5m result (Build 03): the figures count up, the shortfall turns red, the note and the
+  // HARD STOP tag arrive, then the NO BID stamp lands. Plays once when the card scrolls into view,
+  // then holds that final state (it doesn't loop).
   $$('.visual-tender').forEach((v) => {
-    const page = $('.tender-page', v);
-    const count = $('.tender-count', v);
-    const rows = $$('.tender-row', v);
-    const verdict = $('.tender-verdict', v);
-    const kinds = rows.map((r) => (r.classList.contains('is-stop') ? 'is-stop' : r.classList.contains('is-warn') ? 'is-warn' : ''));
-    const hits = rows.map((_, i) => $(`.tl-hit[data-hit="${i}"]`, v));
-    const PAGES = 38;
-    let timers = [];
-    let running = false;
-    const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+    const nums = $$('.big[data-to]', v);
+    let frame = 0;
+    const at = (ms, fn) => setTimeout(fn, ms);
+    const label = (el, n) => { el.textContent = `£${n}m`; };
 
+    const countUp = (el, ms) => {
+      const to = Number(el.dataset.to);
+      const start = performance.now();
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / ms);
+        label(el, Math.round(to * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) frame = requestAnimationFrame(tick);
+      };
+      frame = requestAnimationFrame(tick);
+    };
     const reset = () => {
-      v.classList.remove('is-scanning');
-      rows.forEach((r) => r.classList.remove('is-in'));
-      hits.forEach((h) => h && h.classList.remove('is-hit', 'is-stop', 'is-warn'));
-      verdict.classList.remove('is-in');
-      page.textContent = '1';
-      count.textContent = '0';
+      cancelAnimationFrame(frame);
+      ['is-1', 'is-2', 'is-3', 'is-4', 'is-5'].forEach((c) => v.classList.remove(c));
+      nums.forEach((el) => label(el, 0));
     };
     const cycle = () => {
-      reset();
-      at(400, () => v.classList.add('is-scanning'));
-      for (let p = 2; p <= PAGES; p += 1) at(400 + (p - 1) * 105, () => { page.textContent = String(p); });
-      rows.forEach((r, i) => at(1100 + i * 900, () => {
-        if (hits[i]) hits[i].classList.add('is-hit', ...(kinds[i] ? [kinds[i]] : []));
-        r.classList.add('is-in');
-        count.textContent = String(i + 1);
-      }));
-      const end = 1100 + rows.length * 900;
-      at(end - 300, () => v.classList.remove('is-scanning'));
-      at(end + 200, () => verdict.classList.add('is-in'));
-      at(end + 4200, cycle);
+      at(300, () => { v.classList.add('is-1'); countUp(nums[0], 800); });   // £2m
+      at(1300, () => { v.classList.add('is-2'); countUp(nums[1], 900); });  // vs £5m
+      at(2500, () => v.classList.add('is-3'));                               // the shortfall turns red
+      at(3000, () => v.classList.add('is-4'));                               // note + HARD STOP
+      at(3600, () => v.classList.add('is-5'));                               // NO BID stamp
     };
-    const stop = () => { timers.forEach(clearTimeout); timers = []; };
 
     reset();
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !running) { running = true; cycle(); }
-      else if (!entry.isIntersecting && running) { running = false; stop(); }
-    }, { threshold: 0.4 }).observe(v);
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      cycle();
+    }, { threshold: 0.4 });
+    observer.observe(v);
   });
 }
 
@@ -467,7 +506,7 @@ function initScroll() {
       const el = document.getElementById(id);
       if (el && !el.hidden && el.getBoundingClientRect().top < innerHeight * 0.4) active = id;
     });
-    if (max - scrollY < 4) active = 'book';
+    if (max - scrollY < 4) active = 'faq';
     navLinks.forEach((a) => a.classList.toggle('is-active', a.dataset.nav === active));
 
     const pct = max > 0 ? Math.min(100, (scrollY / max) * 100) : 0;
@@ -522,6 +561,19 @@ function initMenu() {
 
 // One answer open at a time; clicking the open one closes it.
 function initFaq() {
+  const toggle = $('.faq-toggle');
+  const panel = $('.faq-panel');
+  const setOpen = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    $('.faq-sign', toggle).textContent = open ? '−' : '+';
+    panel.hidden = !open;
+  };
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  // Any link to #faq (header, menu, side rail, a shared address) opens it first.
+  $$('a[href="#faq"]').forEach((a) => a.addEventListener('click', () => setOpen(true)));
+  if (location.hash === '#faq') setOpen(true);
+  addEventListener('hashchange', () => { if (location.hash === '#faq') setOpen(true); });
+
   $('.faq-list').addEventListener('click', (e) => {
     const btn = e.target.closest('.faq-q');
     if (!btn) return;

@@ -5,7 +5,7 @@
       "title": "Cold outreach and follow-ups, drafted in your own voice -",
       "title_emphasis": "I use it to book these calls.",
       "meta": "Live · in my own business",
-      "description": "Same style-learning engine as the content pipeline's voice engine, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.",
+      "description": "Same style-learning engine as the automatic social media posts in Build 02, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.",
       "flow": [
         "Target list",
         "AI drafts",
@@ -26,8 +26,8 @@
       "visual": "voice"
     },
     {
-      "label": "Content Pipeline",
-      "title": "Cut a 6-hour weekly content task to",
+      "label": "Automatic Social Media Posts",
+      "title": "Cut 6 hours of weekly social media content tasks to",
       "title_emphasis": "40 minutes.",
       "meta": "Live",
       "description": "One event kicks off the whole chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts itself, in that person's own voice, learned from a sample of what they've actually written before. Not a template. A stats page tracks how it's actually landing. The only thing a human still does is hit approve.",
@@ -59,17 +59,16 @@
       "visual": "approval"
     },
     {
-      "label": "Tender",
-      "title": "Reads a whole tender pack and tells you",
+      "label": "Construction Tender",
+      "title": "Reads a whole construction tender pack and tells you",
       "title_emphasis": "if it's worth bidding.",
       "meta": "In progress · stage 1",
-      "description": "Tender packs are huge. Dozens of documents, and someone has to read every page before they even know if it's worth bidding. So I built something that reads the lot: PDFs, Word files, spreadsheets, even scans. It pulls out the deadline, what you have to send back, the requirements and the contract risks, then checks them against your company and gives you a go or no-go. The bit I care about most is that every answer comes with the page and the exact quote it came from, and the value is re-read from that quote, not taken on the AI's word. If it can't find something, it says so. It doesn't guess. I tested it on real council tenders against a demo contractor, and it caught £2m of insurance cover against £5m required and flagged it as a hard stop, before anyone wasted a week on the bid. This is stage one. Next up is the bid writer, which checks every claim in the answer against the company's own records.",
+      "description": "Stage one. Next up is the bid writer, which checks every claim in the answer against the company's own records.",
       "flow": [
-        "Tender pack in",
-        "Reads every page",
-        "Every answer quoted to its page",
-        "Checked against your company",
-        "Go / no-go"
+        "Pack in | PDFs, Word files, spreadsheets and scans, built for construction and groundworks firms",
+        "Reads every page | Pulls out the deadline, what to send back, the requirements and the contract risks",
+        "Every answer quoted | Shows the page and exact quote, re-read from it rather than taken on the AI's word. If it can't find it, it says so.",
+        "Go or no-go | Checked against your company. Stage one; the bid writer is next."
       ],
       "tags": [
         "Document AI",
@@ -77,17 +76,8 @@
         "Verification",
         "Risk scoring"
       ],
-      "highlights": [
-        {
-          "step": 3,
-          "label": "Verified"
-        },
-        {
-          "step": 5,
-          "label": "You"
-        }
-      ],
-      "visual": "tender"
+      "visual": "tender",
+      "layout": "result-steps"
     }
   ]
 }
