@@ -506,7 +506,12 @@ function initScroll() {
       const el = document.getElementById(id);
       if (el && !el.hidden && el.getBoundingClientRect().top < innerHeight * 0.4) active = id;
     });
-    if (max - scrollY < 4) active = 'faq';
+    // At the very bottom, the last visible section is active (a short final
+    // section never reaches the 40% line on its own).
+    if (max - scrollY < 4) {
+      const last = TRACKED_SECTIONS.filter((id) => { const el = document.getElementById(id); return el && !el.hidden; }).pop();
+      if (last) active = last;
+    }
     navLinks.forEach((a) => a.classList.toggle('is-active', a.dataset.nav === active));
 
     const pct = max > 0 ? Math.min(100, (scrollY / max) * 100) : 0;
