@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=37">
+<link rel="stylesheet" href="styles.css?v=38">
 <!-- Opening animation: plays on every load of the top of the page (not when
      a link goes straight to a section). The page always starts at the very top. -->
 <script>(function(){try{if(!location.hash||location.hash==='#top'){if(location.hash)history.replaceState(null,'',location.pathname+location.search);if('scrollRestoration' in history)history.scrollRestoration='manual';document.documentElement.classList.add('intro')}}catch(e){}})();</script>
@@ -98,13 +98,13 @@
   <div class="rail-fill"></div>
   <a class="rail-node" href="#automate" data-rail="automate" data-label="What I automate" aria-label="What I automate"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#proof" data-rail="proof" data-label="Proof" aria-label="Proof"><span class="rail-dot"></span></a>
+  <a class="rail-node" href="#credentials" data-rail="credentials" data-label="Background" aria-label="Background"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#how" data-rail="how" data-label="How it works" aria-label="How it works"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#safe" data-rail="safe" data-label="Data and safety" aria-label="Data and safety"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#work" data-rail="work" data-label="Case studies" aria-label="Case studies"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#services" data-rail="services" data-label="Services" aria-label="Services"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#faq" data-rail="faq" data-label="FAQ" aria-label="FAQ"><span class="rail-dot"></span></a>
   <a class="rail-node" href="#book" data-rail="book" data-label="Book a call" aria-label="Book a call"><span class="rail-dot"></span></a>
-  <a class="rail-node" href="#credentials" data-rail="credentials" data-label="Background" aria-label="Background"><span class="rail-dot"></span></a>
 </nav>
 
 <main id="top">
@@ -138,6 +138,20 @@
     </div>
   </section>
   </div>
+
+  <section class="before-after" aria-label="Before and after">
+    <div class="container before-after-row">
+      <div class="ba-col">
+        <div class="ba-label">FRIDAY, BEFORE</div>
+        <p class="ba-before">Three hours writing the same client updates.</p>
+      </div>
+      <div class="ba-arrow" aria-hidden="true"><span>→</span></div>
+      <div class="ba-col">
+        <div class="ba-label ba-label--after">FRIDAY, AFTER</div>
+        <p class="ba-after"><em>Five minutes approving them.</em></p>
+      </div>
+    </div>
+  </section>
 
   <section id="automate" class="section section-alt automate">
     <div class="container">
@@ -184,35 +198,34 @@
     </div>
   </section>
 
-  <section class="before-after" aria-label="Before and after">
-    <div class="container before-after-row">
-      <div class="ba-col">
-        <div class="ba-label">FRIDAY, BEFORE</div>
-        <p class="ba-before">Three hours writing the same client updates.</p>
-      </div>
-      <div class="ba-arrow" aria-hidden="true"><span>→</span></div>
-      <div class="ba-col">
-        <div class="ba-label ba-label--after">FRIDAY, AFTER</div>
-        <p class="ba-after"><em>Five minutes approving them.</em></p>
-      </div>
-    </div>
-  </section>
-
   <section id="proof" class="section section-alt proof">
     <div class="container">
       <div class="hairline-grid proof-grid">
         <div class="cell proof-cell proof-cell--founding">
-          <span class="proof-label proof-label--gold">START SMALL</span>
-          <p class="proof-title">One task first. A clear quote before anything is built.</p>
-          <p class="proof-body">We pick the single task most worth automating. You get a quote and the expected running cost after the free scope call, and you only go further if it pays off.</p>
+          <span class="proof-label proof-label--gold">THE OFFER</span>
+          <p class="proof-title">One task first. A quote before anything is built.</p>
+          <ol class="proof-steps"><li>Free scope call</li><li>Quote and monthly running cost</li><li>Go further only if it pays off</li></ol>
           <a href="#book" class="proof-link">BOOK A FREE SCOPE CALL →</a>
         </div>
         <div class="cell proof-cell">
-          <span class="proof-label">RECEIPTS · GITHUB</span>
-          <p class="proof-title">Every build's commit history is public.</p>
-          <a href="https://github.com/jamesbaroniharrison-maker" class="proof-link github-link" target="_blank" rel="noopener">VIEW ON GITHUB ↗</a>
+          <span class="proof-label">RESULT · BUILD 02</span>
+          <p class="proof-title proof-stat">6 hours a week <span aria-hidden="true">→</span> 40 minutes</p>
+          <p class="proof-body">Social media content, drafted automatically and approved in one sitting.</p>
+          <a href="#build-02" class="proof-link">SEE THE CASE STUDY →</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="credentials" class="section section-alt creds-section">
+    <div class="container section-grid">
+      <div class="section-label" data-eyebrow="Background">05 - BACKGROUND</div>
+      <ul class="section-body creds">
+        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-state"><span class="cred-status cred-status--gold">IN PROGRESS</span><span class="cred-note">Completing in 2027</span></span></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">Google Project Management Certificate</span><span class="cred-sub">Agile, Scrum, risk, stakeholders</span></div><a class="cred-status cred-status--link" href="https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url" target="_blank" rel="noopener">VERIFY ON CREDLY ↗</a></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">Advanced Coding, Honours</span><span class="cred-sub">University of Helsinki</span></div><span class="cred-status">COMPLETED</span></li>
+        <li class="cred"><div class="cred-text"><span class="cred-title">BSc Psychology with Business Management</span><span class="cred-sub">University of Sussex</span></div><span class="cred-status">COMPLETED</span></li>
+      </ul>
     </div>
   </section>
 
@@ -237,12 +250,12 @@
       <div class="section-body">
         <h2 class="h2">Safe, simple and in your hands.</h2>
         <div class="hairline-grid safe-grid">
-          <div class="cell"><div class="cell-title">Your data stays in tools you trust</div><p>Wherever possible, systems run inside accounts you already use, like Google Workspace or Microsoft 365. We agree up front what data is used and where it goes.</p></div>
-          <div class="cell"><div class="cell-title">Nothing goes out without you</div><p>Each system has a review step where it matters, so you see and approve the work before it reaches a client.</p></div>
-          <div class="cell"><div class="cell-title">Built to flag problems, not hide them</div><p>Systems are set up to stop and tell you when something looks wrong, rather than carry on regardless. I'm on hand for fixes while it beds in.</p></div>
-          <div class="cell"><div class="cell-title">Clear costs, no lock-in</div><p>You know the build price and the expected monthly running cost before we start. No long-term contracts, and ongoing support is optional.</p></div>
+          <div class="cell"><div class="cell-title">Your data stays in tools you trust</div><p>Systems run inside accounts you already use, like Google Workspace or Microsoft 365. We agree up front what data is used.</p></div>
+          <div class="cell"><div class="cell-title">Nothing goes out without you</div><p>You approve the work before it reaches a client.</p></div>
+          <div class="cell"><div class="cell-title">Built to flag problems, not hide them</div><p>If something looks wrong, the system stops and tells you. I'm on hand for fixes while it beds in.</p></div>
+          <div class="cell"><div class="cell-title">Clear costs, no lock-in</div><p>Build price and monthly running cost agreed before we start. No long-term contracts.</p></div>
         </div>
-        <p class="safe-note">GDPR: before we build, I'll set out what personal data a system uses, why, and where it's stored, and I'm happy to work within your own data policies. <a href="privacy">Privacy notice →</a></p>
+        <p class="safe-note">GDPR: before we build, I'll set out what personal data a system uses, why, and where it's stored. Happy to work within your own data policies. <a href="privacy">Privacy notice →</a></p>
       </div>
     </div>
   </section>
@@ -406,18 +419,6 @@
       <a href="#top" class="btn btn-secondary to-top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
   </section>
-
-  <section id="credentials" class="section section-alt creds-section">
-    <div class="container section-grid">
-      <div class="section-label" data-eyebrow="Background">05 - BACKGROUND</div>
-      <ul class="section-body creds">
-        <li class="cred"><div class="cred-text"><span class="cred-title">MSc Artificial Intelligence</span><span class="cred-sub">Queen Mary University of London</span></div><span class="cred-state"><span class="cred-status cred-status--gold">IN PROGRESS</span><span class="cred-note">Completing in 2027</span></span></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">Google Project Management Certificate</span><span class="cred-sub">Agile, Scrum, risk, stakeholders</span></div><a class="cred-status cred-status--link" href="https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url" target="_blank" rel="noopener">VERIFY ON CREDLY ↗</a></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">Advanced Coding, Honours</span><span class="cred-sub">University of Helsinki</span></div><span class="cred-status">COMPLETED</span></li>
-        <li class="cred"><div class="cred-text"><span class="cred-title">BSc Psychology with Business Management</span><span class="cred-sub">University of Sussex</span></div><span class="cred-status">COMPLETED</span></li>
-      </ul>
-    </div>
-  </section>
 </main>
 
 <section class="sign-off" aria-label="Baroni Applied Intelligence">
@@ -485,7 +486,7 @@
   <a href="#book" class="mobile-bar-cta">Book a call</a>
 </div>
 
-<script src="script.js?v=41"></script>
+<script src="script.js?v=42"></script>
 
 <!-- Cloudflare Web Analytics - cookieless, no consent banner needed.
      See ANALYTICS_SETUP.md. -->

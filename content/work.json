@@ -5,7 +5,7 @@
       "title": "Cold outreach and follow-ups, drafted in your own voice -",
       "title_emphasis": "I use it to book these calls.",
       "meta": "Live · in my own business",
-      "description": "Same style-learning engine as the automatic social media posts in Build 02, just pointed at outreach instead of posts. It drafts the first-touch emails and the follow-ups, and they actually sound like you wrote them, not some copy-paste template. Built it for a client first. Now it runs my own pipeline's prospecting, this site included.",
+      "description": "Same style-learning engine as Build 02, pointed at outreach. It drafts first-touch emails and follow-ups that sound like you wrote them, not a template. Built it for a client first. Now it runs my own prospecting, this site included.",
       "flow": [
         "Target list",
         "AI drafts",
@@ -13,9 +13,9 @@
         "Sent"
       ],
       "tags": [
-        "Automation",
-        "NLP",
-        "Personalization"
+        "Outreach",
+        "Your voice",
+        "Follow-ups"
       ],
       "highlights": [
         {
@@ -30,7 +30,7 @@
       "title": "Cut 6 hours of weekly social media content tasks to",
       "title_emphasis": "40 minutes.",
       "meta": "Live",
-      "description": "One event kicks off the whole chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts itself, in that person's own voice, learned from a sample of what they've actually written before. Not a template. A stats page tracks how it's actually landing. The only thing a human still does is hit approve.",
+      "description": "One event starts the chain. Update emails and feedback requests go straight out, and the system drafts the LinkedIn, WhatsApp and Facebook posts in your own voice, learned from a sample of your writing. Not a template. A stats page tracks how they land. The only thing a human does is hit approve.",
       "flow": [
         "Event",
         "Learns their writing style",
@@ -50,11 +50,9 @@
         }
       ],
       "tags": [
-        "Automation",
-        "NLP",
-        "Personalization",
-        "Content generation",
-        "Analytics"
+        "Social media",
+        "Your voice",
+        "Reporting"
       ],
       "visual": "approval"
     },
@@ -71,10 +69,10 @@
         "Go or no-go | Checked against your company. Stage one; the bid writer is next."
       ],
       "tags": [
-        "Document AI",
-        "Extraction",
-        "Verification",
-        "Risk scoring"
+        "Tenders",
+        "Reading documents",
+        "Fact-checking",
+        "Risk flags"
       ],
       "visual": "tender",
       "layout": "result-steps"

@@ -2,15 +2,15 @@
   "items": [
     {
       "question": "What can AI automate in a small business?",
-      "answer": "Usually the repetitive, rules-based jobs that eat your week: client emails, social posts, weekly reports, chasing quotes. That's what the scope call is for. We walk through your week, find the task that's eating your hours, and start there. If nothing's actually worth automating, I'll tell you straight."
+      "answer": "The repetitive, rules-based jobs that eat your week: client emails, social posts, weekly reports, chasing quotes. On the scope call we walk through your week and start with the biggest. If nothing's worth automating, I'll tell you."
     },
     {
       "question": "How much does AI automation cost?",
-      "answer": "Every build is priced on application. After the free scope call you get a quote for that one task, plus what it will cost to run each month, before anything is built."
+      "answer": "Priced on application. After the free scope call you get a quote for that one task, plus the monthly running cost, before anything is built."
     },
     {
       "question": "Is my data safe, and is it GDPR compliant?",
-      "answer": "Wherever possible, systems run inside tools you already use and approve, like Google Workspace or Microsoft 365. Before we build, we agree what data the system uses, where it's stored and who can see it, and I'm happy to work within your own data policies."
+      "answer": "Wherever possible, systems run inside tools you already use, like Google Workspace or Microsoft 365. Before we build, we agree what data is used, where it's stored and who can see it."
     },
     {
       "question": "How much of my time does an AI automation project take?",
@@ -26,7 +26,7 @@
     },
     {
       "question": "How is AI workflow automation different from using ChatGPT myself?",
-      "answer": "ChatGPT waits around for you to prompt it. A pipeline just runs. It triggers off real events, drafts in your voice, waits on your approval, publishes, and reports back. You're not doing the task faster. You're not doing it at all."
+      "answer": "ChatGPT waits for you to prompt it. A pipeline just runs: it starts from a real event, drafts in your voice, waits for your approval, publishes and reports back. You're not doing the task faster. You're not doing it at all."
     },
     {
       "question": "Where are you based?",

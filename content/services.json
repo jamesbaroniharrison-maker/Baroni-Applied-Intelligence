@@ -2,21 +2,21 @@
   "items": [
     {
       "title": "AI Automation Systems",
-      "description": "Event in, work delivered - with a human checkpoint where it matters.",
+      "description": "Event in, work delivered. A finished job triggers the client update, the review request and the social post.",
       "case_study": "Automatic Social Media Posts"
     },
     {
       "title": "Content & Marketing Automation",
-      "description": "On-brand content, drafted automatically, reviewed by you.",
+      "description": "Posts, emails and outreach drafted in your voice. You approve.",
       "case_study": "Voice-Matched Outreach"
     },
     {
       "title": "AI Integration",
-      "description": "AI added to the tools you already use, no rebuild."
+      "description": "AI added to the tools you already use, no rebuild. For example, drafting replies to enquiries in your inbox."
     },
     {
       "title": "Custom Internal Tools",
-      "description": "Small tools that solve one operational problem well.",
+      "description": "Small tools that fix one operational problem. For example, reading a tender pack and giving a go or no-go.",
       "case_study": "Construction Tender"
     }
   ]
