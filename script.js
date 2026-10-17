@@ -12,7 +12,7 @@ const CONTACT_API_BASE = 'https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsG
 // Numbered "NN - LABEL" sections, in page order.
 const LABELLED_SECTIONS = ['how', 'work', 'services', 'book', 'credentials'];
 // Everything the rail / active-section tracking follows, in page order.
-const TRACKED_SECTIONS = ['automate', 'proof', 'how', 'safe', 'work', 'services', 'book', 'credentials', 'faq'];
+const TRACKED_SECTIONS = ['automate', 'proof', 'how', 'safe', 'work', 'services', 'faq', 'book', 'credentials'];
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
