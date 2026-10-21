@@ -1,0 +1,11 @@
+{
+  "name": "baroni-site",
+  "private": true,
+  "description": "baroniapplied.co.uk - pages built from content/content.json",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "phone": "node scripts/serve.mjs --lan"
+  },
+  "type": "module"
+}

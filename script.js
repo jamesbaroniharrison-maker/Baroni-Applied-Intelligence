@@ -1,271 +1,25 @@
-// Site v2 (freelance-first). Plain JS, no build step. Content comes from
-// content/*.json (edited via /admin); the static HTML in index.html is the
-// fallback if any fetch fails.
+// Baroni Applied Intelligence - multi-page site. Plain JS, no build step for
+// this file. The pages themselves are generated from content/content.json by
+// scripts/build.mjs (and edited at /admin).
 
-// Contact form back end - see CONTACT_SETUP_GMAIL.md (Google Apps Script,
-// paste its full ".../exec" address here) or CONTACT_SETUP.md (Cloudflare
-// Worker, paste its base address). While it's still the placeholder, the form
-// only opens the visitor's own email app with the note pre-filled, so
-// nothing is sent or stored.
-const CONTACT_API_BASE = 'https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsGYT8t143YNNz1DgjkftDlVWt3qrehW2-Jg0dPIaVBzoxS0_TtlTZxcEg/exec';
-
-// Numbered "NN - LABEL" sections, in page order.
-const LABELLED_SECTIONS = ['credentials', 'how', 'work', 'services', 'book'];
-// Everything the rail / active-section tracking follows, in page order.
-const TRACKED_SECTIONS = ['automate', 'proof', 'credentials', 'how', 'safe', 'work', 'services', 'faq', 'book'];
+// Each page's side rail lists its own sections, in page order.
+const TRACKED_SECTIONS = [...document.querySelectorAll('.rail-node')].map((n) => n.dataset.rail);
+// The editor preview shows everything in its finished state, with no intro.
+const EDITING = document.documentElement.hasAttribute('data-editing');
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const pad = (n) => String(n).padStart(2, '0');
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = String(str);
-  return div.innerHTML;
-}
-
-// ============================================
-// CONTENT LOADING
-// ============================================
-
-async function fetchJson(path) {
-  try {
-    const res = await fetch(path, { cache: 'no-cache' });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (err) {
-    return null;
-  }
-}
-
-function setText(selector, value) {
-  if (value === undefined || value === null) return;
-  const el = $(selector);
-  if (el) el.textContent = value;
-}
-
-// Plain text followed by the gold italic <em> part.
-function withEmphasis(lead, emphasis) {
-  return (lead ? escapeHtml(lead) + (emphasis ? ' ' : '') : '') + (emphasis ? `<em>${escapeHtml(emphasis)}</em>` : '');
-}
-
-function applySite(site) {
-  if (site.hero) {
-    setText('.status-text', site.hero.eyebrow);
-    const lines = Array.isArray(site.hero.headline_lines) ? site.hero.headline_lines.slice() : [];
-    if (lines.length) {
-      const last = lines.pop();
-      $('.hero-title').innerHTML = withEmphasis(lines.join(' '), last);
-    }
-    setText('.lead', site.hero.sub);
-    if (site.hero.primary_cta_label) setText('.hero-primary .btn-label', site.hero.primary_cta_label);
-    if (site.hero.primary_cta_target) $('.hero-primary').setAttribute('href', '#' + site.hero.primary_cta_target);
-    if (site.hero.secondary_cta_label) setText('.hero-secondary', site.hero.secondary_cta_label);
-    if (site.hero.secondary_cta_target) $('.hero-secondary').setAttribute('href', '#' + site.hero.secondary_cta_target);
-  }
-
-  LABELLED_SECTIONS.forEach((id) => {
-    const block = site[id];
-    if (!block) return;
-    const label = $(`#${id} .section-label`);
-    if (block.eyebrow && label) label.dataset.eyebrow = block.eyebrow;
-    if (id !== 'book') setText(`#${id} .h2`, block.heading);
-  });
-
-  if (site.faq) {
-    setText('.faq-toggle-title', site.faq.eyebrow);
-    if (site.faq.heading) $('.faq-toggle-hint').dataset.hint = site.faq.heading;
-  }
-
-  if (site.book) {
-    if (site.book.heading) $('.contact-title').innerHTML = withEmphasis(site.book.heading, site.book.heading_emphasis);
-    setText('.contact-body', site.book.body);
-    if (site.book.email) {
-      $('.copy-email').dataset.email = site.book.email;
-      setText('.copy-email .email', site.book.email);
-      $('.footer-pm').setAttribute('href', `mailto:${site.book.email}?subject=${encodeURIComponent('AI PM enquiry')}`);
-    }
-    if (site.book.linkedin_url) $$('.linkedin-link').forEach((a) => a.setAttribute('href', site.book.linkedin_url));
-    if (site.book.github_url) $$('.github-link').forEach((a) => a.setAttribute('href', site.book.github_url));
-  }
-
-  if (site.footer && site.footer.name) setText('.footer-name', site.footer.name);
-
-  const visible = site.settings && site.settings.sections;
-  if (visible) {
-    Object.entries(visible).forEach(([id, show]) => {
-      const section = document.getElementById(id);
-      if (section) section.hidden = !show;
-      $$(`[data-nav="${id}"], [data-menu="${id}"], [data-rail="${id}"]`).forEach((el) => { el.hidden = !show; });
-    });
-  }
-}
-
-function renderProcess(items) {
-  $('.process-grid').innerHTML = items.map((item, i) => `
-    <div class="cell"><div class="num">${pad(i + 1)}</div><div class="cell-title">${escapeHtml(item.title)}</div><p>${escapeHtml(item.description)}</p></div>
-  `).join('');
-}
-
-// A case-study description is paragraphs; a line starting "- " becomes a bullet point.
-function renderDescription(text) {
-  const out = [];
-  let bullets = [];
-  const flush = () => { if (bullets.length) out.push(`<ul>${bullets.join('')}</ul>`); bullets = []; };
-  String(text || '').split('\n').forEach((line) => {
-    if (line.startsWith('- ')) { bullets.push(`<li>${escapeHtml(line.slice(2))}</li>`); return; }
-    flush();
-    if (line.trim()) out.push(`<p>${escapeHtml(line)}</p>`);
-  });
-  flush();
-  return out.join('');
-}
-
-// The "Result with steps" layout: the animated visual beside a short numbered list. Each step is
-// written "Title | one-line detail".
-function renderResultCard(item, i) {
-  const steps = (Array.isArray(item.flow) ? item.flow : []).map((step, n) => {
-    const [title, ...rest] = String(step).split('|');
-    const detail = rest.join('|').trim();
-    return `<li><span class="n">${pad(n + 1)}</span><div><div class="t">${escapeHtml(title.trim())}</div>${detail ? `<div class="d">${escapeHtml(detail)}</div>` : ''}</div></li>`;
-  }).join('');
-  const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
-  const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
-  return `
-      <article class="build build--result" id="build-${pad(i + 1)}"${item.image ? ` data-image="${escapeHtml(item.image)}"` : ''}${item.visual ? ` data-visual="${escapeHtml(item.visual)}"` : ''}>
-        <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
-        <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
-        <div class="c-top"><div class="c-visual"></div><ol class="c-steps">${steps}</ol></div>
-        ${item.description ? `<div class="build-desc">${renderDescription(item.description)}</div>` : ''}
-        ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
-      </article>`;
-}
-
-function renderWork(items) {
-  $('.builds').innerHTML = items.map((item, i) => {
-    if (item.layout === 'result-steps') return renderResultCard(item, i);
-    const flow = Array.isArray(item.flow) ? item.flow : [];
-    // highlighted steps: [{ step, label }], e.g. 04 · YOU (older single-field items still work)
-    const keys = new Map((item.highlights || (item.highlight_step ? [{ step: item.highlight_step, label: item.highlight_label }] : []))
-      .map((h) => [Number(h.step), h.label || '']));
-    const strip = flow.length ? `<ol class="strip">${flow.map((step, s) => {
-      const isKey = keys.has(s + 1);
-      const tag = keys.get(s + 1);
-      const num = pad(s + 1) + (isKey && tag ? ' · ' + escapeHtml(String(tag).toUpperCase()) : '');
-      const conn = s < flow.length - 1 ? '<i class="conn"></i>' : '';
-      return `<li class="strip-item"><div class="strip-step${isKey ? ' is-key' : ''}"><div class="strip-num">${num}</div><div class="strip-label">${escapeHtml(step)}</div></div>${conn}</li>`;
-    }).join('')}</ol>` : '';
-    const tags = (item.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join('');
-    const label = item.label ? ' · ' + escapeHtml(String(item.label).toUpperCase()) : '';
-    return `
-      <article class="build" id="build-${pad(i + 1)}"${item.image ? ` data-image="${escapeHtml(item.image)}"` : ''}${item.visual ? ` data-visual="${escapeHtml(item.visual)}"` : ''}>
-        <div class="build-meta"><span>BUILD ${pad(i + 1)}${label}</span><span>${escapeHtml(item.meta || 'Solo · end-to-end')}</span></div>
-        <h3 class="h3">${withEmphasis(item.title, item.title_emphasis)}</h3>
-        <div class="build-desc">${renderDescription(item.description)}</div>
-        ${strip}
-        ${tags ? `<div class="build-foot"><div class="tags">${tags}</div></div>` : ''}
-      </article>`;
-  }).join('');
-}
-
-// Case-study visuals go between the description and the step strip. A card
-// with data-image shows that screenshot; otherwise data-visual picks one of
-// the placeholder mock-ups in <template id="visual-…"> in index.html.
-function applyVisuals() {
-  $$('.build').forEach((card) => {
-    if ($('.build-visual', card)) return;
-    let visual = null;
-    if (card.dataset.image) {
-      visual = document.createElement('div');
-      visual.className = 'build-visual build-visual--image';
-      const img = document.createElement('img');
-      img.src = card.dataset.image;
-      img.alt = '';
-      img.loading = 'lazy';
-      visual.append(img);
-    } else if (card.dataset.visual) {
-      const tpl = document.getElementById('visual-' + card.dataset.visual);
-      if (tpl) visual = tpl.content.firstElementChild.cloneNode(true);
-    }
-    if (!visual) return;
-    const slot = $('.c-visual', card);
-    if (slot) { slot.append(visual); return; }
-    const before = $('.strip', card) || $('.build-foot', card);
-    card.insertBefore(visual, before);
-  });
-}
-
-// The full-width "AI PM / embedded ops" row stays; only the cells before it are
-// replaced. A service can point at a case study by its label; the build
-// number comes from the case studies' current order, so it never goes stale.
-function renderServices(items, workItems) {
-  const labels = (workItems || []).map((w) => w.label);
-  const grid = $('.services-grid');
-  $$('.svc', grid).forEach((el) => el.remove());
-  grid.insertAdjacentHTML('afterbegin', items.map((item) => {
-    const k = labels.indexOf(item.case_study) + 1;
-    const link = k ? `<a class="svc-link" href="#build-${pad(k)}">→ Build ${pad(k)}: ${escapeHtml(item.case_study)}</a>` : '';
-    return `<div class="cell svc"><div class="svc-title">${escapeHtml(item.title)}</div><p>${escapeHtml(item.description)}</p>${link}</div>`;
-  }).join(''));
-}
-
-function renderFaq(items) {
-  $('.faq-list').innerHTML = items.map((item, i) => `
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false" aria-controls="faq-a-${i + 1}" id="faq-q-${i + 1}"><span>${escapeHtml(item.question)}</span><span class="faq-sign" aria-hidden="true">+</span></button>
-        <p class="faq-a" id="faq-a-${i + 1}" role="region" aria-labelledby="faq-q-${i + 1}" hidden>${escapeHtml(item.answer)}</p>
-      </div>`).join('');
-  const hint = $('.faq-toggle-hint');
-  hint.textContent = `${hint.dataset.hint || 'Before you book'} · ${items.length} questions`;
-}
-
-function renderCredentials(items) {
-  $('.creds').innerHTML = items.map((item) => {
-    let status = '';
-    if (item.status === 'in_progress') {
-      status = '<span class="cred-status cred-status--gold">IN PROGRESS</span>';
-    } else if (item.status === 'completed') {
-      status = '<span class="cred-status">COMPLETED</span>';
-    } else if (item.status === 'link' && item.link_url) {
-      status = `<a class="cred-status cred-status--link" href="${escapeHtml(item.link_url)}" target="_blank" rel="noopener">${escapeHtml(String(item.link_label || 'Verify').toUpperCase())} ↗</a>`;
-    }
-    // optional small note under the status, e.g. "Completing in 2027"
-    if (item.note) status = `<span class="cred-state">${status}<span class="cred-note">${escapeHtml(item.note)}</span></span>`;
-    return `<li class="cred"><div class="cred-text"><span class="cred-title">${escapeHtml(item.title)}</span>${item.subtitle ? `<span class="cred-sub">${escapeHtml(item.subtitle)}</span>` : ''}</div>${status}</li>`;
-  }).join('');
-}
-
-// "01 - HOW IT WORKS" etc., numbered over visible sections only.
-function numberSections() {
-  let n = 0;
-  LABELLED_SECTIONS.forEach((id) => {
-    const section = document.getElementById(id);
-    if (!section || section.hidden) return;
-    const label = $('.section-label', section);
-    n += 1;
-    if (label) label.textContent = `${pad(n)} - ${label.dataset.eyebrow}`;
-  });
-}
-
-const hasItems = (json) => json && Array.isArray(json.items) && json.items.length;
-
-async function loadContent() {
-  const [site, work, services, process, credentials, faq] = await Promise.all([
-    fetchJson('content/site.json'),
-    fetchJson('content/work.json'),
-    fetchJson('content/services.json'),
-    fetchJson('content/process.json'),
-    fetchJson('content/credentials.json'),
-    fetchJson('content/faq.json'),
-  ]);
-  if (site) applySite(site);
-  if (hasItems(process)) renderProcess(process.items);
-  if (hasItems(work)) renderWork(work.items);
-  if (hasItems(services)) renderServices(services.items, hasItems(work) ? work.items : null);
-  if (hasItems(credentials)) renderCredentials(credentials.items);
-  if (hasItems(faq)) renderFaq(faq.items);
-  applyVisuals();
-  numberSections();
+// Runs fn once, the first time el is well inside the screen.
+function onFirstView(el, fn, threshold = 0.4) {
+  if (!el) return;
+  if (EDITING) { fn(); return; }
+  const io = new IntersectionObserver(([entry]) => {
+    if (!entry.isIntersecting) return;
+    io.disconnect();
+    fn();
+  }, { threshold });
+  io.observe(el);
 }
 
 // ============================================
@@ -452,51 +206,13 @@ function initRunLog() {
   setInterval(() => { tick = tick >= 7 ? 0 : tick + 1; paint(); }, 1100);
 }
 
-// Case-study step strips light up like the hero pipeline, but faster: each
-// strip starts on its own once its step boxes are on screen, lights its
-// steps in turn (current = gold), then stays lit. Every strip takes the same
-// total time whatever its step count. Runs once per strip; state changes
-// only, so it runs regardless of reduced motion.
-function initStrips() {
-  const TOTAL_MS = 2750; // start of the first step to all steps lit
-  $$('.build .strip').forEach((strip) => {
-    const steps = $$('.strip-step', strip);
-    const conns = $$('.conn', strip);
-    const paint = (tick) => {
-      steps.forEach((el, i) => {
-        el.classList.toggle('is-done', i < tick);
-        el.classList.toggle('is-current', i === tick);
-      });
-      conns.forEach((el, i) => el.classList.toggle('is-done', i < tick));
-    };
-    paint(-1); // nothing lit until the boxes are on screen
-
-    const start = () => {
-      let tick = 0;
-      paint(tick);
-      const timer = setInterval(() => {
-        tick += 1;
-        paint(tick);
-        if (tick >= steps.length) clearInterval(timer);
-      }, TOTAL_MS / steps.length);
-    };
-
-    // most of the strip visible, not just the top of the card
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-      start();
-    }, { threshold: 0.75 });
-    observer.observe(strip);
-  });
-}
-
 // Active nav, the left scroll rail and the mobile bar.
 function initScroll() {
   const navLinks = $$('.nav-links a');
   const railFill = $('.rail-fill');
   const railNodes = $$('.rail-node');
   const mobileBar = $('.mobile-bar');
+  if (!railFill) return;
   const small = window.matchMedia('(max-width: 699px)');
 
   const onScroll = () => {
@@ -530,7 +246,7 @@ function initScroll() {
       else n.removeAttribute('aria-current');
     });
 
-    mobileBar.hidden = !(small.matches && pct > 3 && active !== 'book');
+    if (mobileBar) mobileBar.hidden = !(small.matches && pct > 3);
   };
 
   addEventListener('scroll', onScroll, { passive: true });
@@ -554,55 +270,30 @@ function initToTop() {
 function initMenu() {
   const menuBtn = $('.menu-btn');
   const menu = $('#mobile-menu');
+  if (!menuBtn || !menu) return;
   const setMenu = (open) => {
     menu.hidden = !open;
-    menuBtn.textContent = open ? 'CLOSE' : 'MENU';
+    menuBtn.textContent = open ? 'CLOSE' : menuBtn.dataset.label;
     menuBtn.setAttribute('aria-expanded', String(open));
   };
+  menuBtn.dataset.label = menuBtn.textContent;
   menuBtn.addEventListener('click', () => setMenu(menu.hidden));
   $$('a', menu).forEach((a) => a.addEventListener('click', () => setMenu(false)));
   addEventListener('resize', () => { if (innerWidth >= 900) setMenu(false); });
 }
 
-// One answer open at a time; clicking the open one closes it.
-function initFaq() {
-  const toggle = $('.faq-toggle');
-  const panel = $('.faq-panel');
-  const setOpen = (open) => {
-    toggle.setAttribute('aria-expanded', String(open));
-    $('.faq-sign', toggle).textContent = open ? '−' : '+';
-    panel.hidden = !open;
-  };
-  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-  // Any link to #faq (header, menu, side rail, a shared address) opens it first.
-  $$('a[href="#faq"]').forEach((a) => a.addEventListener('click', () => setOpen(true)));
-  if (location.hash === '#faq') setOpen(true);
-  addEventListener('hashchange', () => { if (location.hash === '#faq') setOpen(true); });
-
-  $('.faq-list').addEventListener('click', (e) => {
-    const btn = e.target.closest('.faq-q');
-    if (!btn) return;
-    const opening = btn.getAttribute('aria-expanded') !== 'true';
-    $$('.faq-q').forEach((q) => {
-      const open = q === btn && opening;
-      q.setAttribute('aria-expanded', String(open));
-      $('.faq-sign', q).textContent = open ? '−' : '+';
-      document.getElementById(q.getAttribute('aria-controls')).hidden = !open;
-    });
-  });
-}
-
 function initCopyEmail() {
   const copyBtn = $('.copy-email');
   const copyLabel = $('.copy-label');
+  if (!copyBtn) return;
   let copyT;
   copyBtn.addEventListener('click', () => {
     navigator.clipboard?.writeText(copyBtn.dataset.email).catch(() => {});
-    copyLabel.textContent = 'COPIED ✓';
+    copyLabel.textContent = copyBtn.dataset.copied;
     copyLabel.classList.add('is-copied');
     clearTimeout(copyT);
     copyT = setTimeout(() => {
-      copyLabel.textContent = 'COPY';
+      copyLabel.textContent = copyBtn.dataset.copy;
       copyLabel.classList.remove('is-copied');
     }, 1800);
   });
@@ -610,10 +301,14 @@ function initCopyEmail() {
 
 function initForm() {
   const form = $('.contact-form');
+  if (!form) return;
   const err = $('.form-error');
   const success = $('.form-success');
   const submitBtn = $('button[type="submit"]', form);
-  const useMailto = CONTACT_API_BASE.includes('REPLACE-WITH');
+  // Endpoint and every message come from content.json (data-* on the form).
+  const msg = form.dataset;
+  const CONTACT_API_BASE = msg.endpoint || '';
+  const useMailto = !CONTACT_API_BASE || CONTACT_API_BASE.includes('REPLACE-WITH');
   // Apps Script always answers HTTP 200 and can't handle a CORS pre-flight, so
   // it gets the note as text/plain and reports problems in the JSON body.
   const isAppsScript = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(CONTACT_API_BASE);
@@ -633,9 +328,9 @@ function initForm() {
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     // The note is optional, so say so rather than sending an empty body.
-    const message = form.message.value.trim() || '(No details yet - happy to explain on a call.)';
+    const message = form.message.value.trim() || msg.emptyNote;
     if (!name || !/\S+@\S+\.\S+/.test(email)) {
-      err.textContent = 'Add your name and a valid email.';
+      err.textContent = msg.missing;
       return;
     }
 
@@ -644,7 +339,7 @@ function initForm() {
       const subj = encodeURIComponent('Scope call enquiry from ' + name);
       const body = encodeURIComponent(message + '\n\n- ' + name + ' (' + email + ')');
       location.href = 'mailto:' + to + '?subject=' + subj + '&body=' + body;
-      showSuccess(name, "Your email app should have opened with the note ready. I'll reply within 24 hours.");
+      showSuccess(name, msg.sentMail);
       return;
     }
 
@@ -657,18 +352,18 @@ function initForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
-        showSuccess(name, "Your note is on its way. I'll reply within 24 hours.");
+        showSuccess(name, msg.sent);
       } else if (res.status === 429) {
-        err.textContent = data.error || 'Please wait a moment before sending another note.';
+        err.textContent = data.error || msg.wait;
       } else if (res.status === 422) {
-        err.textContent = data.error || 'Please check the form and try again.';
+        err.textContent = data.error || msg.check;
       } else if (res.ok && data.error) {
         err.textContent = data.error; // Apps Script reports problems with a 200
       } else {
         throw new Error('unexpected response');
       }
     } catch (e2) {
-      err.textContent = 'Something went wrong sending that - try again, or email me directly.';
+      err.textContent = msg.failed;
     } finally {
       submitBtn.disabled = false;
     }
@@ -682,16 +377,297 @@ function initForm() {
   });
 }
 
-initIntro();
-initToTop();
-initRunLog();
-initMenu();
-initCopyEmail();
-initForm();
-setText('.footer-year', new Date().getFullYear());
-loadContent().finally(() => {
-  initFaq();
-  initStrips();
-  initTenderVisuals();
-  initScroll();
-});
+// ============================================
+// PAGE SECTIONS
+// ============================================
+
+// Case files: the mock-up named by data-visual is cloned into the sheet.
+function initCaseVisuals() {
+  $$('.cf-visual[data-visual]').forEach((slot) => {
+    const tpl = document.getElementById('visual-' + slot.dataset.visual);
+    if (tpl && !slot.firstElementChild) slot.append(tpl.content.firstElementChild.cloneNode(true));
+  });
+}
+
+// Home "What I automate": a read-through line sweeps the week planner once it
+// is on screen; the jobs that could run themselves light up and the hours add
+// up. It never holds the scroll. Phones stack the days, so the line goes down.
+function initWeek() {
+  const cal = $('.wk-cal');
+  if (!cal) return;
+  const scan = $('.wk-scan', cal);
+  const jobs = $$('.wk-ev', cal);
+  const tally = $('.wk-tally b');
+  const go = $('.wk-go');
+  const narrow = matchMedia('(max-width:700px)');
+  const DUR = 5200;
+  let p = 0;
+  let t0 = 0;
+  let raf = 0;
+  const layout = () => {
+    const r = cal.getBoundingClientRect();
+    const v = narrow.matches;
+    const pos = p * (v ? r.height : r.width);
+    let hours = 0;
+    scan.classList.toggle('v', v);
+    scan.style.transform = v ? `translateY(${pos}px)` : `translateX(${pos}px)`;
+    scan.style.opacity = p > 0 && p < 1 ? '1' : '0';
+    jobs.forEach((job) => {
+      const b = job.getBoundingClientRect();
+      const mid = v ? b.top + b.height / 2 - r.top : b.left + b.width / 2 - r.left;
+      const hit = job.classList.contains('auto') && mid < pos;
+      job.classList.toggle('hit', hit);
+      if (hit) hours += parseFloat(job.dataset.h);
+    });
+    tally.textContent = Math.round(hours * 10) / 10 + 'h';
+    cal.classList.toggle('done', p >= 1);
+    go.classList.toggle('on', p >= 1);
+  };
+  const step = (now) => {
+    p = Math.min(1, (now - t0) / DUR);
+    layout();
+    raf = p < 1 ? requestAnimationFrame(step) : 0;
+  };
+  const play = () => { cancelAnimationFrame(raf); p = 0; t0 = performance.now(); raf = requestAnimationFrame(step); };
+  if (EDITING) { p = 1; layout(); return; }
+  onFirstView(cal, play);
+  $('.wk-replay').addEventListener('click', play);
+  addEventListener('resize', layout);
+  layout();
+}
+
+// Home "The idea": two short lines that fade in once.
+function initIdea() {
+  const el = $('.pr');
+  onFirstView(el, () => el.classList.add('on'));
+}
+
+// Home tiles: the How it works pipeline keeps running, the services light up
+// in turn, and on touch screens the case folders fan out while on screen.
+function initTiles() {
+  const steps = $$('.bx-pipe li');
+  if (!steps.length) return;
+  let t = 0;
+  const paint = () => {
+    steps.forEach((li, i) => {
+      li.classList.toggle('done', i < t);
+      li.classList.toggle('run', i === t);
+      $('span', li).textContent = i < t ? 'DONE' : i === t ? 'RUNNING' : 'QUEUED';
+    });
+    t = t >= steps.length + 2 ? 0 : t + 1;
+  };
+  paint();
+  setInterval(paint, 1000);
+  const words = $$('.bx-words li');
+  let w = 0;
+  setInterval(() => { words.forEach((li, i) => li.classList.toggle('on', i === w)); w = (w + 1) % words.length; }, 1300);
+  const work = $('.bx-work');
+  if (work && !matchMedia('(hover:hover)').matches) {
+    const io = new IntersectionObserver(([en]) => work.classList.toggle('fan', en.isIntersecting), { threshold: 0.6 });
+    io.observe(work);
+  }
+}
+
+// How it works: the steps run QUEUED -> RUNNING -> DONE once, then the safety
+// checks pass one by one.
+function initHow() {
+  const run = $('.hw-run');
+  if (!run) return;
+  const steps = $$('.hw-step', run);
+  const state = $('.hw-state', run);
+  const box = $('.hw-checks');
+  const checks = $$('li', box);
+  const pass = $('.hw-pass');
+  const paint = (t) => {
+    steps.forEach((el, i) => {
+      el.classList.toggle('is-done', i < t);
+      el.classList.toggle('is-run', i === t);
+      $('.step-status', el).textContent = i < t ? 'DONE' : i === t ? 'RUNNING' : 'QUEUED';
+    });
+    state.textContent = t >= steps.length ? run.dataset.live : run.dataset.running;
+  };
+  const passed = (n) => {
+    checks.forEach((li, i) => li.classList.toggle('on', i < n));
+    pass.textContent = `${n} / ${checks.length} ${box.dataset.passed}`;
+    pass.classList.toggle('all', n === checks.length);
+  };
+  if (EDITING) { paint(steps.length); passed(checks.length); return; }
+  paint(-1);
+  state.textContent = run.dataset.ready;
+  onFirstView(run, () => {
+    for (let t = 0; t <= steps.length; t++) setTimeout(() => paint(t), 250 + t * 900);
+  }, 0.35);
+  onFirstView(box, () => {
+    checks.forEach((li, i) => setTimeout(() => passed(i + 1), 400 + i * 450));
+  }, 0.35);
+}
+
+// Services: each row plays as a short exchange when it arrives - the client's
+// line, a moment of typing, then the answer.
+function initServices() {
+  initServicePicker();
+  initServiceCards();
+  const rows = $$('.sv-row');
+  if (!rows.length) return;
+  if (EDITING) { rows.forEach((r) => r.classList.add('ask', 'answer')); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      const row = en.target;
+      io.unobserve(row);
+      row.classList.add('ask');
+      setTimeout(() => row.classList.add('typing'), 450);
+      setTimeout(() => { row.classList.remove('typing'); row.classList.add('answer'); }, 1500);
+    });
+  }, { threshold: 0.35 });
+  rows.forEach((r) => io.observe(r));
+}
+
+// Services, "pick your problem": choose the line that sounds like you and its
+// answer shows alongside (underneath on phones). Until someone picks, it moves
+// on by itself every few seconds, with a bar showing when.
+function initServicePicker() {
+  const items = $$('.svp-item');
+  if (!items.length) return;
+  const STEP = 6000;
+  let cur = 0;
+  let timer = 0;
+  // phones start still: the list would shift under your thumb every few seconds
+  let auto = !EDITING && !matchMedia('(max-width: 860px)').matches;
+  const phone = matchMedia('(max-width: 860px)');
+  const show = (i, fromUser) => {
+    cur = i;
+    items.forEach((li, k) => {
+      li.classList.toggle('on', k === i);
+      $('.svp-q', li).setAttribute('aria-expanded', String(k === i));
+    });
+    if (fromUser) {
+      auto = false;
+      items.forEach((li) => li.classList.remove('timing'));
+      // on phones the list shifts as the old answer closes: keep the chosen line in view
+      if (phone.matches) setTimeout(() => items[i].scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 380);
+    }
+    clearTimeout(timer);
+    if (!auto) return;
+    const li = items[i];
+    li.classList.remove('timing');
+    void li.offsetWidth;
+    li.classList.add('timing');
+    timer = setTimeout(() => show((cur + 1) % items.length), STEP);
+  };
+  items.forEach((li, i) => {
+    $('.svp-q', li).addEventListener('click', () => show(i, true));
+    li.addEventListener('ed:reveal', () => show(i, true));
+  });
+  const list = $('.svp-list');
+  list.addEventListener('mouseenter', () => { if (auto) { clearTimeout(timer); items[cur].classList.add('paused'); } });
+  list.addEventListener('mouseleave', () => { if (auto) { items[cur].classList.remove('paused'); show(cur); } });
+  onFirstView(list, () => show(0), 0.3);
+}
+
+// Services as cards: your line on the front; hover (or tap) to turn it over.
+function initServiceCards() {
+  const cards = $$('.svc-card');
+  if (!cards.length) return;
+  cards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
+      card.classList.toggle('flipped');
+    });
+    card.addEventListener('ed:reveal', (e) => card.classList.toggle('flipped', !!e.target.closest('.svc-back')));
+  });
+  if (EDITING) return;
+  // deal the cards in as they arrive
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      io.unobserve(en.target);
+      en.target.classList.add('in');
+    });
+  }, { threshold: 0.2 });
+  cards.forEach((c, i) => { c.style.transitionDelay = `${(i % 3) * 90}ms`; io.observe(c); });
+}
+
+// Book a call: the questions sit on the inside of a curved strip. Drag or use
+// the arrows to turn it; tap the front card to flip it to its answer.
+function initFaq() {
+  const stage = $('.cv-stage');
+  if (!stage) return;
+  const ring = $('.cv-ring', stage);
+  const cards = [...ring.children];
+  const N = cards.length;
+  if (!N) return;
+  const STEP = 360 / N;
+  let rot = 0;
+  let target = 0;
+  let raf = 0;
+  const radius = () => (cards[0].offsetWidth + 26) / (2 * Math.sin(Math.PI / Math.max(N, 3)));
+  const draw = () => {
+    rot += (target - rot) * 0.16;
+    if (Math.abs(target - rot) < 0.01) rot = target;
+    const r = radius();
+    ring.style.transform = `translateZ(${r}px)`;
+    cards.forEach((card, i) => {
+      let a = rot - i * STEP;
+      a = ((a % 360) + 540) % 360 - 180;
+      card.style.transform = `rotateY(${a}deg) translateZ(${-r}px)`;
+      card.style.opacity = Math.abs(a) < 80 ? String(1 - Math.max(0, Math.abs(a) - 40) / 50) : '0';
+      card.style.pointerEvents = Math.abs(a) < STEP / 2 ? 'auto' : 'none';
+      if (Math.abs(a) > STEP / 2) card.classList.remove('flipped');
+    });
+    const idx = ((Math.round(target / STEP) % N) + N) % N;
+    $('.cv-count').textContent = `${idx + 1} / ${N}`;
+    raf = rot !== target ? requestAnimationFrame(draw) : 0;
+  };
+  const go = (to) => { target = to; if (!raf) raf = requestAnimationFrame(draw); };
+  const snap = () => go(Math.round(target / STEP) * STEP);
+  $$('.cv-ctrl button').forEach((b) => b.addEventListener('click', () => go(Math.round(target / STEP) * STEP + Number(b.dataset.d) * STEP)));
+  let startX = 0;
+  let startT = 0;
+  let moved = false;
+  stage.addEventListener('pointerdown', (ev) => {
+    if (EDITING) return;
+    startX = ev.clientX; startT = target; moved = false;
+    stage.classList.add('drag');
+    stage.setPointerCapture(ev.pointerId);
+  });
+  stage.addEventListener('pointermove', (ev) => {
+    if (!stage.classList.contains('drag')) return;
+    const dx = ev.clientX - startX;
+    if (Math.abs(dx) > 4) moved = true;
+    go(startT - dx * 0.18);
+  });
+  const up = (ev) => {
+    if (!stage.classList.contains('drag')) return;
+    stage.classList.remove('drag');
+    if (!moved) {
+      const card = document.elementFromPoint(ev.clientX, ev.clientY)?.closest('.cv-card');
+      if (card) card.classList.toggle('flipped');
+    }
+    snap();
+  };
+  stage.addEventListener('pointerup', up);
+  stage.addEventListener('pointercancel', up);
+  stage.addEventListener('wheel', (ev) => {
+    if (Math.abs(ev.deltaX) <= Math.abs(ev.deltaY)) return;
+    ev.preventDefault();
+    go(target + ev.deltaX * 0.15);
+    clearTimeout(stage.snapT);
+    stage.snapT = setTimeout(snap, 160);
+  }, { passive: false });
+  addEventListener('resize', () => go(target));
+  // the editor can ask for a given question to come to the front
+  addEventListener('message', (ev) => {
+    if (ev.data && ev.data.type === 'faq:show') go(Number(ev.data.index) * STEP);
+  });
+  draw();
+}
+
+// ============================================
+// START
+// ============================================
+
+const safe = (fn) => { try { fn(); } catch (err) { console.warn(err); } };
+if ($('.intro-overlay') && !EDITING) safe(initIntro);
+[initCaseVisuals, initToTop, initRunLog, initMenu, initCopyEmail, initForm, initTenderVisuals,
+  initWeek, initIdea, initTiles, initHow, initServices, initFaq, initScroll].forEach(safe);

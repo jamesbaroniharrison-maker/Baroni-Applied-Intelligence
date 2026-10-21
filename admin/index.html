@@ -1,12 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Content Admin — James Baroni-Harrison</title>
-  <meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Editor - Baroni Applied Intelligence</title>
+<link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<div class="signin" id="signin" hidden>
+  <div class="signin-card">
+    <img src="../brand/baroni-mark-lg.svg" alt="" width="84" height="84">
+    <h1>Edit your site</h1>
+    <p>Sign in with the GitHub account that owns the site. Changes you publish go live in about a minute.</p>
+    <button type="button" class="b b-primary" id="signin-btn">Sign in with GitHub</button>
+    <p class="signin-err" id="signin-err" role="alert"></p>
+  </div>
+</div>
+
+<div class="app" id="app" hidden>
+  <header class="bar">
+    <a class="bar-logo" href="../" target="_blank" rel="noopener" title="Open the live site"><img src="../brand/baroni-mark-sm.svg" alt="" width="22" height="22"><span>Baroni</span><em>Editor</em></a>
+    <div class="bar-mid">
+      <div class="seg" role="group" aria-label="Preview size">
+        <button type="button" data-device="desktop" aria-pressed="true" title="Computer">Computer</button>
+        <button type="button" data-device="tablet" aria-pressed="false" title="Tablet">Tablet</button>
+        <button type="button" data-device="phone" aria-pressed="false" title="Phone">Phone</button>
+      </div>
+      <button type="button" class="b b-icon" id="undo" title="Undo (Ctrl+Z)" disabled>↶</button>
+      <button type="button" class="b b-icon" id="redo" title="Redo (Ctrl+Shift+Z)" disabled>↷</button>
+    </div>
+    <div class="bar-right">
+      <span class="mode" id="mode"></span>
+      <button type="button" class="b" id="history-btn">History</button>
+      <button type="button" class="b" id="changes-btn">Changes <b id="changes-count">0</b></button>
+      <button type="button" class="b b-primary" id="publish-btn" disabled>Publish</button>
+    </div>
+  </header>
+
+  <div class="restore" id="restore" hidden>
+    <span id="restore-text">You have unsaved changes from earlier.</span>
+    <button type="button" class="b b-small" id="restore-yes">Bring them back</button>
+    <button type="button" class="b b-small b-quiet" id="restore-no">Discard</button>
+  </div>
+
+  <div class="body">
+    <nav class="side" aria-label="Pages">
+      <label class="find"><span class="sr">Find any text</span><input type="search" id="find" placeholder="Find any text on the site…" autocomplete="off"></label>
+      <div id="find-results" class="find-results" hidden></div>
+      <ul class="pages" id="pages"></ul>
+      <p class="side-tip">Tip: click any text on the page to type over it.</p>
+    </nav>
+
+    <main class="stage" id="stage">
+      <div class="frame-wrap" id="frame-wrap"><iframe id="frame" title="Page preview"></iframe></div>
+    </main>
+
+    <aside class="panel" id="panel" aria-label="Fields"></aside>
+  </div>
+</div>
+
+<div class="drawer" id="changes" hidden>
+  <div class="drawer-head"><h2>Unpublished changes</h2><button type="button" class="b b-icon" data-close aria-label="Close">×</button></div>
+  <div class="drawer-body" id="changes-list"></div>
+  <div class="drawer-foot"><button type="button" class="b b-quiet" id="revert-all">Undo all changes</button></div>
+</div>
+
+<div class="drawer" id="history" hidden>
+  <div class="drawer-head"><h2>History</h2><button type="button" class="b b-icon" data-close aria-label="Close">×</button></div>
+  <p class="drawer-note">Every publish is kept. Bringing back an older version loads it as unpublished changes, so you can check it before publishing.</p>
+  <div class="drawer-body" id="history-list"></div>
+</div>
+
+<div class="modal" id="publish" hidden>
+  <div class="modal-card">
+    <h2>Publish your changes?</h2>
+    <p class="modal-sub" id="publish-sub"></p>
+    <ul class="publish-list" id="publish-list"></ul>
+    <label class="note-field">Note for the history (optional)<input id="publish-note" maxlength="80" placeholder="e.g. New case study"></label>
+    <div class="modal-actions"><button type="button" class="b b-quiet" data-close>Cancel</button><button type="button" class="b b-primary" id="publish-go">Publish</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>

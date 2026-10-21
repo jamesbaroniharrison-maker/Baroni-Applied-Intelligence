@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://baroniapplied.co.uk/sitemap.xml

@@ -1,0 +1,602 @@
+{
+  "site": {
+    "name": "Baroni Applied Intelligence",
+    "person": "James Baroni-Harrison",
+    "jobTitle": "Freelance AI Automation & Integration Consultant",
+    "url": "https://baroniapplied.co.uk/",
+    "email": "james@baroniapplied.co.uk",
+    "linkedin": "https://www.linkedin.com/in/james-baroni-harrison-65371a1ab",
+    "github": "https://github.com/jamesbaroniharrison-maker",
+    "formEndpoint": "https://script.google.com/macros/s/AKfycbzRIVVDXSVmHsGYT8t143YNNz1DgjkftDlVWt3qrehW2-Jg0dPIaVBzoxS0_TtlTZxcEg/exec",
+    "description": "AI workflow automation and AI integration for UK small businesses, based in Croydon. Social posts, client emails and weekly reports, written and sent automatically.",
+    "logoTag": "APPLIED INTELLIGENCE",
+    "nav": {
+      "how": "How it works",
+      "work": "Case files",
+      "services": "Services",
+      "about": "About",
+      "book": "Book a call",
+      "home": "Home",
+      "menu": "MENU"
+    },
+    "cta": {
+      "title": "Bring one task that",
+      "titleEm": "eats your week.",
+      "button": "Book a free 20-minute call →"
+    },
+    "mobileBar": {
+      "line1": "Free 20-min scope call",
+      "line2": "Reply within 24 hours",
+      "button": "Book a call"
+    },
+    "footer": {
+      "name": "Baroni Applied Intelligence · James Baroni-Harrison",
+      "role": "AI automation & integration consultant · Croydon, UK",
+      "pm": "Hiring an AI PM? Let's talk →",
+      "privacy": "Privacy",
+      "toTop": "Back to top ↑"
+    },
+    "signOff": {
+      "word": "Baroni",
+      "tag": "APPLIED INTELLIGENCE"
+    },
+    "next": {
+      "label": "NEXT →",
+      "home": "Back to the start"
+    }
+  },
+  "home": {
+    "seoTitle": "Baroni Applied Intelligence - AI automation for small businesses, Croydon",
+    "hero": {
+      "eyebrow": "AI automation for small businesses",
+      "title": "I set up AI to do your repetitive work.",
+      "titleEm": "You just approve it.",
+      "sub": "Social posts, client emails, weekly reports: written, sent and tracked automatically. Real hours back in your week.",
+      "primary": "See a system running live",
+      "secondary": "Book a scope call",
+      "trust": [
+        "Free 20-min scope call",
+        "Reply within 24 hours"
+      ]
+    },
+    "pipeline": {
+      "label": "Example: automatic social media posts",
+      "live": "running",
+      "foot": "Build 02 - Automatic Social Media Posts",
+      "steps": [
+        {
+          "name": "A project milestone is logged",
+          "detail": "Client email + feedback request sent",
+          "await": false
+        },
+        {
+          "name": "AI writes the posts",
+          "detail": "LinkedIn · WhatsApp · Facebook, in your voice",
+          "await": false
+        },
+        {
+          "name": "You check and approve",
+          "detail": "Edit or approve each post",
+          "await": true
+        },
+        {
+          "name": "Posts go live",
+          "detail": "Published across your channels",
+          "await": false
+        },
+        {
+          "name": "Results tracked",
+          "detail": "Stats page updated",
+          "await": false
+        }
+      ]
+    },
+    "facts": [
+      "Free 20-min scope call",
+      "Reply within 24 hours",
+      "6 hrs → 40 min a week",
+      "No long-term contracts",
+      "You approve everything",
+      "Croydon · UK-wide"
+    ],
+    "week": {
+      "eyebrow": "What I automate",
+      "title": "A normal week.",
+      "titleEm": "About half of it doesn't actually need you.",
+      "scan": "AI reading your week",
+      "tag": "✓ Runs itself",
+      "tally": "of your week could run itself",
+      "replay": "Play again ↻",
+      "go": "How one of those becomes a system →",
+      "note": "This is an example week. On the free call we go through yours.",
+      "days": [
+        {
+          "day": "MON",
+          "jobs": [
+            {
+              "time": "09:00",
+              "name": "Client update emails",
+              "hours": 3,
+              "auto": true
+            },
+            {
+              "time": "14:00",
+              "name": "Site visit",
+              "hours": 2,
+              "auto": false
+            }
+          ]
+        },
+        {
+          "day": "TUE",
+          "jobs": [
+            {
+              "time": "09:30",
+              "name": "Meet a new client",
+              "hours": 1,
+              "auto": false
+            },
+            {
+              "time": "13:00",
+              "name": "Social posts for 3 platforms",
+              "hours": 2,
+              "auto": true
+            }
+          ]
+        },
+        {
+          "day": "WED",
+          "jobs": [
+            {
+              "time": "09:30",
+              "name": "Chase unpaid quotes",
+              "hours": 1,
+              "auto": true
+            },
+            {
+              "time": "11:00",
+              "name": "The work you actually love",
+              "hours": 3,
+              "auto": false
+            }
+          ]
+        },
+        {
+          "day": "THU",
+          "jobs": [
+            {
+              "time": "10:00",
+              "name": "Quote a new job",
+              "hours": 1.5,
+              "auto": false
+            },
+            {
+              "time": "14:00",
+              "name": "Feedback requests",
+              "hours": 0.5,
+              "auto": true
+            }
+          ]
+        },
+        {
+          "day": "FRI",
+          "jobs": [
+            {
+              "time": "13:00",
+              "name": "Weekly report",
+              "hours": 1.5,
+              "auto": true
+            },
+            {
+              "time": "15:00",
+              "name": "Client call",
+              "hours": 1,
+              "auto": false
+            }
+          ]
+        }
+      ]
+    },
+    "idea": {
+      "eyebrow": "The idea",
+      "line": "ChatGPT sits there waiting for you to ask it something.",
+      "lineEm": "A proper system just runs.",
+      "sub": "The point isn't doing the task faster. It's not doing it at all."
+    },
+    "explore": {
+      "eyebrow": "The rest of the site",
+      "button": "EXPLORE",
+      "how": {
+        "type": "01 · Three steps · safety checks",
+        "line": "You get a price first, and nothing goes out without you seeing it."
+      },
+      "work": {
+        "type": "02 · Three builds",
+        "line": "Two running for real, one still being built."
+      },
+      "services": {
+        "type": "03 · Five ways in",
+        "line": "Find the sentence that sounds like you."
+      },
+      "about": {
+        "type": "04 · Who builds it",
+        "line": "One person, start to finish."
+      }
+    }
+  },
+  "how": {
+    "seoTitle": "How it works - Baroni Applied Intelligence",
+    "title": "How it works",
+    "lead": "Three steps. Your part is",
+    "leadEm": "a call, then saying yes to the work.",
+    "panel": {
+      "label": "Your first system",
+      "ready": "ready",
+      "running": "running",
+      "live": "live",
+      "yourPart": "Your part:",
+      "foot": [
+        "Price on application",
+        "Quote before anything is built"
+      ]
+    },
+    "steps": [
+      {
+        "name": "Scope",
+        "line": "A free 20-minute call. We go through your week and pick the one job genuinely worth automating first.",
+        "you": "one call"
+      },
+      {
+        "name": "Build",
+        "line": "You get the price and the monthly running cost before anything starts. Then I build the whole thing.",
+        "you": "approve it, don't manage it"
+      },
+      {
+        "name": "Report",
+        "line": "A dashboard shows what ran and the hours it actually saved. I stick around for fixes while it beds in.",
+        "you": "read it"
+      }
+    ],
+    "checks": {
+      "label": "Safety checks",
+      "passed": "passed",
+      "pass": "PASS",
+      "items": [
+        {
+          "title": "Runs in your own tools",
+          "detail": "It lives in Google Workspace or Microsoft 365, wherever that's possible."
+        },
+        {
+          "title": "Nothing goes out without you",
+          "detail": "You see and approve the work before a client ever does."
+        },
+        {
+          "title": "Stops if something looks wrong",
+          "detail": "It flags the problem and waits. It doesn't just carry on."
+        },
+        {
+          "title": "Clear costs, no lock-in",
+          "detail": "You know the price before we start. No long contracts."
+        }
+      ]
+    },
+    "gdpr": "GDPR: before we build, I set out what personal data the system uses, why it needs it, and where it's stored.",
+    "privacyLink": "Privacy notice →"
+  },
+  "work": {
+    "seoTitle": "Case files - Baroni Applied Intelligence",
+    "title": "Case files",
+    "lead": "What changed,",
+    "leadEm": "not just what was built.",
+    "hint": "Three builds. Open any of them.",
+    "stats": [
+      {
+        "big": "2 live",
+        "small": "Systems running for real, one of them in my own business."
+      },
+      {
+        "big": "6h → 40m",
+        "small": "Time spent on weekly social content, Build 02."
+      },
+      {
+        "big": "£2m vs £5m",
+        "small": "Insurance gap caught on a real council tender, Build 03."
+      }
+    ],
+    "ctaTitle": "Got a job like",
+    "ctaTitleEm": "one of these?"
+  },
+  "caseFile": {
+    "problem": "Problem",
+    "does": "What it does",
+    "result": "Result",
+    "foot": "Got a job like this?",
+    "button": "Talk it through on a free call →",
+    "back": "← All case files",
+    "nextFile": "NEXT FILE",
+    "open": "Open file →",
+    "caseWord": "CASE",
+    "you": "YOU"
+  },
+  "cases": [
+    {
+      "name": "Voice-matched outreach",
+      "color": "manila",
+      "stamp": "LIVE",
+      "live": true,
+      "line": "Cold emails in your own voice. It books my own calls.",
+      "title": "Cold outreach and follow-ups, drafted in your own voice -",
+      "titleEm": "I use it to book these calls.",
+      "problem": "Outreach either takes hours by hand or goes out as a template, and people can tell.",
+      "does": "It learns how you write from real samples, then drafts first emails and follow-ups that actually sound like you.",
+      "result": "I built it for a client first. Now it books my own scope calls.",
+      "steps": [
+        "Target list",
+        "AI drafts in your voice",
+        "You review",
+        "Sent"
+      ],
+      "youStep": 3,
+      "visual": "voice"
+    },
+    {
+      "name": "Automatic social media posts",
+      "color": "sage",
+      "stamp": "LIVE",
+      "live": true,
+      "line": "6 hours of weekly content tasks, down to 40 minutes.",
+      "title": "Cut 6 hours of weekly social media content tasks to",
+      "titleEm": "40 minutes.",
+      "problem": "Hours every week on update emails, feedback requests and posts for three platforms.",
+      "does": "A project milestone sets it off. The emails go straight out, and the posts are drafted in your own voice, ready for you to approve.",
+      "result": "6 hours a week down to 40 minutes. The only thing left for a person is hitting approve.",
+      "steps": [
+        "A milestone is logged",
+        "Learns your voice",
+        "AI drafts the posts",
+        "You review",
+        "Published",
+        "Tracked"
+      ],
+      "youStep": 4,
+      "visual": "approval"
+    },
+    {
+      "name": "Construction tender reader",
+      "color": "gold",
+      "stamp": "STAGE 1",
+      "live": false,
+      "line": "Reads a whole tender pack. Says if it's worth bidding.",
+      "title": "Reads a whole construction tender pack and tells you",
+      "titleEm": "if it's worth bidding.",
+      "problem": "Tender packs are a stack of PDFs, spreadsheets and scans. Miss one requirement and the whole bid's wasted.",
+      "does": "It reads every page, pulls out the deadlines, requirements and risks, and quotes the page for every answer. If it can't find something, it says so.",
+      "result": "On a real council tender it caught £2m of cover against £5m required. That's a no bid, caught before anyone lost a week to it.",
+      "steps": [
+        "Pack in",
+        "Reads every page",
+        "Every answer quoted",
+        "Go or no-go"
+      ],
+      "youStep": 0,
+      "visual": "tender"
+    }
+  ],
+  "visuals": {
+    "approval": {
+      "title": "review / 3 drafts waiting",
+      "tabs": [
+        "LINKEDIN",
+        "WHATSAPP",
+        "FACEBOOK"
+      ],
+      "text": "Milestone reached on the Harlow project. Handover is two days ahead of schedule, and the client's feedback is in →",
+      "publish": "Approve & publish",
+      "edit": "Edit",
+      "tag": "YOUR ONLY STEP"
+    },
+    "voice": {
+      "sampleLabel": "THEIR WRITING · SAMPLE",
+      "sample": "\"Honestly? The best part of this job is the week after launch, when the phone stops ringing.\"",
+      "draftLabel": "DRAFT · EMAIL",
+      "ok": "SOUNDS LIKE THEM ✓",
+      "draft": "Launch week is loud. The week after is my favourite: quiet phones and a happy client. Worth ten minutes to see if yours could be the same?"
+    },
+    "tender": {
+      "eyebrow": "CAUGHT IN A REAL TEST",
+      "from": 2,
+      "to": 5,
+      "vs": "VS",
+      "note": "Insurance cover held against cover required, on a real council tender checked for a demo contractor. Flagged as a hard stop before anyone wasted a week on the bid.",
+      "pill": "HARD STOP",
+      "verdictLabel": "GO / NO-GO",
+      "verdict": "NO BID"
+    }
+  },
+  "services": {
+    "seoTitle": "Services - Baroni Applied Intelligence",
+    "title": "Services",
+    "lead": "Find the sentence",
+    "leadEm": "that sounds like you.",
+    "say": "You say",
+    "rows": [
+      {
+        "say": "I spend every Friday writing the same client updates.",
+        "name": "AI automation systems",
+        "lead": "Event in, work delivered.",
+        "body": "A job gets finished, and the client update, the review request and the social post all go out from that.",
+        "link": "See Build 02: social media posts",
+        "href": "case-2.html"
+      },
+      {
+        "say": "Our posts and outreach take forever, and still sound like templates.",
+        "name": "Content and marketing automation",
+        "lead": "Drafted in your voice, approved by you.",
+        "body": "Posts, emails and outreach that actually sound like you wrote them.",
+        "link": "See Build 01: voice-matched outreach",
+        "href": "case-1.html"
+      },
+      {
+        "say": "I want AI inside the tools we already use.",
+        "name": "AI integration",
+        "lead": "No rebuild needed.",
+        "body": "Say a new enquiry comes in. The reply's drafted in your inbox, ready for you to send.",
+        "link": "Talk it through on a free call",
+        "href": "book.html"
+      },
+      {
+        "say": "One job eats a whole day every time it comes in.",
+        "name": "Custom internal tools",
+        "lead": "One problem, solved properly.",
+        "body": "Something like reading a whole tender pack and telling you if it's worth bidding.",
+        "link": "See Build 03: tender reader",
+        "href": "case-3.html"
+      },
+      {
+        "say": "I need someone to run our AI plans.",
+        "name": "Embedded AI PM",
+        "lead": "Your AI roadmap, run for you.",
+        "body": "What to automate first, getting it delivered, and reporting on what it actually saved.",
+        "link": "Ask about embedded work",
+        "href": "mailto:james@baroniapplied.co.uk?subject=AI%20PM%20enquiry"
+      }
+    ],
+    "layout": "picker"
+  },
+  "about": {
+    "seoTitle": "About - Baroni Applied Intelligence",
+    "back": "← HOME",
+    "title": "About",
+    "bio": "I find the repetitive jobs eating your week, build the system that does them, and keep you in charge of the bit that matters: saying yes before anything goes out.",
+    "facts": [
+      {
+        "label": "BASED",
+        "value": "Croydon, South London"
+      },
+      {
+        "label": "WORKS",
+        "value": "UK-wide, mostly remote"
+      },
+      {
+        "label": "STUDYING",
+        "value": "MSc AI, QMUL (2027)"
+      },
+      {
+        "label": "REPLY",
+        "value": "Within 24 hours"
+      }
+    ],
+    "backgroundLabel": "Background",
+    "creds": [
+      {
+        "title": "MSc Artificial Intelligence",
+        "subtitle": "Queen Mary University of London",
+        "status": "in_progress",
+        "note": "Completing in 2027",
+        "linkUrl": "",
+        "linkLabel": ""
+      },
+      {
+        "title": "Google Project Management Certificate",
+        "subtitle": "Agile, Scrum, risk, stakeholders",
+        "status": "link",
+        "note": "",
+        "linkUrl": "https://www.credly.com/badges/2a1d20c7-15d1-402a-865b-93d4c4524c99/public_url",
+        "linkLabel": "Verify on Credly"
+      },
+      {
+        "title": "Advanced Coding, Honours",
+        "subtitle": "University of Helsinki",
+        "status": "completed",
+        "note": "",
+        "linkUrl": "",
+        "linkLabel": ""
+      },
+      {
+        "title": "BSc Psychology with Business Management",
+        "subtitle": "University of Sussex",
+        "status": "completed",
+        "note": "",
+        "linkUrl": "",
+        "linkLabel": ""
+      }
+    ],
+    "statusWords": {
+      "in_progress": "IN PROGRESS",
+      "completed": "COMPLETED"
+    },
+    "quote": "\"If nothing's worth automating, I'll tell you straight.\""
+  },
+  "book": {
+    "seoTitle": "Book a call - Baroni Applied Intelligence",
+    "eyebrow": "BOOK A CALL",
+    "title": "Bring one task that",
+    "titleEm": "eats your week.",
+    "body": "A free 20-minute call. No prep, no pitch deck. We'll work out if it's genuinely worth automating, and what it would give you back.",
+    "trust": [
+      "Free · 20 minutes",
+      "Reply within 24 hours"
+    ],
+    "copy": "COPY",
+    "copied": "COPIED ✓",
+    "form": {
+      "head": "SEND A NOTE",
+      "name": "NAME",
+      "namePlaceholder": "Your name",
+      "email": "EMAIL",
+      "emailPlaceholder": "you@company.com",
+      "message": "WHAT'S EATING YOUR WEEK?",
+      "messageHint": "One line is fine - optional",
+      "messagePlaceholder": "e.g. Writing the same client update emails every Friday",
+      "submit": "Send note →",
+      "price": "Price on application - quoted after the free scope call",
+      "thanks": "Thanks,",
+      "again": "← Send another",
+      "missing": "Add your name and a valid email.",
+      "sentMail": "Your email app should have opened with the note ready. I'll reply within 24 hours.",
+      "sent": "Your note is on its way. I'll reply within 24 hours.",
+      "wait": "Please wait a moment before sending another note.",
+      "check": "Please check the form and try again.",
+      "failed": "Something went wrong sending that - try again, or email me directly.",
+      "emptyNote": "(No details yet - happy to explain on a call.)"
+    },
+    "faqEyebrow": "Before you book",
+    "faqTitle": "Eight questions,",
+    "faqTitleEm": "one tap each.",
+    "tap": "Tap for the answer",
+    "faq": [
+      {
+        "q": "What can AI automate in a small business?",
+        "a": "The repetitive, rules-based jobs: client emails, social posts, weekly reports, chasing quotes. On the call we go through your week and start with the biggest one. If nothing's worth automating, I'll tell you straight."
+      },
+      {
+        "q": "How much does AI automation cost?",
+        "a": "It depends on the job, so it's priced per task. After the free call you get a quote for that one task and the monthly running cost, before anything gets built."
+      },
+      {
+        "q": "Is my data safe, and is it GDPR compliant?",
+        "a": "Wherever possible it runs inside tools you already use, like Google Workspace or Microsoft 365. Before we build, we agree what data it uses, where it's stored and who can see it."
+      },
+      {
+        "q": "How much of my time does an AI automation project take?",
+        "a": "Not much. A kickoff, a few short check-ins, and approving the work at the review step. You review, I build."
+      },
+      {
+        "q": "What support do I get once it's live?",
+        "a": "Every build comes with a dashboard and a proper handover, and I stick around for fixes and tweaks while it beds in. Ongoing support's there if you want it, with no long contract."
+      },
+      {
+        "q": "Do I need to be technical to use AI automation?",
+        "a": "No. You use it wherever you already work: email, Slack, a simple approval page. Everything underneath is on me."
+      },
+      {
+        "q": "How is AI workflow automation different from using ChatGPT myself?",
+        "a": "ChatGPT waits for you to ask it something. A proper system just runs. It starts from something real happening, drafts in your voice, waits for your OK, sends it and reports back. You're not doing the task faster. You're not doing it at all."
+      },
+      {
+        "q": "Where are you based?",
+        "a": "Croydon, South London. Most of the work's done remotely, so I work with small businesses all over the UK."
+      }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+/* Loaded only inside the editor's preview. */
+[data-edit]{cursor:text;outline:1px dashed transparent;outline-offset:3px;border-radius:2px;transition:outline-color .15s,background .15s}
+[data-edit]:hover{outline-color:rgba(212,168,106,.75)}
+.ed-active{outline:2px solid #d4a86a!important;background:rgba(212,168,106,.1)!important;caret-color:#d4a86a}
+.ed-flash{animation:ed-flash 1.4s ease-out}
+@keyframes ed-flash{0%{box-shadow:0 0 0 0 rgba(212,168,106,.8)}30%{box-shadow:0 0 0 8px rgba(212,168,106,.45);background:rgba(212,168,106,.18)}100%{box-shadow:0 0 0 0 rgba(212,168,106,0)}}
+.ed-tag{position:fixed;z-index:2147483647;pointer-events:none;transform:translateY(-100%);background:#d4a86a;color:#1b1f1a;font:600 11px/1 system-ui,sans-serif;padding:5px 8px;border-radius:4px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+/* nothing in the preview should hide or move while you edit */
+.mobile-bar{display:none!important}
